@@ -21,15 +21,19 @@
 @property (nonatomic, assign)               double beautyLevel;         /**美白 (0~1)*/
 @property (nonatomic, assign)               double thinningLevel;       /**瘦脸 (0~1)*/
 @property (nonatomic, assign)               double enlargingLevel;      /**大眼 (0~1)*/
-@property (nonatomic, strong)               NSString *selectedFilter;   /**滤镜名称*/
+@property (nonatomic, strong)               NSString *selectedFilter;   /**选中的滤镜名称*/
+@property (nonatomic, strong)               NSString *selectedItem;     /**选中的道具名称*/
+@property (nonatomic, strong)               NSArray<NSString *> *itemsDataSource;       /**道具名称数组*/
+@property (nonatomic, strong)               NSArray<NSString *> *filtersDataSource;     /**滤镜名称数组*/
+
 
 // 记录是否显示 FaceUnity 效果
 @property (nonatomic, assign)BOOL isShown ;
 
 + (FUManager *)shareManager;
 
-/**初始化Faceunity*/
-- (void)setUpFaceunityWithItem:(NSString *)item;
+/**初始化Faceunity,加载道具*/
+- (void)setUpFaceunity;
 
 /**销毁全部道具*/
 - (void)destoryFaceunityItems;

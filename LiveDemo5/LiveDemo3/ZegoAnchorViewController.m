@@ -94,8 +94,7 @@
         [self.view addSubview:self.demoBtn];
         [self.view addSubview:self.demoBar];
         
-        [self syncBeautyParams];
-        [[FUManager shareManager] setUpFaceunityWithItem:_demoBar.selectedItem];
+        [[FUManager shareManager] setUpFaceunity];
         [FUManager shareManager].isShown = YES ;
     }
 }
@@ -119,19 +118,18 @@
     if (!_demoBar) {
         _demoBar = [[FUAPIDemoBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 208, self.view.frame.size.width, 208)];
         
-        _demoBar.itemsDataSource =  @[@"noitem", @"yuguan", @"yazui", @"mask_matianyu", @"lixiaolong", @"EatRabbi", @"Mood"];
+        _demoBar.itemsDataSource =  [FUManager shareManager].itemsDataSource;
+        _demoBar.filtersDataSource = [FUManager shareManager].filtersDataSource;
         
-        
-        _demoBar.selectedItem = _demoBar.itemsDataSource[1];
-        _demoBar.filtersDataSource = @[@"nature", @"delta", @"electric", @"slowlived", @"tokyo", @"warm"];
-        _demoBar.selectedFilter = _demoBar.filtersDataSource[1];
-        _demoBar.selectedBlur = 6;
-        _demoBar.beautyLevel = 0.2;
-        _demoBar.thinningLevel = 1.0;
-        _demoBar.enlargingLevel = 0.5;
-        _demoBar.faceShapeLevel = 0.5;
-        _demoBar.faceShape = 3;
-        _demoBar.redLevel = 0.5;
+        _demoBar.selectedItem = [FUManager shareManager].selectedItem;
+        _demoBar.selectedFilter = [FUManager shareManager].selectedFilter;
+        _demoBar.selectedBlur = [FUManager shareManager].selectedBlur;
+        _demoBar.beautyLevel = [FUManager shareManager].beautyLevel;
+        _demoBar.thinningLevel = [FUManager shareManager].thinningLevel;
+        _demoBar.enlargingLevel = [FUManager shareManager].enlargingLevel;
+        _demoBar.faceShapeLevel = [FUManager shareManager].faceShapeLevel;
+        _demoBar.faceShape = [FUManager shareManager].faceShape;
+        _demoBar.redLevel = [FUManager shareManager].redLevel;
         
         _demoBar.delegate = self;
     }
