@@ -13,7 +13,7 @@
 #import "ZegoLiveToolViewController.h"
 
 #import <FUAPIDemoBar/FUAPIDemoBar.h>
-#import "FUFaceUnityManager.h"
+#import "FUManager.h"
 
 @interface ZegoMoreAnchorViewController () <ZegoRoomDelegate, ZegoLivePublisherDelegate, ZegoLivePlayerDelegate, ZegoIMDelegate, ZegoLiveToolViewControllerDelegate , FUAPIDemoBarDelegate>
 
@@ -102,19 +102,11 @@
         [self.view addSubview:self.demoBtn];
         [self.view addSubview:self.demoBar];
         
-        [FUFaceUnityManager shareManager].selectedFilter = self.demoBar.filtersDataSource[0] ;
-        [FUFaceUnityManager shareManager].selectedBlur = self.demoBar.selectedBlur;
-        [FUFaceUnityManager shareManager].redLevel = self.demoBar.redLevel ;
-        [FUFaceUnityManager shareManager].faceShapeLevel = self.demoBar.faceShapeLevel ;
-        [FUFaceUnityManager shareManager].faceShape = self.demoBar.faceShape ;
-        [FUFaceUnityManager shareManager].beautyLevel = self.demoBar.beautyLevel ;
-        [FUFaceUnityManager shareManager].thinningLevel = self.demoBar.thinningLevel ;
-        [FUFaceUnityManager shareManager].enlargingLevel = self.demoBar.enlargingLevel ;
+        [self syncBeautyParams];
+        [[FUManager shareManager] setUpFaceunityWithItem:_demoBar.selectedItem];
         
-        [[FUFaceUnityManager shareManager] loadItem:self.demoBar.itemsDataSource[1]];
-        [[FUFaceUnityManager shareManager] loadFilter];
+        [FUManager shareManager].isShown = YES ;
         
-        [FUFaceUnityManager shareManager].isShown = YES ;
     }
 }
 
@@ -137,7 +129,7 @@
     if (!_demoBar) {
         _demoBar = [[FUAPIDemoBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 208, self.view.frame.size.width, 208)];
         
-        _demoBar.itemsDataSource = @[@"noitem", @"yuguan", @"lixiaolong", @"mask_matianyu",   @"yazui", @"EatRabbi", @"Mood" ];
+        _demoBar.itemsDataSource = @[@"noitem", @"yuguan", @"yazui", @"mask_matianyu", @"lixiaolong", @"EatRabbi", @"Mood"];
         
         _demoBar.selectedItem = _demoBar.itemsDataSource[1];
         _demoBar.filtersDataSource = @[@"nature", @"delta", @"electric", @"slowlived", @"tokyo", @"warm"];
@@ -155,6 +147,18 @@
     return _demoBar ;
 }
 
+- (void)syncBeautyParams
+{
+    [FUManager shareManager].selectedFilter = _demoBar.selectedFilter;
+    [FUManager shareManager].selectedBlur = _demoBar.selectedBlur;
+    [FUManager shareManager].beautyLevel = _demoBar.beautyLevel;
+    [FUManager shareManager].redLevel = _demoBar.redLevel;
+    [FUManager shareManager].faceShape = _demoBar.faceShape;
+    [FUManager shareManager].faceShapeLevel = _demoBar.faceShapeLevel;
+    [FUManager shareManager].thinningLevel = _demoBar.thinningLevel;
+    [FUManager shareManager].enlargingLevel = _demoBar.enlargingLevel;
+}
+
 - (void)showDemoBar {
     if (self.demoBtn.selected) {
         [UIView animateWithDuration:0.35 animations:^{
@@ -170,23 +174,17 @@
 
 - (void)demoBarDidSelectedItem:(NSString *)item {
     NSLog(@"------------- %@ ~",item);
-    [[FUFaceUnityManager shareManager] loadItem:item];
+    [[FUManager shareManager] loadItem:item];
 }
 
 - (void)demoBarDidSelectedFilter:(NSString *)filter {
     
-    [FUFaceUnityManager shareManager].selectedFilter = filter ;
+    [FUManager shareManager].selectedFilter = filter ;
 }
 
 - (void)demoBarBeautyParamChanged {
     
-    [FUFaceUnityManager shareManager].selectedBlur = self.demoBar.selectedBlur;
-    [FUFaceUnityManager shareManager].redLevel = self.demoBar.redLevel ;
-    [FUFaceUnityManager shareManager].faceShapeLevel = self.demoBar.faceShapeLevel ;
-    [FUFaceUnityManager shareManager].faceShape = self.demoBar.faceShape ;
-    [FUFaceUnityManager shareManager].beautyLevel = self.demoBar.beautyLevel ;
-    [FUFaceUnityManager shareManager].thinningLevel = self.demoBar.thinningLevel ;
-    [FUFaceUnityManager shareManager].enlargingLevel = self.demoBar.enlargingLevel ;
+    [self syncBeautyParams];
 }
 
 
@@ -608,9 +606,9 @@
 - (void)onCloseButton:(id)sender
 {
     // FaceUnity
-    [FUFaceUnityManager shareManager].isShown = NO ;
+    [FUManager shareManager].isShown = NO ;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [[FUFaceUnityManager shareManager] removeAllEffect];
+        [[FUManager shareManager] destoryFaceunityItems];
     });
     
     [self closeAllStream];

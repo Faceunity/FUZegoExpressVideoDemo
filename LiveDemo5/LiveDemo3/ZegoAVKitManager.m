@@ -39,7 +39,7 @@ BOOL g_enableReverb = NO;
 
 BOOL g_recordTime = NO;
 BOOL g_useInternationDomain = NO;
-BOOL g_useExternalFilter = NO;
+BOOL g_useExternalFilter = YES;
 
 BOOL g_useHeadSet = NO;
 

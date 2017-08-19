@@ -10,7 +10,7 @@
 #import "ZegoLiveApi-utils.h"
 #import "ZegoAVKitManager.h"
 
-#import "FUFaceUnityManager.h"
+#import "FUManager.h"
 
 #pragma mark - ZegoVideoFilterDemo
 
@@ -36,9 +36,6 @@
     int buffer_count_;
     
     ZegoImageFilter* filter_;
-    
-    /***-- FaceUnity --***/
-    int frameID ;
 }
 
 #pragma mark -- ZegoVideoFilter Delgate
@@ -149,10 +146,10 @@
     // * 采集到的图像数据通过这个传进来，这个点需要异步处理
     dispatch_async(queue_, ^ {
         
-        if ([FUFaceUnityManager shareManager].isShown) {
+        if ([FUManager shareManager].isShown) {
             
-            [[FUFaceUnityManager shareManager] fuManagerRenderPixelBuffer:pixel_buffer FrameID:frameID];
-            frameID ++ ;
+            [[FUManager shareManager] processPixelBuffer:pixel_buffer ];
+            
             [self copyPixelBufferToPool:pixel_buffer timestamp:timestamp_100n];
         
         }else {

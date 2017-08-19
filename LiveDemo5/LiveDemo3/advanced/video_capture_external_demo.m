@@ -8,12 +8,9 @@
 
 #import "video_capture_external_demo.h"
 
-#import "FUFaceUnityManager.h"
+#import "FUManager.h"
 
 @interface VideoCaptureDeviceDemo ()
-{
-    int frameID ;
-}
 
 - (int)start;
 - (int)stop;
@@ -64,8 +61,6 @@
 -(id)init{
     self = [super init];
     if(nil != self){
-        
-        frameID = 0 ;
         
         m_oQueue = dispatch_queue_create("com.zego.ave.vcap.queue", DISPATCH_QUEUE_SERIAL);
     }
@@ -555,10 +550,9 @@
     CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
     
     
-    if ([FUFaceUnityManager shareManager].isShown) {
+    if ([FUManager shareManager].isShown) {
         
-        pixelBuffer = [[FUFaceUnityManager shareManager] fuManagerRenderPixelBuffer:pixelBuffer FrameID:frameID];
-        frameID ++ ;
+        [[FUManager shareManager] processPixelBuffer:pixelBuffer];
     }
     
     

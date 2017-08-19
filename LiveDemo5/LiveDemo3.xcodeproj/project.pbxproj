@@ -12,12 +12,13 @@
 		A745D7451E4B32FC009A4265 /* ZegoLiveRoom.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A745D7431E4B322E009A4265 /* ZegoLiveRoom.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A7CD23E01EBB6135002F446A /* ZegoTestPushViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7CD23DF1EBB6135002F446A /* ZegoTestPushViewController.m */; };
 		A7CD23E11EBB6135002F446A /* ZegoTestPushViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7CD23DF1EBB6135002F446A /* ZegoTestPushViewController.m */; };
+		CDA5F8D81F46F01E006BB688 /* FUManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA5F8D71F46F01E006BB688 /* FUManager.m */; };
+		CDA5F8D91F46F60A006BB688 /* FUManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA5F8D71F46F01E006BB688 /* FUManager.m */; };
 		E941A5131F15CF2800400E89 /* libnama.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E941A4FF1F15CF2800400E89 /* libnama.a */; };
 		E941A5141F15CF2800400E89 /* release_note.txt in Resources */ = {isa = PBXBuildFile; fileRef = E941A5001F15CF2800400E89 /* release_note.txt */; };
 		E941A5151F15CF2800400E89 /* face_beautification.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E941A5021F15CF2800400E89 /* face_beautification.bundle */; };
 		E941A5161F15CF2800400E89 /* v3.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E941A5031F15CF2800400E89 /* v3.bundle */; };
 		E941A5271F15CF5500400E89 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E941A5261F15CF5500400E89 /* Accelerate.framework */; };
-		E941A52A1F15D12900400E89 /* FUFaceUnityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E941A5291F15D12900400E89 /* FUFaceUnityManager.m */; };
 		E941A52C1F15E7A800400E89 /* FUAPIDemoBar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E941A52B1F15E7A800400E89 /* FUAPIDemoBar.framework */; };
 		E941A52D1F15E81B00400E89 /* FUAPIDemoBar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E941A52B1F15E7A800400E89 /* FUAPIDemoBar.framework */; };
 		E941A52E1F15E81B00400E89 /* FUAPIDemoBar.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E941A52B1F15E7A800400E89 /* FUAPIDemoBar.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -233,6 +234,8 @@
 		A745D7481E4C197F009A4265 /* LiveDemo5.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LiveDemo5.entitlements; sourceTree = "<group>"; };
 		A7CD23DE1EBB6135002F446A /* ZegoTestPushViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZegoTestPushViewController.h; path = LiveDemo3/ZegoTestPushViewController.h; sourceTree = "<group>"; };
 		A7CD23DF1EBB6135002F446A /* ZegoTestPushViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZegoTestPushViewController.m; path = LiveDemo3/ZegoTestPushViewController.m; sourceTree = "<group>"; };
+		CDA5F8D61F46F01E006BB688 /* FUManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FUManager.h; sourceTree = "<group>"; };
+		CDA5F8D71F46F01E006BB688 /* FUManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FUManager.m; sourceTree = "<group>"; };
 		E941A4FA1F15CF2800400E89 /* authpack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = authpack.h; sourceTree = "<group>"; };
 		E941A4FD1F15CF2800400E89 /* funama.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = funama.h; sourceTree = "<group>"; };
 		E941A4FE1F15CF2800400E89 /* FURenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FURenderer.h; sourceTree = "<group>"; };
@@ -241,8 +244,6 @@
 		E941A5021F15CF2800400E89 /* face_beautification.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = face_beautification.bundle; sourceTree = "<group>"; };
 		E941A5031F15CF2800400E89 /* v3.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = v3.bundle; sourceTree = "<group>"; };
 		E941A5261F15CF5500400E89 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
-		E941A5281F15D12900400E89 /* FUFaceUnityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FUFaceUnityManager.h; sourceTree = "<group>"; };
-		E941A5291F15D12900400E89 /* FUFaceUnityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FUFaceUnityManager.m; sourceTree = "<group>"; };
 		E941A52B1F15E7A800400E89 /* FUAPIDemoBar.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FUAPIDemoBar.framework; sourceTree = "<group>"; };
 		E9F0647E1F2B12C300E264B5 /* EatRabbi.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = EatRabbi.bundle; sourceTree = "<group>"; };
 		E9F0647F1F2B12C300E264B5 /* lixiaolong.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = lixiaolong.bundle; sourceTree = "<group>"; };
@@ -483,8 +484,8 @@
 			children = (
 				E941A52B1F15E7A800400E89 /* FUAPIDemoBar.framework */,
 				E941A4F91F15CF2800400E89 /* Faceunity */,
-				E941A5281F15D12900400E89 /* FUFaceUnityManager.h */,
-				E941A5291F15D12900400E89 /* FUFaceUnityManager.m */,
+				CDA5F8D61F46F01E006BB688 /* FUManager.h */,
+				CDA5F8D71F46F01E006BB688 /* FUManager.m */,
 			);
 			name = FaceUnity;
 			path = LiveDemo3/FaceUnity;
@@ -1293,6 +1294,7 @@
 				EF7BA7501E1D00CF0094BBA7 /* YYTextAsyncLayer.m in Sources */,
 				EF7BA7401E1D00CF0094BBA7 /* YYTextAttribute.m in Sources */,
 				EFAF4B3C1D2B6C7800560B00 /* ZegoAboutViewController.m in Sources */,
+				CDA5F8D91F46F60A006BB688 /* FUManager.m in Sources */,
 				EF7BA7321E1D00CF0094BBA7 /* YYTextInput.m in Sources */,
 				EF7BA7361E1D00CF0094BBA7 /* YYTextLayout.m in Sources */,
 				EF7BA7441E1D00CF0094BBA7 /* YYTextRubyAnnotation.m in Sources */,
@@ -1335,7 +1337,6 @@
 				EF7BA72B1E1D00CF0094BBA7 /* YYTextContainerView.m in Sources */,
 				EFE0D8FA1D1B7F920090F719 /* ZegoAnchorOptionViewController.m in Sources */,
 				A7CD23E01EBB6135002F446A /* ZegoTestPushViewController.m in Sources */,
-				E941A52A1F15D12900400E89 /* FUFaceUnityManager.m in Sources */,
 				EF7BA7411E1D00CF0094BBA7 /* YYTextParser.m in Sources */,
 				EF3AA9671DAF7C3A00AF960C /* ZegoInstrument.m in Sources */,
 				EF7BA7451E1D00CF0094BBA7 /* YYTextRunDelegate.m in Sources */,
@@ -1371,6 +1372,7 @@
 				EF871D271D1A42C400C2D08A /* ZegoAVKitManager.m in Sources */,
 				EF9D0F5B1D2279F500002545 /* ZegoLiveViewController.m in Sources */,
 				EF7BA7491E1D00CF0094BBA7 /* NSParagraphStyle+YYText.m in Sources */,
+				CDA5F8D81F46F01E006BB688 /* FUManager.m in Sources */,
 				EF871D1E1D1A33CB00C2D08A /* ZegoRoomViewController.m in Sources */,
 				EF871D341D1A68EC00C2D08A /* ZegoAnchorViewController.m in Sources */,
 				16E24E111EB1D0290055F7A4 /* ZegoTestPullViewController.m in Sources */,
