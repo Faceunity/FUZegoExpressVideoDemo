@@ -59,10 +59,9 @@ NSString *kZegoDemoWolfLowDelayKey      = @"wolfLowDelay";
                                     NSLocalizedString(@"极高质量", nil),
                                     NSLocalizedString(@"自定义", nil)];
         
-        _appTypeList = @[NSLocalizedString(@"自定义", nil),
-                         NSLocalizedString(@"RTMP版", nil),
-                         NSLocalizedString(@"UDP版", nil),
-                         NSLocalizedString(@"国际版", nil)];
+        _appTypeList = @[NSLocalizedString(@"国内版", nil),
+                         NSLocalizedString(@"国际版", nil),
+                         NSLocalizedString(@"自定义", nil)];
         
         [self loadConfig];
     }
@@ -78,6 +77,12 @@ NSString *kZegoDemoWolfLowDelayKey      = @"wolfLowDelay";
     
     return user;
 }
+
+- (NSUserDefaults *)myUserDefaults {
+    return [[NSUserDefaults alloc] initWithSuiteName:@"LiveDemo5566"];
+}
+
+#pragma mark - UserID & UserName
 
 - (NSString *)userID {
     if (_userID.length == 0) {
@@ -151,6 +156,8 @@ NSString *kZegoDemoWolfLowDelayKey      = @"wolfLowDelay";
     }
 }
 
+#pragma mark - Video Config
+
 - (BOOL)selectPresetQuality:(NSInteger)presetIndex {
     if (presetIndex >= self.presetVideoQualityList.count) {
         return NO;
@@ -176,26 +183,7 @@ NSString *kZegoDemoWolfLowDelayKey      = @"wolfLowDelay";
     return [self.currentConfig videoEncodeResolution];
 }
 
-- (int)beautifyFeature {
-    if (_beautifyFeature == 0) {
-        NSUserDefaults *ud = [self myUserDefaults];
-        if ([ud objectForKey:kZeogDemoBeautifyFeatureKey]) {
-            _beautifyFeature = (int)[ud integerForKey:kZeogDemoBeautifyFeatureKey];
-        } else {
-            _beautifyFeature = ZEGO_BEAUTIFY_POLISH | ZEGO_BEAUTIFY_WHITEN;
-        }
-    }
-    
-    return _beautifyFeature;
-}
-
-- (void)setBeautifyFeature:(int)beautifyFeature {
-    if (_beautifyFeature != beautifyFeature) {
-        _beautifyFeature = beautifyFeature;
-        [[self myUserDefaults] setInteger:_beautifyFeature forKey:kZeogDemoBeautifyFeatureKey];
-    }
-}
-
+// 从本地文件加载保存的视频配置
 - (void)loadConfig {
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
     id preset = [ud objectForKey:kZegoDemoVideoPresetKey];
@@ -232,6 +220,7 @@ NSString *kZegoDemoWolfLowDelayKey      = @"wolfLowDelay";
     }
 }
 
+// 保存视频配置
 - (void)saveConfig {
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
     [ud setObject:@(_presetIndex) forKey:kZegoDemoVideoPresetKey];
@@ -248,6 +237,30 @@ NSString *kZegoDemoWolfLowDelayKey      = @"wolfLowDelay";
         [ud removeObjectForKey:kZegoDemoVideoBitRateKey];
     }
 }
+
+#pragma mark - Beautify
+
+- (int)beautifyFeature {
+    if (_beautifyFeature == 0) {
+        NSUserDefaults *ud = [self myUserDefaults];
+        if ([ud objectForKey:kZeogDemoBeautifyFeatureKey]) {
+            _beautifyFeature = (int)[ud integerForKey:kZeogDemoBeautifyFeatureKey];
+        } else {
+            _beautifyFeature = ZEGO_BEAUTIFY_POLISH | ZEGO_BEAUTIFY_WHITEN;
+        }
+    }
+    
+    return _beautifyFeature;
+}
+
+- (void)setBeautifyFeature:(int)beautifyFeature {
+    if (_beautifyFeature != beautifyFeature) {
+        _beautifyFeature = beautifyFeature;
+        [[self myUserDefaults] setInteger:_beautifyFeature forKey:kZeogDemoBeautifyFeatureKey];
+    }
+}
+
+#pragma mark - Background image
 
 - (UIImage *)getBackgroundImage:(CGSize)viewSize withText:(NSString *)text
 {
@@ -279,10 +292,7 @@ NSString *kZegoDemoWolfLowDelayKey      = @"wolfLowDelay";
     return finalImage;
 }
 
-- (NSUserDefaults *)myUserDefaults {
-    return [[NSUserDefaults alloc] initWithSuiteName:@"group.liveDemo5"];
-}
-
+#pragma mark - Room type
 
 - (UIViewController *)getViewControllerFromRoomInfo:(ZegoRoomInfo *)roomInfo
 {

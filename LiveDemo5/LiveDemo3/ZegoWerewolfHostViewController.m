@@ -421,7 +421,7 @@
                     {
                         self.tipsLabel.text = NSLocalizedString(@"登录房间成功", nil);
                         
-                        NSString *logString = [NSString stringWithFormat:NSLocalizedString(@"登录房间成功. roomId %@", nil), self.roomID];
+                        NSString *logString = [NSString stringWithFormat:NSLocalizedString(@"登录房间成功. roomID: %@", nil), self.roomID];
                         [self addLogString:logString];
                         
                         ZegoWerewolUserInfo *userInfo = [ZegoWerewolUserInfo new];
@@ -796,8 +796,10 @@
     [[ZegoDemoHelper api] sendCustomCommand:[self getCurrentMemberList] content:content completion:^(int errorCode, NSString *roomID) {
         [self addLogString:[NSString stringWithFormat:NSLocalizedString(@"结束说话", nil)]];
         
-        //主播说完了，下一个人
-        [self arrangeNextSpeaker];
+        if (self.speakingMode == kInTurnSpeakingMode) {
+            //主播说完了，下一个人
+            [self arrangeNextSpeaker];
+        }
         
     }];
 }
@@ -1183,13 +1185,17 @@
         if (userId.length == 0 || [[ZegoSettings sharedInstance].userID isEqualToString:userId])
             return;
         
-        if (![userId isEqualToString:self.currentSpeakingUserId])
+        
+        if (![userId isEqualToString:self.currentSpeakingUserId] && self.speakingMode == kInTurnSpeakingMode)
             return;
         
         [self resetPlayView:userId];
         
-        //安排下一个人说话
-        [self arrangeNextSpeaker];
+        if (self.speakingMode == kInTurnSpeakingMode) {
+            //安排下一个人说话
+            [self arrangeNextSpeaker];
+        }
+
     }
     else if (command == kStartSpeaking)
     {
@@ -1252,7 +1258,7 @@
 
 - (void)onPlayQualityUpate:(NSString *)streamID quality:(ZegoApiPlayQuality)quality
 {
-    [self addStaticsInfo:NO stream:streamID fps:quality.fps kbs:quality.kbps];
+    [self addStaticsInfo:YES stream:streamID fps:quality.fps kbs:quality.kbps rtt:quality.rtt pktLostRate:quality.pktLostRate];
 }
 
 - (void)onVideoSizeChangedTo:(CGSize)size ofStream:(NSString *)streamID
@@ -1321,7 +1327,7 @@
 
 - (void)onPublishQualityUpdate:(NSString *)streamID quality:(ZegoApiPublishQuality)quality
 {
-    [self addStaticsInfo:YES stream:streamID fps:quality.fps kbs:quality.kbps];
+    [self addStaticsInfo:YES stream:streamID fps:quality.fps kbs:quality.kbps rtt:quality.rtt pktLostRate:quality.pktLostRate];
 }
 
 #pragma mark - IM Delegate

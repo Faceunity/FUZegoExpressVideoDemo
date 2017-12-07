@@ -305,11 +305,11 @@
 
 - (void)onPlayQualityUpate:(NSString *)streamID quality:(ZegoApiPlayQuality)quality
 {
+    NSString *detail = [self addStaticsInfo:NO stream:streamID fps:quality.fps kbs:quality.kbps rtt:quality.rtt pktLostRate:quality.pktLostRate];
+    
     UIView *view = self.viewContainersDict[streamID];
     if (view)
-        [self updateQuality:quality.quality view:view];
-    
-    [self addStaticsInfo:NO stream:streamID fps:quality.fps kbs:quality.kbps];
+        [self updateQuality:quality.quality detail:detail onView:view];
 }
 
 #pragma mark ZegoRoomApiDelegate

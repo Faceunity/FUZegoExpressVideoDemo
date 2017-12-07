@@ -352,7 +352,7 @@
         {
             self.tipsLabel.text = NSLocalizedString(@"登录房间成功", nil);
             
-            NSString *logString = [NSString stringWithFormat:NSLocalizedString(@"登录房间成功. roomId %@", nil), self.roomID];
+            NSString *logString = [NSString stringWithFormat:NSLocalizedString(@"登录房间成功. roomID: %@", nil), self.roomID];
             [self addLogString:logString];
             
             self.beforeLoginStreamList = [NSMutableArray arrayWithArray:streamList];
@@ -900,7 +900,7 @@
         self.currentSpeakingUserId = nil;
         [self resetPlayView:userId];
         
-        if (self.isSpeaking)
+        if ([[ZegoSettings sharedInstance].userID isEqualToString:userId] && self.isSpeaking)
         {
             self.isSpeaking = NO;
             [self stopTimer:self.speakingTimer];
@@ -1075,7 +1075,7 @@
 
 - (void)onPlayQualityUpate:(NSString *)streamID quality:(ZegoApiPlayQuality)quality
 {
-    [self addStaticsInfo:NO stream:streamID fps:quality.fps kbs:quality.kbps];
+    [self addStaticsInfo:NO stream:streamID fps:quality.fps kbs:quality.kbps rtt:quality.rtt pktLostRate:quality.pktLostRate];
 }
 
 #pragma mark ZegoLivePublishDelegate
@@ -1138,7 +1138,7 @@
 
 - (void)onPublishQualityUpdate:(NSString *)streamID quality:(ZegoApiPublishQuality)quality
 {
-    [self addStaticsInfo:YES stream:streamID fps:quality.fps kbs:quality.kbps];
+   [self addStaticsInfo:YES stream:streamID fps:quality.fps kbs:quality.kbps rtt:quality.rtt pktLostRate:quality.pktLostRate];
 }
 
 - (void)onVideoSizeChangedTo:(CGSize)size ofStream:(NSString *)streamID

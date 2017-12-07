@@ -156,6 +156,10 @@
                     ZegoStream *new = newStreamList[i];
                     ZegoStream *old = self.originStreamList[j];
                     if ([new.streamID isEqualToString:old.streamID]) {
+                        
+                        [self.streamList removeObject:old];
+                        [self.streamList addObject:new];
+                        
                         [newStreamList removeObject:new];
                         break;
                     }
@@ -279,8 +283,10 @@
     
     if ([self isStreamIDExist:streamID] && view)
     {
+        // 横屏推流，流画面宽大于高
         if (size.width > size.height && view.frame.size.width < view.frame.size.height)
         {
+            // 拉流端等比缩放裁剪显示
             [[ZegoDemoHelper api] setViewMode:ZegoVideoViewModeScaleAspectFit ofStream:streamID];
             
             self.videoSizeDict[streamID] = @(NO);
@@ -295,11 +301,11 @@
 
 - (void)onPlayQualityUpate:(NSString *)streamID quality:(ZegoApiPlayQuality)quality
 {
+    NSString *detail = [self addStaticsInfo:NO stream:streamID fps:quality.fps kbs:quality.kbps rtt:quality.rtt pktLostRate:quality.pktLostRate];
+    
     UIView *view = self.viewContainersDict[streamID];
     if (view)
-        [self updateQuality:quality.quality view:view];
-    
-    [self addStaticsInfo:NO stream:streamID fps:quality.fps kbs:quality.kbps];
+        [self updateQuality:quality.quality detail:detail onView:view];
 }
 
 #pragma mark - ZegoIMDelegate
@@ -358,7 +364,7 @@
     
     self.viewContainersDict[streamID] = bigView;
     bool ret = [[ZegoDemoHelper api] startPlayingStream:streamID inView:bigView];
-    [[ZegoDemoHelper api] setViewMode:ZegoVideoViewModeScaleAspectFill ofStream:streamID];
+    [[ZegoDemoHelper api] setViewMode:ZegoVideoViewModeScaleAspectFit ofStream:streamID];
     
     assert(ret);
 }
@@ -663,7 +669,10 @@
                 return;
         }
         
-        [[ZegoDemoHelper api] setViewRotation:rotate ofStream:streamID];
+//        [[ZegoDemoHelper api] setViewRotation:rotate ofStream:streamID];
+        
+//        [[ZegoDemoHelper api] setViewRotation:0 ofStream:streamID];
+//        [[ZegoDemoHelper api] setViewMode:ZegoVideoViewModeScaleAspectFit ofStream:streamID];
     }
 }
 
@@ -686,22 +695,23 @@
     }
 }
 
-
+// iOS 8.0 及以后版本使用
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
 {
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
     
-    [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
-        
+    [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+        // 转屏前调用
         UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
         [self setRotateFromInterfaceOrientation:orientation];
         [self changeFirstViewContent];
-        
-    } completion:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
+    } completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
         
     }];
+    
 }
 
+// 兼容 iOS 8.0 以前的旧版本
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
     [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];

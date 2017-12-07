@@ -12,10 +12,7 @@
 #import "ZegoAnchorOptionViewController.h"
 #import "ZegoLiveToolViewController.h"
 
-#import <FUAPIDemoBar/FUAPIDemoBar.h>
-#import "FUManager.h"
-
-@interface ZegoMoreAnchorViewController () <ZegoRoomDelegate, ZegoLivePublisherDelegate, ZegoLivePlayerDelegate, ZegoIMDelegate, ZegoLiveToolViewControllerDelegate , FUAPIDemoBarDelegate>
+@interface ZegoMoreAnchorViewController () <ZegoRoomDelegate, ZegoLivePublisherDelegate, ZegoLivePlayerDelegate, ZegoIMDelegate, ZegoLiveToolViewControllerDelegate>
 
 //IBOutlet
 @property (weak, nonatomic) IBOutlet UIView *playViewContainer;
@@ -47,10 +44,6 @@
 @property (nonatomic, copy) NSString *roomID;
 
 @property (nonatomic, assign) UIInterfaceOrientation orientation;
-
-
-@property (nonatomic, strong)UIButton *demoBtn ;
-@property (nonatomic, strong)FUAPIDemoBar *demoBar ;
 
 @end
 
@@ -94,97 +87,6 @@
         [self updatePublishView:self.publishView];
     }
 }
-
--(void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
-    if (self.isShowFaceUnity) {
-        [self.view addSubview:self.demoBtn];
-        [self.view addSubview:self.demoBar];
-        
-        [[FUManager shareManager] setUpFaceunity];
-        [FUManager shareManager].isShown = YES ;
-        
-    }
-}
-
--(UIButton *)demoBtn {
-    if (!_demoBtn) {
-        _demoBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        _demoBtn.frame  = CGRectMake(self.view.frame.size.width - 130 - 16, 100, 130, 55);
-        //        [_demoBtn setImage:[UIImage imageNamed:@"camera_btn_filter_normal"] forState:UIControlStateNormal];
-        [_demoBtn.titleLabel setFont:[UIFont systemFontOfSize:15]];
-        [_demoBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [_demoBtn setTitleColor:[UIColor blackColor] forState:UIControlStateSelected];
-        [_demoBtn setTitle:@"隐藏 FaceUnity" forState:UIControlStateNormal];
-        [_demoBtn setTitle:@"显示 FaceUnity" forState:UIControlStateSelected];
-        [_demoBtn addTarget:self action:@selector(showDemoBar) forControlEvents:UIControlEventTouchUpInside];
-    }
-    return _demoBtn ;
-}
-
--(FUAPIDemoBar *)demoBar{
-    if (!_demoBar) {
-        _demoBar = [[FUAPIDemoBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 208, self.view.frame.size.width, 208)];
-        
-        _demoBar.itemsDataSource =  [FUManager shareManager].itemsDataSource;
-        _demoBar.filtersDataSource = [FUManager shareManager].filtersDataSource;
-        
-        _demoBar.selectedItem = [FUManager shareManager].selectedItem;
-        _demoBar.selectedFilter = [FUManager shareManager].selectedFilter;
-        _demoBar.selectedBlur = [FUManager shareManager].selectedBlur;
-        _demoBar.beautyLevel = [FUManager shareManager].beautyLevel;
-        _demoBar.thinningLevel = [FUManager shareManager].thinningLevel;
-        _demoBar.enlargingLevel = [FUManager shareManager].enlargingLevel;
-        _demoBar.faceShapeLevel = [FUManager shareManager].faceShapeLevel;
-        _demoBar.faceShape = [FUManager shareManager].faceShape;
-        _demoBar.redLevel = [FUManager shareManager].redLevel;
-        
-        _demoBar.delegate = self;
-    }
-    return _demoBar ;
-}
-
-- (void)syncBeautyParams
-{
-    [FUManager shareManager].selectedFilter = _demoBar.selectedFilter;
-    [FUManager shareManager].selectedBlur = _demoBar.selectedBlur;
-    [FUManager shareManager].beautyLevel = _demoBar.beautyLevel;
-    [FUManager shareManager].redLevel = _demoBar.redLevel;
-    [FUManager shareManager].faceShape = _demoBar.faceShape;
-    [FUManager shareManager].faceShapeLevel = _demoBar.faceShapeLevel;
-    [FUManager shareManager].thinningLevel = _demoBar.thinningLevel;
-    [FUManager shareManager].enlargingLevel = _demoBar.enlargingLevel;
-}
-
-- (void)showDemoBar {
-    if (self.demoBtn.selected) {
-        [UIView animateWithDuration:0.35 animations:^{
-            self.demoBar.frame = CGRectMake(0, self.view.frame.size.height - 208, self.view.frame.size.width, 208);
-        }];
-    }else {
-        [UIView animateWithDuration:0.35 animations:^{
-            self.demoBar.frame = CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, 208);
-        }];
-    }
-    self.demoBtn.selected = !self.demoBtn.selected ;
-}
-
-- (void)demoBarDidSelectedItem:(NSString *)item {
-    NSLog(@"------------- %@ ~",item);
-    [[FUManager shareManager] loadItem:item];
-}
-
-- (void)demoBarDidSelectedFilter:(NSString *)filter {
-    
-    [FUManager shareManager].selectedFilter = filter ;
-}
-
-- (void)demoBarBeautyParamChanged {
-    
-    [self syncBeautyParams];
-}
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -265,7 +167,7 @@
         NSLog(@"%s, error: %d", __func__, errorCode);
         if (errorCode == 0)
         {
-            NSString *logString = [NSString stringWithFormat:NSLocalizedString(@"登录房间成功. roomId %@", nil), self.roomID];
+            NSString *logString = [NSString stringWithFormat:NSLocalizedString(@"登录房间成功. roomID: %@", nil), self.roomID];
             [self addLogString:logString];
             [self doPublish];
         }
@@ -371,11 +273,11 @@
 
 - (void)onPublishQualityUpdate:(NSString *)streamID quality:(ZegoApiPublishQuality)quality
 {
+    NSString *detail = [self addStaticsInfo:YES stream:streamID fps:quality.fps kbs:quality.kbps rtt:quality.rtt pktLostRate:quality.pktLostRate];
+    
     UIView *view = self.viewContainersDict[streamID];
     if (view)
-        [self updateQuality:quality.quality view:view];
-    
-    [self addStaticsInfo:YES stream:streamID fps:quality.fps kbs:quality.kbps];
+        [self updateQuality:quality.quality detail:detail onView:view];
 }
 
 - (void)onAuxCallback:(void *)pData dataLen:(int *)pDataLen sampleRate:(int *)pSampleRate channelCount:(int *)pChannelCount
@@ -413,11 +315,11 @@
 
 - (void)onPlayQualityUpate:(NSString *)streamID quality:(ZegoApiPlayQuality)quality
 {
+    NSString *detail = [self addStaticsInfo:NO stream:streamID fps:quality.fps kbs:quality.kbps rtt:quality.rtt pktLostRate:quality.pktLostRate];
+    
     UIView *view = self.viewContainersDict[streamID];
     if (view)
-        [self updateQuality:quality.quality view:view];
-    
-    [self addStaticsInfo:NO stream:streamID fps:quality.fps kbs:quality.kbps];
+        [self updateQuality:quality.quality detail:detail onView:view];
 }
 
 - (void)onVideoSizeChangedTo:(CGSize)size ofStream:(NSString *)streamID
@@ -547,6 +449,7 @@
 {
     UIView *playView = [[UIView alloc] init];
     playView.translatesAutoresizingMaskIntoConstraints = NO;
+    
     [self.playViewContainer addSubview:playView];
     
     BOOL bResult = [self setContainerConstraints:playView containerView:self.playViewContainer viewCount:self.viewContainersDict.count];
@@ -603,12 +506,6 @@
 #pragma mark - ZegoAnchorToolViewControllerDelegate
 - (void)onCloseButton:(id)sender
 {
-    // FaceUnity
-    [FUManager shareManager].isShown = NO ;
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [[FUManager shareManager] destoryFaceunityItems];
-    });
-    
     [self closeAllStream];
     [[ZegoDemoHelper api] logoutRoom];
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -640,10 +537,10 @@
         //停止直播
         [self stopPublishing];
         
-        for (ZegoStream *stream in self.playStreamList)
-        {
-            [[ZegoDemoHelper api] endJoinLive:stream.userID completionBlock:nil];
-        }
+//        for (ZegoStream *stream in self.playStreamList)
+//        {
+//            [[ZegoDemoHelper api] endJoinLive:stream.userID completionBlock:nil];
+//        }
         
         [self.stopPublishButton setTitle:NSLocalizedString(@"开始直播", nil) forState:UIControlStateNormal];
         self.stopPublishButton.enabled = YES;

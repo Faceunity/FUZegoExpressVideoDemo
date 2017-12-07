@@ -88,7 +88,7 @@ typedef NS_ENUM(NSUInteger, ZegoSpeakingMode) {
 
 //Log
 - (void)addLogString:(NSString *)logString;
-- (void)addStaticsInfo:(BOOL)publish stream:(NSString *)streamID fps:(double)fps kbs:(double)kbs;
+- (NSString *)addStaticsInfo:(BOOL)publish stream:(NSString *)streamID fps:(double)fps kbs:(double)kbs rtt:(int)rtt pktLostRate:(int)pktLostRate;
 
 //view
 - (void)addNumber:(NSUInteger)number toView:(UIView *)view;

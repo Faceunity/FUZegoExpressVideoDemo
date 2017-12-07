@@ -110,7 +110,7 @@
                     NSLog(@"%s, error: %d", __func__, errorCode);
                     if (errorCode == 0)
                     {
-                        NSString *logString = [NSString stringWithFormat:NSLocalizedString(@"登录房间成功. roomId %@", nil), self.roomID];
+                        NSString *logString = [NSString stringWithFormat:NSLocalizedString(@"登录房间成功. roomID: %@", nil), self.roomID];
                         [self addLogString:logString];
                         
                         [self doPublish];
@@ -154,8 +154,7 @@
     // 发起推流
     bool b = [[ZegoDemoHelper api] startPublishing:self.streamID
                                              title:self.liveTitle
-                                              flag:ZEGO_JOIN_PUBLISH];
-    
+                                              flag:ZEGO_MIX_STREAM];
     
     if (b)
     {
@@ -377,7 +376,7 @@
     completeMixConfig.outputResolution = [ZegoSettings sharedInstance].currentConfig.videoEncodeResolution;
     completeMixConfig.outputAudioConfig = 0;   // * default config
     
-    [completeMixConfig.inputStreamList removeAllObjects];
+//    [completeMixConfig.inputStreamList removeAllObjects];
     
     int height = [ZegoSettings sharedInstance].currentConfig.videoEncodeResolution.height;
     int width = [ZegoSettings sharedInstance].currentConfig.videoEncodeResolution.width;
@@ -526,11 +525,11 @@
 
 - (void)onPublishQualityUpdate:(NSString *)streamID quality:(ZegoApiPublishQuality)quality
 {
+    NSString *detail = [self addStaticsInfo:YES stream:streamID fps:quality.fps kbs:quality.kbps rtt:quality.rtt pktLostRate:quality.pktLostRate];
+    
     UIView *view = self.viewContainersDict[streamID];
     if (view)
-        [self updateQuality:quality.quality view:view];
-    
-    [self addStaticsInfo:YES stream:streamID fps:quality.fps kbs:quality.kbps];
+        [self updateQuality:quality.quality detail:detail onView:view];
 }
 
 - (void)onAuxCallback:(void *)pData dataLen:(int *)pDataLen sampleRate:(int *)pSampleRate channelCount:(int *)pChannelCount
@@ -605,11 +604,11 @@
 
 - (void)onPlayQualityUpate:(NSString *)streamID quality:(ZegoApiPlayQuality)quality
 {
+    NSString *detail = [self addStaticsInfo:NO stream:streamID fps:quality.fps kbs:quality.kbps rtt:quality.rtt pktLostRate:quality.pktLostRate];
+    
     UIView *view = self.viewContainersDict[streamID];
     if (view)
-        [self updateQuality:quality.quality view:view];
-    
-    [self addStaticsInfo:NO stream:streamID fps:quality.fps kbs:quality.kbps];
+        [self updateQuality:quality.quality detail:detail onView:view];
 }
 
 - (void)onVideoSizeChangedTo:(CGSize)size ofStream:(NSString *)streamID

@@ -11,7 +11,7 @@
 #import "ZegoSettings.h"
 #import "ZegoLiveToolViewController.h"
 
-@interface ZegoTestPullViewController () <ZegoRoomDelegate, ZegoLivePlayerDelegate, ZegoIMDelegate, ZegoLiveToolViewControllerDelegate>
+@interface ZegoTestPullViewController () <ZegoRoomDelegate, ZegoLivePlayerDelegate, ZegoIMDelegate, ZegoLiveToolViewControllerDelegate, ZegoLiveApiAudioRecordDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *playViewContainer;
 
@@ -36,6 +36,8 @@
 @property (nonatomic, copy) NSString *sharedHls;
 @property (nonatomic, copy) NSString *sharedRtmp;
 
+@property (strong) NSMutableData *recordedAudio;
+
 @end
 
 @implementation ZegoTestPullViewController
@@ -56,6 +58,7 @@
             break;
         }
     }
+
     
     self.optionButton = self.toolViewController.joinLiveOptionButton;
     self.publishButton = self.toolViewController.joinLiveButton;
@@ -70,6 +73,7 @@
     
     [self setupLiveKit];
     [self loginRoom];
+    [self enableAudioRecord:NO];   // 默认不进行音频录制
     
     UIImage *backgroundImage = [[ZegoSettings sharedInstance] getBackgroundImage:self.view.bounds.size withText:NSLocalizedString(@"加载中", nil)];
     [self setBackgroundImage:backgroundImage playerView:self.playViewContainer];
@@ -383,6 +387,19 @@
     }
 }
 
+- (void)enableAudioRecord:(BOOL)enable {
+    if (enable) {
+        ZegoAPIAudioRecordConfig config;
+        config.mask = ZEGOAPI_AUDIO_RECORD_RENDER;
+        config.sampleRate = 44100;
+        config.channels = 1;
+        [[ZegoDemoHelper api] enableSelectedAudioRecord:config];
+        
+        [[ZegoDemoHelper api] setAudioRecordDelegate:self];
+    } else {
+        [[ZegoDemoHelper api] setAudioRecordDelegate:nil];
+    }
+}
 
 #pragma mark - ZegoLiveRoom
 
@@ -487,11 +504,11 @@
 
 - (void)onPlayQualityUpate:(NSString *)streamID quality:(ZegoApiPlayQuality)quality
 {
+    NSString *detail = [self addStaticsInfo:NO stream:streamID fps:quality.fps kbs:quality.kbps rtt:quality.rtt pktLostRate:quality.pktLostRate];
+    
     UIView *view = self.viewContainersDict[streamID];
     if (view)
-        [self updateQuality:quality.quality view:view];
-    
-    [self addStaticsInfo:NO stream:streamID fps:quality.fps kbs:quality.kbps];
+        [self updateQuality:quality.quality detail:detail onView:view];
 }
 
 #pragma mark - ZegoIMDelegate
@@ -523,6 +540,21 @@
     
     // 清除流信息
     [self clearAllStream];
+    
+    if (self.recordedAudio) {
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+        NSString *cachesDir = [paths objectAtIndex:0];
+        NSString *auidoFilePathname = [cachesDir stringByAppendingPathComponent:@"record_audio"];
+        
+        BOOL success = [self.recordedAudio writeToFile:auidoFilePathname atomically:YES];
+        if (success) {
+            NSLog(@"保存录制音频文件成功");
+        } else {
+            NSLog(@"保存录制音频文件失败");
+        }
+        
+        self.recordedAudio = nil;
+    }
     
     if (self.loginRoomSuccess)
     {
@@ -629,4 +661,17 @@
         [self.toolViewController updateLayout:@[roomMessage]];
     }
 }
+
+#pragma mark - ZegoLiveApiAudioRecordDelegate
+
+- (void)onAudioRecord:(NSData *)audioData sampleRate:(int)sampleRate numOfChannels:(int)numOfChannels bitDepth:(int)bitDepth
+{
+    if (!self.recordedAudio)
+    {
+        self.recordedAudio = [NSMutableData data];
+    }
+    
+    [self.recordedAudio appendData:audioData];
+}
+
 @end

@@ -195,7 +195,9 @@
                 return;
         }
         
-        [[ZegoDemoHelper api] setViewRotation:rotate ofStream:streamID];
+//        [[ZegoDemoHelper api] setViewRotation:rotate ofStream:streamID];
+//        [[ZegoDemoHelper api] setViewRotation:0 ofStream:streamID];
+//        [[ZegoDemoHelper api] setViewMode:ZegoVideoViewModeScaleAspectFit ofStream:streamID];
     }
 }
 
@@ -288,6 +290,10 @@
                     ZegoStream *new = newStreamList[i];
                     ZegoStream *old = self.originStreamList[j];
                     if ([new.streamID isEqualToString:old.streamID]) {
+                        
+                        [self.streamList removeObject:old];
+                        [self.streamList addObject:new];
+                        
                         [newStreamList removeObject:new];
                         break;
                     }
@@ -469,11 +475,11 @@
 
 - (void)onPlayQualityUpate:(NSString *)streamID quality:(ZegoApiPlayQuality)quality
 {
+    NSString *detail = [self addStaticsInfo:NO stream:streamID fps:quality.fps kbs:quality.kbps rtt:quality.rtt pktLostRate:quality.pktLostRate];
+    
     UIView *view = self.viewContainersDict[streamID];
     if (view)
-        [self updateQuality:quality.quality view:view];
-    
-    [self addStaticsInfo:NO stream:streamID fps:quality.fps kbs:quality.kbps];
+        [self updateQuality:quality.quality detail:detail onView:view];
 }
 
 - (void)onEndJoinLiveCommad:(NSString *)fromUserId userName:(NSString *)fromUserName roomID:(NSString *)roomID
@@ -565,11 +571,12 @@
 
 - (void)onPublishQualityUpdate:(NSString *)streamID quality:(ZegoApiPublishQuality)quality
 {
-    UIView *view = self.viewContainersDict[streamID];
-    if (view)
-        [self updateQuality:quality.quality view:view];
+    NSString *detail = [self addStaticsInfo:YES stream:streamID fps:quality.fps kbs:quality.kbps rtt:quality.rtt pktLostRate:quality.pktLostRate];
     
-    [self addStaticsInfo:YES stream:streamID fps:quality.fps kbs:quality.kbps];
+    UIView *view = self.viewContainersDict[streamID];
+    if (view) {
+        [self updateQuality:quality.quality detail:detail onView:view];
+    }
 }
 
 #pragma mark - ZegoIMDelegate
@@ -688,7 +695,7 @@
     
     self.viewContainersDict[streamID] = bigView;
     bool ret = [[ZegoDemoHelper api] startPlayingStream:streamID inView:bigView];
-    [[ZegoDemoHelper api] setViewMode:ZegoVideoViewModeScaleAspectFill ofStream:streamID];
+    [[ZegoDemoHelper api] setViewMode:ZegoVideoViewModeScaleAspectFit ofStream:streamID];
     assert(ret);
 }
 

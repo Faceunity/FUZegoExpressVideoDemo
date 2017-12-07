@@ -10,8 +10,8 @@
 
 #import "FUManager.h"
 
-@interface VideoCaptureDeviceDemo ()
 
+@interface VideoCaptureDeviceDemo ()
 - (int)start;
 - (int)stop;
 - (int)restart;
@@ -61,7 +61,6 @@
 -(id)init{
     self = [super init];
     if(nil != self){
-        
         m_oQueue = dispatch_queue_create("com.zego.ave.vcap.queue", DISPATCH_QUEUE_SERIAL);
     }
     return self;  
@@ -547,16 +546,16 @@
     }
     
     CMTime pts = CMSampleBufferGetPresentationTimeStamp(sampleBuffer);
-    CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
-    
+    CVPixelBufferRef buffer = CMSampleBufferGetImageBuffer(sampleBuffer);
     
     if ([FUManager shareManager].isShown) {
         
-        [[FUManager shareManager] processPixelBuffer:pixelBuffer];
+        [[FUManager shareManager] renderItemsToPixelBuffer:buffer];
     }
     
     
-    CGImageRef img = [self createCGImageFromCVPixelBuffer:pixelBuffer];
+    
+    CGImageRef img = [self createCGImageFromCVPixelBuffer:buffer];
     
     self.videoImage = [UIImage imageWithCGImage:img];
     
@@ -567,7 +566,7 @@
     
     CGImageRelease(img);
     
-    [client_ onIncomingCapturedData:pixelBuffer withPresentationTimeStamp:pts];
+    [client_ onIncomingCapturedData:buffer withPresentationTimeStamp:pts];
 }
 
 - (CGImageRef)createCGImageFromCVPixelBuffer:(CVPixelBufferRef)pixels {

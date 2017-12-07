@@ -2,7 +2,7 @@
 //  ZegoTestPullViewController.h
 //  LiveDemo3
 //
-//  Created by xia on 26/04/2017.
+//  Created by summery on 26/04/2017.
 //  Copyright © 2017 ZEGO. All rights reserved.
 //
 

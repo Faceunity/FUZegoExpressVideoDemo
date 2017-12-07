@@ -37,7 +37,6 @@
     UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onAlphaEnv:)];
     gesture.numberOfTapsRequired = 5;
     [self.tableView addGestureRecognizer:gesture];
-    
 }
 
 - (void)onAlphaEnv:(UIGestureRecognizer *)gesture

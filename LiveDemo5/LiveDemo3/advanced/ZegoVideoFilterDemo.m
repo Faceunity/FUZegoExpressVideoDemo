@@ -10,7 +10,6 @@
 #import "ZegoLiveApi-utils.h"
 #import "ZegoAVKitManager.h"
 
-#import "FUManager.h"
 
 #pragma mark - ZegoVideoFilterDemo
 
@@ -145,25 +144,16 @@
 - (void)queueInputBuffer:(CVPixelBufferRef)pixel_buffer timestamp:(unsigned long long)timestamp_100n {
     // * 采集到的图像数据通过这个传进来，这个点需要异步处理
     dispatch_async(queue_, ^ {
-        
-        if ([FUManager shareManager].isShown) {
-            
-            [[FUManager shareManager] processPixelBuffer:pixel_buffer ];
-            
-            [self copyPixelBufferToPool:pixel_buffer timestamp:timestamp_100n];
-        
-        }else {
-            // * 图像滤镜处理
-            if ([ZegoDemoHelper recordTime])
-            {
-                CVPixelBufferRef output = [filter_ render:pixel_buffer];
-                [self processRecordTime:output timestamp:timestamp_100n];
-            }
-            else
-            {
-                CVPixelBufferRef output = [filter_ render:pixel_buffer];
-                [self copyPixelBufferToPool:output timestamp:timestamp_100n];
-            }
+        // * 图像滤镜处理
+        if ([ZegoDemoHelper recordTime])
+        {
+            CVPixelBufferRef output = [filter_ render:pixel_buffer];
+            [self processRecordTime:output timestamp:timestamp_100n];
+        }
+        else
+        {
+            CVPixelBufferRef output = [filter_ render:pixel_buffer];
+            [self copyPixelBufferToPool:output timestamp:timestamp_100n];
         }
         
         CVPixelBufferRelease(pixel_buffer);
@@ -478,7 +468,6 @@
 }
 
 - (id<ZegoVideoFilter>)zego_create {
-    
     if (g_filter_ == nil) {
         bool async = true;
         bool useI420 = false;

@@ -259,15 +259,17 @@
     }
 }
 
-- (void)addStaticsInfo:(BOOL)publish stream:(NSString *)streamID fps:(double)fps kbs:(double)kbs
+- (NSString *)addStaticsInfo:(BOOL)publish stream:(NSString *)streamID fps:(double)fps kbs:(double)kbs rtt:(int)rtt pktLostRate:(int)pktLostRate
 {
     if (streamID.length == 0)
-        return;
+        return nil;
     
-    NSString *totalString = [NSString stringWithFormat:@"%@: %@ fps %.3f, kbs %.3f", publish ? @"PUBS": @"PULL", streamID, fps, kbs];
+    NSString *qualityString = [NSString stringWithFormat:@"[%@] 帧率: %.3f, 视频码率: %.3f kb/s, 延时: %d ms, 丢包率: %.3f%%", publish ? @"推流": @"拉流", fps, kbs, rtt, pktLostRate/256.0 * 100];
+    NSString *totalString =[NSString stringWithFormat:@"[%@] 流ID: %@, 帧率: %.3f, 视频码率: %.3f kb/s, 延时: %d ms, 丢包率: %.3f%%", publish ? @"推流": @"拉流", streamID, fps, kbs, rtt, pktLostRate/256.0 * 100];
     [self.staticsArray insertObject:totalString atIndex:0];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"logUpdateNotification" object:self userInfo:nil];
+    return qualityString;
 }
 
 #pragma UIView

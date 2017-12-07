@@ -23,6 +23,7 @@
 - (void)onEnablePreviewMirror:(BOOL)enabled;
 - (void)onEnableCaptureMirror:(BOOL)enable;
 - (void)onEnableLoopback:(BOOL)enable;
+- (void)onEnableMixEnginePlayout:(BOOL)enable;
 
 - (BOOL)onGetUseFrontCamera;
 - (BOOL)onGetEnableMicrophone;
@@ -34,6 +35,7 @@
 - (BOOL)onGetEnablePreviewMirror;
 - (BOOL)onGetEnableCaptureMirror;
 - (BOOL)onGetEnableLoopback;
+
 
 @end
 

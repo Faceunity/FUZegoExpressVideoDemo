@@ -15,6 +15,6 @@
 //预览的界面view
 @property (nonatomic, strong) UIView *publishView;
 
-@property (nonatomic, assign)BOOL isShowFaceUnity ;
-
+/** 是否显示 FU 效果 **/
+@property (nonatomic, assign) BOOL isShowFU ;
 @end

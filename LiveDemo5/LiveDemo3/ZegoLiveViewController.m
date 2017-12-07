@@ -14,6 +14,7 @@
 
 #import <TencentOpenAPI/QQApiInterface.h>
 #import <TencentOpenAPI/QQApiInterfaceObject.h>
+#include <ZegoLiveRoom/zego-api-mix-engine-playout-oc.h>
 
 @interface ZegoLiveViewController () <UIAlertViewDelegate, ZegoLiveApiAudioRecordDelegate>
 
@@ -52,8 +53,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.useFrontCamera = YES;
-    self.enableTorch = NO;
     self.beautifyFeature = [ZegoSettings sharedInstance].beautifyFeature;
     self.filter = ZEGO_FILTER_NONE;
     self.enableMicrophone = YES;
@@ -315,7 +314,7 @@
     [[ZegoDemoHelper api] respondJoinLiveReq:seq result:(agreed == false)];
 }
 
-// 主播收到请求连麦的请求处理
+// 主播收到观众的请求连麦
 - (void)requestPublishAlert:(ZegoUser *)requestUser seq:(int)seq
 {
     NSString *message = [NSString stringWithFormat:NSLocalizedString(@"%@ 请求直播，是否允许", nil), requestUser.userName];
@@ -450,44 +449,9 @@
     }
 }
 
+#pragma mark -- Update pubslish and play quality statistics
 
-- (BOOL)shouldShowPublishAlert
-{
-    return YES;
-}
-
-- (void)setIdelTimerDisable:(BOOL)disable
-{
-    [[UIApplication sharedApplication] setIdleTimerDisabled:disable];
-}
-
-- (void)audioSessionWasInterrupted:(NSNotification *)notification
-{
-    NSLog(@"%s: %@", __func__, notification);
-    if (AVAudioSessionInterruptionTypeBegan == [notification.userInfo[AVAudioSessionInterruptionTypeKey] intValue])
-    {
-        // 暂停音频设备
-        [[ZegoDemoHelper api] pauseModule:ZEGOAPI_MODULE_AUDIO];
-    }
-    else if(AVAudioSessionInterruptionTypeEnded == [notification.userInfo[AVAudioSessionInterruptionTypeKey] intValue])
-    {
-        // 恢复音频设备
-        [[ZegoDemoHelper api] resumeModule:ZEGOAPI_MODULE_AUDIO];
-    }
-}
-
-- (void)addLogString:(NSString *)logString
-{
-    if (logString.length != 0)
-    {
-        NSString *totalString = [NSString stringWithFormat:@"%@: %@", [self getCurrentTime], logString];
-        [self.logArray insertObject:totalString atIndex:0];
-        
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"logUpdateNotification" object:self userInfo:nil];
-    }
-}
-
-- (void)updateQuality:(int)quality view:(UIView *)playerView
+- (void)updateQuality:(int)quality detail:(NSString *)detail onView:(UIView *)playerView
 {
     if (playerView == nil)
         return;
@@ -516,11 +480,11 @@
         else
             originQuality = 3;
         
-        if (quality == originQuality)
-            return;
+        //        if (quality == originQuality)
+        //            return;
     }
     
-    UIFont *textFont = [UIFont systemFontOfSize:10];
+    UIFont *textFont = [UIFont systemFontOfSize:12];
     
     if (qualityLayer == nil)
     {
@@ -538,8 +502,9 @@
         textLayer.name = @"indicate";
         [playerView.layer addSublayer:textLayer];
         textLayer.backgroundColor = [UIColor clearColor].CGColor;
+        textLayer.wrapped = YES;
         textLayer.font = (__bridge CFTypeRef)textFont.fontName;
-        textLayer.foregroundColor = [UIColor blackColor].CGColor;
+        textLayer.foregroundColor = [UIColor whiteColor].CGColor;
         textLayer.fontSize = textFont.pointSize;
         textLayer.contentsScale = [UIScreen mainScreen].scale;
     }
@@ -568,10 +533,112 @@
     }
     
     qualityLayer.backgroundColor = qualityColor.CGColor;
-    CGSize textSize = [text sizeWithAttributes:@{NSFontAttributeName: textFont}];
-    CGRect textFrame = CGRectMake(CGRectGetMaxX(qualityLayer.frame) + 3, CGRectGetMinY(qualityLayer.frame) + (CGRectGetHeight(qualityLayer.frame) - ceilf(textSize.height))/2, ceilf(textSize.width), ceilf(textSize.height));
+    
+    NSString *totalString = [NSString stringWithFormat:@"%@  %@", text, detail];
+    
+    //    CGSize textSize = [totalString sizeWithAttributes:@{NSFontAttributeName: textFont}];
+    
+    CGSize textSize = [totalString boundingRectWithSize:CGSizeMake(playerView.bounds.size.width - 30, 0)
+                                                options:NSStringDrawingUsesLineFragmentOrigin
+                                             attributes:@{NSFontAttributeName:textFont}
+                                                context:nil].size;
+    
+    CGRect textFrame = CGRectMake(CGRectGetMaxX(qualityLayer.frame) + 3,
+                                  CGRectGetMinY(qualityLayer.frame) - 3,
+                                  ceilf(textSize.width),
+                                  ceilf(textSize.height) + 10);
     textLayer.frame = textFrame;
-    textLayer.string = text;
+    textLayer.string = totalString;
+}
+
+- (NSString *)addStaticsInfo:(BOOL)publish stream:(NSString *)streamID fps:(double)fps kbs:(double)kbs rtt:(int)rtt pktLostRate:(int)pktLostRate
+{
+    if (streamID.length == 0)
+        return nil;
+    
+    // 丢包率的取值为 0~255，需要除以 256.0 得到丢包率百分比
+    NSString *qualityString = [NSString stringWithFormat:NSLocalizedString(@"[%@] 帧率: %.3f, 视频码率: %.3f kb/s, 延时: %d ms, 丢包率: %.3f%%", nil), publish ? NSLocalizedString(@"推流", nil): NSLocalizedString(@"拉流", nil), fps, kbs, rtt, pktLostRate/256.0 * 100];
+    NSString *totalString =[NSString stringWithFormat:NSLocalizedString(@"[%@] 流ID: %@, 帧率: %.3f, 视频码率: %.3f kb/s, 延时: %d ms, 丢包率: %.3f%%", nil), publish ? NSLocalizedString(@"推流", nil): NSLocalizedString(@"拉流", nil), streamID, fps, kbs, rtt, pktLostRate/256.0 * 100];
+    [self.staticsArray insertObject:totalString atIndex:0];
+    
+    // 通知 log 界面更新
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"logUpdateNotification" object:self userInfo:nil];
+    
+    return qualityString;
+}
+
+- (void)addLogString:(NSString *)logString
+{
+    if (logString.length != 0)
+    {
+        NSString *totalString = [NSString stringWithFormat:@"%@: %@", [self getCurrentTime], logString];
+        [self.logArray insertObject:totalString atIndex:0];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"logUpdateNotification" object:self userInfo:nil];
+    }
+}
+
+#pragma mark -- Share
+
+- (void)shareToQQ:(NSString *)hls rtmp:(NSString *)rtmp bizToken:(NSString *)bizToken bizID:(NSString *)bizID streamID:(NSString *)streamID
+{
+#if TARGET_OS_SIMULATOR
+#else
+    
+    NSString *encodeHls = [self encodeStringAddingEscape:hls];
+    NSString *encodeRtmp = [self encodeStringAddingEscape:rtmp];
+    NSString *encodeID = [self encodeStringAddingEscape:bizID];
+    NSString *encodeStream = [self encodeStringAddingEscape:streamID];
+    
+    NSString *urlString = [NSString stringWithFormat:@"http://www.zego.im/share/index2?video=%@&rtmp=%@&id=%@&stream=%@&schema_name=%@",
+                           encodeHls,
+                           encodeRtmp,
+                           encodeID,
+                           encodeStream,
+                           @"ZegoLiveShare2"];
+    
+    NSURL *url = [NSURL URLWithString:urlString];
+    UIImage *logoImage = [UIImage imageNamed:@"zego"];
+    NSData *previewImageData = UIImagePNGRepresentation(logoImage);
+    
+    NSString *title = @"LiveDemo";
+    NSString *description = @"快来围观我的直播";
+    
+    QQApiURLObject *urlObject = [QQApiURLObject objectWithURL:url title:title description:description previewImageData:previewImageData targetContentType:QQApiURLTargetTypeNews];
+    SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:urlObject];
+    QQApiSendResultCode result = [QQApiInterface sendReq:req];
+    
+    NSLog(@"share To QQ URL: %@, result %d", urlString, result);
+    
+#endif
+    
+}
+
+#pragma mark -- Other
+
+- (BOOL)shouldShowPublishAlert
+{
+    return YES;
+}
+
+- (void)setIdelTimerDisable:(BOOL)disable
+{
+    [[UIApplication sharedApplication] setIdleTimerDisabled:disable];
+}
+
+- (void)audioSessionWasInterrupted:(NSNotification *)notification
+{
+    NSLog(@"%s: %@", __func__, notification);
+    if (AVAudioSessionInterruptionTypeBegan == [notification.userInfo[AVAudioSessionInterruptionTypeKey] intValue])
+    {
+        // 暂停音频设备
+        [[ZegoDemoHelper api] pauseModule:ZEGOAPI_MODULE_AUDIO];
+    }
+    else if(AVAudioSessionInterruptionTypeEnded == [notification.userInfo[AVAudioSessionInterruptionTypeKey] intValue])
+    {
+        // 恢复音频设备
+        [[ZegoDemoHelper api] resumeModule:ZEGOAPI_MODULE_AUDIO];
+    }
 }
 
 - (void)auxCallback:(void *)pData dataLen:(int *)pDataLen sampleRate:(int *)pSampleRate channelCount:(int *)pChannelCount
@@ -626,39 +693,6 @@
     return nil;
 }
 
-- (void)shareToQQ:(NSString *)hls rtmp:(NSString *)rtmp bizToken:(NSString *)bizToken bizID:(NSString *)bizID streamID:(NSString *)streamID
-{
-#if TARGET_OS_SIMULATOR
-#else
-    
-    NSString *encodeHls = [self encodeStringAddingEscape:hls];
-    NSString *encodeRtmp = [self encodeStringAddingEscape:rtmp];
-    NSString *encodeID = [self encodeStringAddingEscape:bizID];
-    NSString *encodeStream = [self encodeStringAddingEscape:streamID];
-    
-    NSString *urlString = [NSString stringWithFormat:@"http://www.zego.im/share/index2?video=%@&rtmp=%@&id=%@&stream=%@",
-                           encodeHls,
-                           encodeRtmp,
-                           encodeID,
-                           encodeStream ];
-    
-    NSURL *url = [NSURL URLWithString:urlString];
-    UIImage *logoImage = [UIImage imageNamed:@"zego"];
-    NSData *previewImageData = UIImagePNGRepresentation(logoImage);
-    
-    NSString *title = @"LiveDemo";
-    NSString *description = @"快来围观我的直播";
-    
-    QQApiURLObject *urlObject = [QQApiURLObject objectWithURL:url title:title description:description previewImageData:previewImageData targetContentType:QQApiURLTargetTypeNews];
-    SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:urlObject];
-    QQApiSendResultCode result = [QQApiInterface sendReq:req];
-    
-    NSLog(@"share To QQ URL: %@, result %d", urlString, result);
-    
-#endif
-    
-}
-
 - (NSString *)encodeDictionaryToJSON:(NSDictionary *)dictionary
 {
     if (dictionary == nil)
@@ -687,17 +721,6 @@
     }
     
     return nil;
-}
-
-- (void)addStaticsInfo:(BOOL)publish stream:(NSString *)streamID fps:(double)fps kbs:(double)kbs
-{
-    if (streamID.length == 0)
-        return;
-    
-    NSString *totalString = [NSString stringWithFormat:@"%@: %@ fps %.3f, kbs %.3f", publish ? @"PUBS": @"PULL", streamID, fps, kbs];
-    [self.staticsArray insertObject:totalString atIndex:0];
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"logUpdateNotification" object:self userInfo:nil];
 }
 
 #pragma mark - Private methods
@@ -1019,6 +1042,11 @@
     self.enableLoopback = enable;
 }
 
+- (void)onEnableMixEnginePlayout:(BOOL)enable
+{
+    self.enableMixEnginePlayout = enable;
+}
+
 - (BOOL)onGetUseFrontCamera
 {
     return self.useFrontCamera;
@@ -1077,6 +1105,7 @@
 {
     return self.enableLoopback;
 }
+
 
 #pragma mark - ZegoLiveApiAudioRecordDelegate
 
@@ -1201,6 +1230,12 @@
     [[ZegoDemoHelper api] enableLoopback:enableLoopback];
     if (enableLoopback)
         [[ZegoDemoHelper api] setLoopbackVolume:50];
+}
+
+- (void)setEnableMixEnginePlayout:(BOOL)enableMixEnginePlayout
+{
+    _enableMixEnginePlayout = enableMixEnginePlayout;
+    [ZegoMixEngine MixEnginePlayout:enableMixEnginePlayout];
 }
 
 @end

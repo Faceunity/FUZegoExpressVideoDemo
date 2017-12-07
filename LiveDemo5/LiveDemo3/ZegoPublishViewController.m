@@ -46,7 +46,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     _beautifyList = @[
+                      /*  加入 FU 效果 */
                       NSLocalizedString(@"FaceUnity", nil),
+                      
                       NSLocalizedString(@"无美颜", nil),
                       NSLocalizedString(@"磨皮", nil),
                       NSLocalizedString(@"全屏美白", nil),
@@ -86,11 +88,10 @@
     
     [self addPreview];
     
-//    // 开启外部采集
-//    [ZegoDemoHelper setUsingExternalCapture:YES];
+   // 开启外部采集
+    [ZegoDemoHelper setUsingExternalCapture:YES];
     
     [[ZegoDemoHelper api] setDeviceEventDelegate:self];
-    
 }
 
 - (void)showAuthorizationAlert:(NSString *)message title:(NSString *)title
@@ -275,6 +276,7 @@
     CGFloat height = config.videoEncodeResolution.height;
     CGFloat width = config.videoEncodeResolution.width;
     
+    // 如果开播前横屏，则切换视频采集分辨率的宽高
     if (UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation))
     {
         // * adjust width/height for landscape
@@ -306,7 +308,7 @@
     [[ZegoDemoHelper api] setPolishFactor:4.0];
     [[ZegoDemoHelper api] setPolishStep:4.0];
     [[ZegoDemoHelper api] setWhitenFactor:0.6];
-//    [ZegoDemoHelper setUsingExternalCapture:NO];
+    
     
     b = [[ZegoDemoHelper api] setFilter:[self.filterPicker selectedRowInComponent:0]];
     assert(b);
@@ -438,16 +440,16 @@
     {
         int feature = 0;
         switch (row) {
-            case 2:
+            case 1:
                 feature = ZEGO_BEAUTIFY_POLISH;
                 break;
-            case 3:
+            case 2:
                 feature = ZEGO_BEAUTIFY_WHITEN;
                 break;
-            case 4:
+            case 3:
                 feature = ZEGO_BEAUTIFY_POLISH | ZEGO_BEAUTIFY_WHITEN;
                 break;
-            case 5:
+            case 4:
                 feature = ZEGO_BEAUTIFY_POLISH | ZEGO_BEAUTIFY_SKINWHITEN;
             default:
                 break;
@@ -616,16 +618,16 @@
         // 显示 FaceUnity 的效果
         if ([self.beautifyPicker selectedRowInComponent:0] == 0) {
             
-            anchorViewController.isShowFaceUnity = YES ;
+            anchorViewController.isShowFU = YES ;
             anchorViewController.beautifyFeature = 0 ;
             anchorViewController.filter = 0 ;
         }else {
             
-            anchorViewController.isShowFaceUnity = NO ;
+            anchorViewController.isShowFU = NO ;
             anchorViewController.beautifyFeature = [self.beautifyPicker selectedRowInComponent:0];
             anchorViewController.filter = [self.filterPicker selectedRowInComponent:0];
-            
         }
+        
         [self.preView removeFromSuperview];
         anchorViewController.publishView = self.preView;
         self.preView = nil;
@@ -637,21 +639,20 @@
         anchorViewController.liveTitle = [self getLiveTitle];
         anchorViewController.useFrontCamera = self.switchCamera.on;
         anchorViewController.enableTorch = self.switchTorch.on;
-//        anchorViewController.beautifyFeature = [self.beautifyPicker selectedRowInComponent:0];
-//        anchorViewController.filter = [self.filterPicker selectedRowInComponent:0];
-        // 显示 FaceUnity 的效果
+        
         if ([self.beautifyPicker selectedRowInComponent:0] == 0) {
             
-            anchorViewController.isShowFaceUnity = YES ;
+            anchorViewController.isShowFU = YES ;
             anchorViewController.beautifyFeature = 0 ;
             anchorViewController.filter = 0 ;
         }else {
             
-            anchorViewController.isShowFaceUnity = NO ;
+            anchorViewController.isShowFU = NO ;
             anchorViewController.beautifyFeature = [self.beautifyPicker selectedRowInComponent:0];
             anchorViewController.filter = [self.filterPicker selectedRowInComponent:0];
             
         }
+        
         [self.preView removeFromSuperview];
         anchorViewController.publishView = self.preView;
         self.preView = nil;

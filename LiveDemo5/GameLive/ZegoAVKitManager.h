@@ -9,6 +9,12 @@
 #import <ZegoLiveRoom/ZegoLiveRoom.h>
 #import <ZegoLiveRoom/ZegoLiveRoomApi-ReplayLive.h>
 
+typedef enum : NSUInteger {
+    ZegoAppTypeUDP      = 0,    // 国内版
+    ZegoAppTypeI18N     = 1,    // 国际版
+    ZegoAppTypeCustom   = 2,    // 自定义
+} ZegoAppType;
+
 @interface ZegoAVKitManager : NSObject
 
 + (instancetype)sharedInstance;

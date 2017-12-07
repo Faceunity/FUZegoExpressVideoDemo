@@ -2,12 +2,6 @@
 
 FUZegoLiveDemo 是集成了 Faceunity 面部跟踪和虚拟道具功能 和 Zego 直播功能的 Demo。
 
-##v3.3 美颜模块升级
-
-在v3.3中我们升级了美颜模块。保留老版磨皮算法的同时，默认提供了效果更好的新磨皮算法，进一步减少涂抹感。另外，我们改进了美白效果，并新增了可调节的红润效果，进一步改善肤色。在美型模块中，我们新增了三个脸型调整模板，以进一步满足不同的美型需要。具体细节可以参见下文 视频美颜。
-
-另外，我们改进了手势识别模块，引入了移动端深度神经网络，提高了手势检出率，同时降低了误检率。 具体细节可以下文 手势识别。
-
 ## 库文件
   - funama.h 函数调用接口头文件
   - FURenderer.h OC接口头文件
@@ -42,12 +36,12 @@ FUZegoLiveDemo 是集成了 Faceunity 面部跟踪和虚拟道具功能 和 Zego
 ```
 函数回调中进行视频数据的处理 。
 
-在需要接入 FaceUnity 效果的页面，加入切换 fu道具的UI，例如本 Demo 中 单主播模式的 ZegoAnchorViewController ，和 连麦模式的 ZegoMoreAnchorViewController 中 加入 
+在需要接入 FaceUnity 效果的页面，加入切换 fu道具的UI，例如本 Demo 中 单主播模式的 ZegoAnchorViewController  中 加入 
 FUAPIDemoBar/FUAPIDemoBar， 或者开发者自定义的 UI 切换工具
 
 
 ** **
-### 在本例中，以下代码均封装在 FUFaceUnityManager 类当中
+### 在本例中，以下代码均封装在 FUManager 类当中
 
 **首先Faceunity初始化： 其中 g_auth_package 为密钥数组，必须配置好密钥，SDK才能正常工作。注：app启动后只需要初始化一次Faceunity即可，切勿多次初始化。**
 
@@ -177,10 +171,9 @@ CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
 { 
 	CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
     
-    if ([FUFaceUnityManager shareManager].isShown) {
+    if ([FUManager shareManager].isShown) {
         
-        pixelBuffer = [[FUFaceUnityManager shareManager] fuManagerRenderPixelBuffer:pixelBuffer FrameID:frameID];
-        frameID ++ ;
+        [[FUManager shareManager] renderItemsToPixelBuffer:buffer];
     }
 }
 
@@ -190,23 +183,35 @@ CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
 
 ```
 
-**[[FUFaceUnityManager shareManager] fuManagerRenderPixelBuffer:pixelBuffer FrameID:frameID] 方法的实现如下：**
+**[[FUManager shareManager] renderItemsToPixelBuffer:buffer] 方法的实现如下：**
 
 ```C
-- (CVPixelBufferRef)fuManagerRenderPixelBuffer:(CVPixelBufferRef)pixelBuffer FrameID:(int)frameID{
+/**将道具绘制到pixelBuffer*/
+- (void)renderItemsToPixelBuffer:(CVPixelBufferRef)pixelBuffer
+{
+    /**设置美颜参数*/
+    [self setBeautyParams];
     
-    /*设置美颜效果（滤镜、磨皮、美白、瘦脸、大眼....）*/
-    [FURenderer itemSetParam:items[1] withName:@"filter_name" value:self.selectedFilter]; //滤镜
-    [FURenderer itemSetParam:items[1] withName:@"cheek_thinning" value:@(self.thinningLevel)]; //瘦脸
-    [FURenderer itemSetParam:items[1] withName:@"eye_enlarging" value:@(self.enlargingLevel)]; //大眼
-    [FURenderer itemSetParam:items[1] withName:@"color_level" value:@(self.beautyLevel)]; //美白
-    [FURenderer itemSetParam:items[1] withName:@"blur_level" value:@(self.selectedBlur)]; //磨皮
-    [FURenderer itemSetParam:items[1] withName:@"face_shape" value:@(self.faceShape)]; //瘦脸类型
-    [FURenderer itemSetParam:items[1] withName:@"face_shape_level" value:@(self.faceShapeLevel)]; //瘦脸等级
-    [FURenderer itemSetParam:items[1] withName:@"red_level" value:@(self.redLevel)]; //红润
+    /*Faceunity核心接口，将道具及美颜效果绘制到pixelBuffer中，执行完此函数后pixelBuffer即包含美颜及贴纸效果*/
+    [[FURenderer shareRenderer] renderPixelBuffer:pixelBuffer withFrameId:frameID items:items itemCount:3 flipx:self.itemsMirrored];//flipx 参数设为YES可以使道具做水平方向的镜像翻转
     
-    [[FURenderer shareRenderer] renderPixelBuffer:pixelBuffer withFrameId:frameID items:items itemCount:3 flipx:NO];//flipx 参数设为YES可以使道具做水平方向的镜像翻转
-    return pixelBuffer ;
+    frameID += 1;
+}
+
+
+/**设置美颜参数*/
+- (void)setBeautyParams
+{
+    /*设置美颜效果（滤镜、磨皮、美白、红润、瘦脸、大眼....）*/
+    [FURenderer itemSetParam:items[1] withName:@"filter_name" value:self.selectedFilter]; //滤镜名称
+    [FURenderer itemSetParam:items[1] withName:@"blur_level" value:@(self.selectedBlur)]; //磨皮 (0、1、2、3、4、5、6)
+    [FURenderer itemSetParam:items[1] withName:@"color_level" value:@(self.beautyLevel)]; //美白 (0~1)
+    [FURenderer itemSetParam:items[1] withName:@"red_level" value:@(self.redLevel)]; //红润 (0~1)
+    [FURenderer itemSetParam:items[1] withName:@"face_shape" value:@(self.faceShape)]; //美型类型 (0、1、2、3) 默认：3，女神：0，网红：1，自然：2
+    [FURenderer itemSetParam:items[1] withName:@"face_shape_level" value:@(self.faceShapeLevel)]; //美型等级 (0~1)
+    [FURenderer itemSetParam:items[1] withName:@"eye_enlarging" value:@(self.enlargingLevel)]; //大眼 (0~1)
+    [FURenderer itemSetParam:items[1] withName:@"cheek_thinning" value:@(self.thinningLevel)]; //瘦脸 (0~1)
+    
 }
 
 ```
@@ -223,37 +228,30 @@ CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
 销毁全部道具：
 
 ```C
-//该接口可以销毁全部道具所占的内存。
-- (void)destoryFaceunityItems
+/**销毁全部道具*/
+- (void)destoryItems
 {
-    fuDestroyAllItems();
+    [FURenderer destroyAllItems];
     
+    /**销毁道具后，为保证被销毁的句柄不再被使用，需要将int数组中的元素都设为0*/
     for (int i = 0; i < sizeof(items) / sizeof(int); i++) {
         items[i] = 0;
     }
+    
+    /**销毁道具后，清除context缓存*/
+    fuOnDeviceLost();
+    
+    /**销毁道具后，重置人脸检测*/
+    [FURenderer onCameraChange];
+    
+    /**美颜参数设置为初始默认值*/
+    [self setDefaultBeautyParameters];
 }
 
 ```
 这里需要注意的是，以上两个接口都需要和fuCreateItemFromPackage在同一个context线程上调用
 
-本例中 调用 `FUFaceUnityManager` 中的 `removeAllEffect `方法销毁道具，具体实现如下：
-```C
-//该接口可以销毁全部道具所占的内存。
-- (void)removeAllEffect {
-    
-    self.selectedBlur = 0 ;
-    self.redLevel = 0.0 ;
-    self.faceShapeLevel = 0.0 ;
-    self.faceShape = 0 ;
-    self.beautyLevel = 0.0 ;
-    self.thinningLevel = 0.0 ;
-    self.enlargingLevel = 0.0 ;
-    self.selectedFilter = nil ;
-    
-    [self destoryFaceunityItems];
-}
 
-```
 
 
 ## 视频美颜

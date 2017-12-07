@@ -12,6 +12,7 @@
 
 #import "./advanced/video_capture_external_demo.h"
 #import "./advanced/ZegoVideoCaptureFromImage.h"
+#import <ZegoLiveRoom/zego-api-mix-engine-playout-oc.h>
 
 typedef enum : NSUInteger {
     SinglePublisherRoom = 1,
@@ -23,10 +24,9 @@ typedef enum : NSUInteger {
 
 
 typedef enum : NSUInteger {
-    ZegoAppTypeCustom   = 0,    // 用户自定义
-    ZegoAppTypeRTMP     = 1,    // RTMP版
-    ZegoAppTypeUDP      = 2,    // UDP版
-    ZegoAppTypeI18N     = 3,    // 国际版
+    ZegoAppTypeUDP      = 0,    // 国内版
+    ZegoAppTypeI18N     = 1,    // 国际版
+    ZegoAppTypeCustom   = 2,    // 自定义
 } ZegoAppType;
 
 @interface ZegoDemoHelper : NSObject
@@ -75,6 +75,8 @@ typedef enum : NSUInteger {
 
 + (void)setAppType:(ZegoAppType)type;
 + (ZegoAppType)appType;
+
++ (NSString *)customAppSign;
 
 
 #if TARGET_OS_SIMULATOR

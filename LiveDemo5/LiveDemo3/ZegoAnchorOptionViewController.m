@@ -46,6 +46,7 @@
 @property (nonatomic, assign, readonly) BOOL enablePreviewMirror;
 @property (nonatomic, assign, readonly) BOOL enableCaptureMirror;
 @property (nonatomic, assign, readonly) BOOL enableLoopback;
+@property (nonatomic, assign, readonly) BOOL enableMixEnginePlayout;
 
 @end
 
@@ -292,6 +293,13 @@
         [self.delegate onEnableLoopback:switchLoop.on];
 }
 
+- (IBAction)toggleMixEnginePlayout:(id)sender
+{
+    UISwitch *switchMix = (UISwitch *)sender;
+    if ([self.delegate respondsToSelector:@selector(onEnableMixEnginePlayout:)])
+        [self.delegate onEnableMixEnginePlayout:switchMix.on];
+}
+
 #pragma mark UITableViewDataSource & Delegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -301,7 +309,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section == 0)
-        return 8;
+        return 9;
     
     return 1;
 }
@@ -423,6 +431,15 @@
             
             [cell.switchButton removeTarget:self action:NULL forControlEvents:UIControlEventValueChanged];
             [cell.switchButton addTarget:self action:@selector(toggleLoopback:) forControlEvents:UIControlEventValueChanged];
+        }
+        else if (indexPath.row == 8)
+        {
+            cell.titleLabel.text = NSLocalizedString(@"合唱", nil);
+            cell.switchButton.on = self.enableMixEnginePlayout;
+            cell.switchButton.enabled = YES;
+            [cell.switchButton removeTarget:self action:NULL forControlEvents:UIControlEventValueChanged];
+            [cell.switchButton addTarget:self action:@selector(toggleMixEnginePlayout:) forControlEvents:UIControlEventValueChanged];
+            
         }
         return cell;
     }

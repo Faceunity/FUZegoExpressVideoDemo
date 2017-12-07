@@ -359,15 +359,24 @@
     
     //create playView
     _mixStreamPlayView = [[UIView alloc] init];
-    self.mixStreamPlayView.translatesAutoresizingMaskIntoConstraints = YES;
+    self.mixStreamPlayView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.playViewContainer addSubview:self.mixStreamPlayView];
+    
+    BOOL bResult = [self setContainerConstraints:self.mixStreamPlayView containerView:self.playViewContainer viewCount:self.viewContainersDict.count];
+    if (bResult == NO)
+    {
+        [self.mixStreamPlayView removeFromSuperview];
+        return;
+    }
     
     self.mixStreamPlayView.frame = self.playViewContainer.bounds;
     [self.playViewContainer bringSubviewToFront:self.mixStreamPlayView];
     
+//    self.viewContainersDict[self.mixStreamID] = self.mixStreamPlayView;
+    
     //play mixStream
     [[ZegoDemoHelper api] startPlayingStream:self.mixStreamID inView:self.mixStreamPlayView];
-    [[ZegoDemoHelper api] setViewMode:ZegoVideoViewModeScaleAspectFill ofStream:self.mixStreamID];
+    [[ZegoDemoHelper api] setViewMode:ZegoVideoViewModeScaleAspectFit ofStream:self.mixStreamID];
     
 }
 
@@ -384,6 +393,7 @@
         }
     }
 }
+
 
 #pragma mark -- FullScreen
 
@@ -459,7 +469,7 @@
                 return;
         }
         
-        [[ZegoDemoHelper api] setViewRotation:rotate ofStream:streamID];
+//        [[ZegoDemoHelper api] setViewRotation:rotate ofStream:streamID];
     }
 }
 
@@ -562,6 +572,8 @@
         [self addLogString:logString];
         [self.originStreamList addObject:stream];
     }
+    
+    // 播放 StreamID
     [self onStreamUpdateForAdd:self.originStreamList];
 }
 
@@ -667,7 +679,7 @@
         }
     }
    
-    // 当loginRoom成功后返回的streamList的extraInfo为空时（后台处理慢时可能导致该问题），需要等待本回调返回的、更新后的streamList信息播放
+    // 当 loginRoom 成功后返回的 streamList 的 extraInfo 为空时（后台处理慢时可能导致该问题），需要等待本回调返回的、更新后的 streamList 信息播放
     if ([self.mixStreamList count]) {
         ZegoStream *stream = self.mixStreamList[0];
         if ([stream.extraInfo isEqualToString:@""]) {
@@ -735,11 +747,11 @@
 
 - (void)onPlayQualityUpate:(NSString *)streamID quality:(ZegoApiPlayQuality)quality
 {
+    NSString *detail = [self addStaticsInfo:NO stream:streamID fps:quality.fps kbs:quality.kbps rtt:quality.rtt pktLostRate:quality.pktLostRate];
+    
     UIView *view = self.viewContainersDict[streamID];
     if (view)
-        [self updateQuality:quality.quality view:view];
-    
-    [self addStaticsInfo:NO stream:streamID fps:quality.fps kbs:quality.kbps];
+        [self updateQuality:quality.quality detail:detail onView:view];
 }
 
 // 观众端收到主播端的邀请连麦请求
@@ -824,12 +836,12 @@
 }
 
 - (void)onPublishQualityUpdate:(NSString *)streamID quality:(ZegoApiPublishQuality)quality
-{
+{  
+    NSString *detail = [self addStaticsInfo:YES stream:streamID fps:quality.fps kbs:quality.kbps rtt:quality.rtt pktLostRate:quality.pktLostRate];
+    
     UIView *view = self.viewContainersDict[streamID];
     if (view)
-        [self updateQuality:quality.quality view:view];
-    
-    [self addStaticsInfo:YES stream:streamID fps:quality.fps kbs:quality.kbps];
+        [self updateQuality:quality.quality detail:detail onView:view];
 }
 
 - (void)onAuxCallback:(void *)pData dataLen:(int *)pDataLen sampleRate:(int *)pSampleRate channelCount:(int *)pChannelCount
@@ -848,6 +860,7 @@
             NSString *logString = [NSString stringWithFormat:NSLocalizedString(@"主播已退出：%@", nil), state.userName];
             [self addLogString:logString];
             break;
+            
         }
     }
 }

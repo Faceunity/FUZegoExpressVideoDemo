@@ -1,1 +1,2 @@
-release iphoneos & simulator
+iphoneos & simulator 
+Debug
