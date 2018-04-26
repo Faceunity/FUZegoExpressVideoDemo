@@ -25,6 +25,9 @@
 - (void)onEnableLoopback:(BOOL)enable;
 - (void)onEnableMixEnginePlayout:(BOOL)enable;
 
+- (void)onEnableVirtualStereo:(BOOL)enable;
+- (void)onEnableReverb:(BOOL)enable;
+
 - (BOOL)onGetUseFrontCamera;
 - (BOOL)onGetEnableMicrophone;
 - (BOOL)onGetEnableTorch;
@@ -36,7 +39,8 @@
 - (BOOL)onGetEnableCaptureMirror;
 - (BOOL)onGetEnableLoopback;
 
-
+- (BOOL)onGetEnableVirtualStereo;
+- (BOOL)onGetEnableReverb;
 @end
 
 @interface ZegoAnchorOptionSwitchCell : UITableViewCell

@@ -7,9 +7,7 @@
 //
 
 #import "video_capture_external_demo.h"
-
 #import "FUManager.h"
-
 
 @interface VideoCaptureDeviceDemo ()
 - (int)start;
@@ -540,20 +538,14 @@
 }
 
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection {
-    
-    if (![connection isVideoMirrored]) {
-        connection.videoMirrored = YES ;
-    }
-    
     CMTime pts = CMSampleBufferGetPresentationTimeStamp(sampleBuffer);
-    CVPixelBufferRef buffer = CMSampleBufferGetImageBuffer(sampleBuffer);
+    CVImageBufferRef buffer = CMSampleBufferGetImageBuffer(sampleBuffer);
     
     if ([FUManager shareManager].isShown) {
         
         [[FUManager shareManager] renderItemsToPixelBuffer:buffer];
+        
     }
-    
-    
     
     CGImageRef img = [self createCGImageFromCVPixelBuffer:buffer];
     

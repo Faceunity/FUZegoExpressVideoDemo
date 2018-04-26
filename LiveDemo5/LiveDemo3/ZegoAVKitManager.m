@@ -74,6 +74,7 @@ static __strong id<ZegoVideoFilterFactory> g_filterFactory = nullptr;
         }
         
         [ZegoLiveRoomApi setUseTestEnv:g_useTestEnv];
+//        [ZegoLiveRoomApi performSelector:@selector(setUseAlphaEnv:) withObject:@(g_useAlphaEnv)];
         [ZegoLiveRoomApi enableExternalRender:[self usingExternalRender]];
         
 #ifdef DEBUG
@@ -93,6 +94,7 @@ static __strong id<ZegoVideoFilterFactory> g_filterFactory = nullptr;
             }
         }
 
+        [g_ZegoApi enableAECWhenHeadsetDetected:false];
         [ZegoLiveRoomApi requireHardwareDecoder:g_useHardwareDecode];
         [ZegoLiveRoomApi requireHardwareEncoder:g_useHardwareEncode];
         

@@ -48,6 +48,8 @@
 @property (nonatomic, assign, readonly) BOOL enableLoopback;
 @property (nonatomic, assign, readonly) BOOL enableMixEnginePlayout;
 
+@property (nonatomic, assign, readonly) BOOL enableVirtualStereo;
+@property (nonatomic, assign, readonly) BOOL enableReverb;
 @end
 
 @implementation ZegoAnchorOptionViewController
@@ -190,6 +192,22 @@
     return NO;
 }
 
+- (BOOL)enableVirtualStereo
+{
+    if([self.delegate respondsToSelector:@selector(onGetEnableVirtualStereo)])
+        return [self.delegate onGetEnableVirtualStereo];
+    
+    return NO;
+}
+
+- (BOOL)enableReverb
+{
+    if([self.delegate respondsToSelector:@selector(onGetEnableReverb)])
+        return [self.delegate onGetEnableReverb];
+    
+    return NO;
+}
+
 #pragma mark -- UIPickerViewDelegate, UIPickerViewDataSource
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
     return 1;
@@ -300,6 +318,21 @@
         [self.delegate onEnableMixEnginePlayout:switchMix.on];
 }
 
+
+- (IBAction)toggleVirtualStereo:(id)sender {
+    
+    UISwitch *switchVirtualStereo = (UISwitch *)sender;
+    if([self.delegate respondsToSelector:@selector(onEnableVirtualStereo:)])
+        [self.delegate onEnableVirtualStereo:switchVirtualStereo.on];
+}
+
+- (IBAction)toggleReverb:(id)sender {
+    
+    UISwitch *switchReverb = (UISwitch *)sender;
+    if([self.delegate respondsToSelector:@selector(onEnableReverb:)])
+        [self.delegate onEnableReverb:switchReverb.on];
+}
+
 #pragma mark UITableViewDataSource & Delegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -309,7 +342,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section == 0)
-        return 9;
+        return 11;
     
     return 1;
 }
@@ -439,6 +472,24 @@
             cell.switchButton.enabled = YES;
             [cell.switchButton removeTarget:self action:NULL forControlEvents:UIControlEventValueChanged];
             [cell.switchButton addTarget:self action:@selector(toggleMixEnginePlayout:) forControlEvents:UIControlEventValueChanged];
+            
+        }
+        else if (indexPath.row == 9)
+        {
+            cell.titleLabel.text = NSLocalizedString(@"虚拟立体声", nil);
+            cell.switchButton.on = self.enableVirtualStereo;
+            cell.switchButton.enabled = YES;
+            [cell.switchButton removeTarget:self action:NULL forControlEvents:UIControlEventValueChanged];
+            [cell.switchButton addTarget:self action:@selector(toggleVirtualStereo:) forControlEvents:UIControlEventValueChanged];
+            
+        }
+        else if (indexPath.row == 10)
+        {
+            cell.titleLabel.text = NSLocalizedString(@"混响", nil);
+            cell.switchButton.on = self.enableReverb;
+            cell.switchButton.enabled = YES;
+            [cell.switchButton removeTarget:self action:NULL forControlEvents:UIControlEventValueChanged];
+            [cell.switchButton addTarget:self action:@selector(toggleReverb:) forControlEvents:UIControlEventValueChanged];
             
         }
         return cell;

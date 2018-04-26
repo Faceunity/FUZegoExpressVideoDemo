@@ -579,6 +579,17 @@
 
 #pragma mark - ZegoRoomDelegate
 
+- (void)onTempBroken:(int)errorCode roomID:(NSString *)roomID {
+    NSString *logString = [NSString stringWithFormat:NSLocalizedString(@"与服务器连接临时断开, error: %d", nil), errorCode];
+    [self addLogString:logString];
+    
+    self.toolViewController.joinLiveButton.enabled = NO;
+}
+
+- (void)onReconnect:(int)errorCode roomID:(NSString *)roomID {
+    self.toolViewController.joinLiveButton.enabled = YES;
+}
+
 - (void)onDisconnect:(int)errorCode roomID:(NSString *)roomID
 {
     NSString *logString = [NSString stringWithFormat:NSLocalizedString(@"连接失败, error: %d", nil), errorCode];
@@ -747,7 +758,7 @@
 
 - (void)onPlayQualityUpate:(NSString *)streamID quality:(ZegoApiPlayQuality)quality
 {
-    NSString *detail = [self addStaticsInfo:NO stream:streamID fps:quality.fps kbs:quality.kbps rtt:quality.rtt pktLostRate:quality.pktLostRate];
+    NSString *detail = [self addStaticsInfo:NO stream:streamID fps:quality.fps kbs:quality.kbps akbs:quality.akbps rtt:quality.rtt pktLostRate:quality.pktLostRate];
     
     UIView *view = self.viewContainersDict[streamID];
     if (view)
@@ -837,7 +848,7 @@
 
 - (void)onPublishQualityUpdate:(NSString *)streamID quality:(ZegoApiPublishQuality)quality
 {  
-    NSString *detail = [self addStaticsInfo:YES stream:streamID fps:quality.fps kbs:quality.kbps rtt:quality.rtt pktLostRate:quality.pktLostRate];
+    NSString *detail = [self addStaticsInfo:YES stream:streamID fps:quality.fps kbs:quality.kbps akbs:quality.akbps rtt:quality.rtt pktLostRate:quality.pktLostRate];
     
     UIView *view = self.viewContainersDict[streamID];
     if (view)

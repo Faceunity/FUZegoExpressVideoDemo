@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ZegoAVKitManager.h"
 
 #define kSpeakingCommandKey    @"command"
 
@@ -70,7 +71,7 @@ typedef NS_ENUM(NSUInteger, ZegoSpeakingMode) {
 
 @property (nonatomic, assign) double bitrate;
 @property (nonatomic, assign) CGSize videoSize;
-@property (nonatomic, assign) enum ZegoApiPublishFlag flag;
+@property (nonatomic, assign) ZegoApiPublishFlag flag;
 
 @property (nonatomic, assign, readonly) NSUInteger maxStreamCount;
 

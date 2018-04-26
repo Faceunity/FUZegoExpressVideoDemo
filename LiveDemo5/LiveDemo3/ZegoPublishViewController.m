@@ -46,9 +46,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     _beautifyList = @[
-                      /*  加入 FU 效果 */
                       NSLocalizedString(@"FaceUnity", nil),
-                      
                       NSLocalizedString(@"无美颜", nil),
                       NSLocalizedString(@"磨皮", nil),
                       NSLocalizedString(@"全屏美白", nil),
@@ -88,7 +86,6 @@
     
     [self addPreview];
     
-   // 开启外部采集
     [ZegoDemoHelper setUsingExternalCapture:YES];
     
     [[ZegoDemoHelper api] setDeviceEventDelegate:self];
@@ -614,19 +611,8 @@
         anchorViewController.liveTitle = [self getLiveTitle];
         anchorViewController.useFrontCamera = self.switchCamera.on;
         anchorViewController.enableTorch = self.switchTorch.on;
-        
-        // 显示 FaceUnity 的效果
-        if ([self.beautifyPicker selectedRowInComponent:0] == 0) {
-            
-            anchorViewController.isShowFU = YES ;
-            anchorViewController.beautifyFeature = 0 ;
-            anchorViewController.filter = 0 ;
-        }else {
-            
-            anchorViewController.isShowFU = NO ;
-            anchorViewController.beautifyFeature = [self.beautifyPicker selectedRowInComponent:0];
-            anchorViewController.filter = [self.filterPicker selectedRowInComponent:0];
-        }
+        anchorViewController.beautifyFeature = [self.beautifyPicker selectedRowInComponent:0];
+        anchorViewController.filter = [self.filterPicker selectedRowInComponent:0];
         
         [self.preView removeFromSuperview];
         anchorViewController.publishView = self.preView;
@@ -639,19 +625,8 @@
         anchorViewController.liveTitle = [self getLiveTitle];
         anchorViewController.useFrontCamera = self.switchCamera.on;
         anchorViewController.enableTorch = self.switchTorch.on;
-        
-        if ([self.beautifyPicker selectedRowInComponent:0] == 0) {
-            
-            anchorViewController.isShowFU = YES ;
-            anchorViewController.beautifyFeature = 0 ;
-            anchorViewController.filter = 0 ;
-        }else {
-            
-            anchorViewController.isShowFU = NO ;
-            anchorViewController.beautifyFeature = [self.beautifyPicker selectedRowInComponent:0];
-            anchorViewController.filter = [self.filterPicker selectedRowInComponent:0];
-            
-        }
+        anchorViewController.beautifyFeature = [self.beautifyPicker selectedRowInComponent:0];
+        anchorViewController.filter = [self.filterPicker selectedRowInComponent:0];
         
         [self.preView removeFromSuperview];
         anchorViewController.publishView = self.preView;

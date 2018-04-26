@@ -375,20 +375,22 @@
     completeMixConfig.outputBitrate = [ZegoSettings sharedInstance].currentConfig.bitrate;
     completeMixConfig.outputResolution = [ZegoSettings sharedInstance].currentConfig.videoEncodeResolution;
     completeMixConfig.outputAudioConfig = 0;   // * default config
+    completeMixConfig.outputBackgroundColor = 0xc8c8c800;
     
 //    [completeMixConfig.inputStreamList removeAllObjects];
     
     int height = [ZegoSettings sharedInstance].currentConfig.videoEncodeResolution.height;
     int width = [ZegoSettings sharedInstance].currentConfig.videoEncodeResolution.width;
+    int margin = 25;
     
     if (self.isPublishing)
     {
         ZegoMixStreamInfo *info = [[ZegoMixStreamInfo alloc] init];
         info.streamID = self.streamID;
-        info.top = 0;
-        info.left = 0;
-        info.bottom = height;
-        info.right = width;
+        info.top = 0 + margin;
+        info.left = 0 + margin;
+        info.bottom = height - margin;
+        info.right = width - margin;
         
         [completeMixConfig.inputStreamList addObject:info];
     }
@@ -525,7 +527,7 @@
 
 - (void)onPublishQualityUpdate:(NSString *)streamID quality:(ZegoApiPublishQuality)quality
 {
-    NSString *detail = [self addStaticsInfo:YES stream:streamID fps:quality.fps kbs:quality.kbps rtt:quality.rtt pktLostRate:quality.pktLostRate];
+    NSString *detail = [self addStaticsInfo:YES stream:streamID fps:quality.fps kbs:quality.kbps akbs:quality.akbps rtt:quality.rtt pktLostRate:quality.pktLostRate];
     
     UIView *view = self.viewContainersDict[streamID];
     if (view)
@@ -604,7 +606,7 @@
 
 - (void)onPlayQualityUpate:(NSString *)streamID quality:(ZegoApiPlayQuality)quality
 {
-    NSString *detail = [self addStaticsInfo:NO stream:streamID fps:quality.fps kbs:quality.kbps rtt:quality.rtt pktLostRate:quality.pktLostRate];
+    NSString *detail = [self addStaticsInfo:NO stream:streamID fps:quality.fps kbs:quality.kbps akbs:quality.akbps rtt:quality.rtt pktLostRate:quality.pktLostRate];
     
     UIView *view = self.viewContainersDict[streamID];
     if (view)

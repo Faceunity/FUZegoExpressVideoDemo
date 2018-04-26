@@ -70,6 +70,8 @@
 "预览切换镜像" = "Preview Mirror Switch";
 "采集镜像" = "Capture Mirror";
 "采集监听" = "采集监听";
+"虚拟立体声" = "Virtual Stereo";
+"混响" = "Reverb";
 
 "开始登录channel, channel:%@" = "Login Channel, Channel:%@";
 "开始获取直播流列表" = "Get Live Stream List";

@@ -12,7 +12,6 @@
 
 #import "./advanced/video_capture_external_demo.h"
 #import "./advanced/ZegoVideoCaptureFromImage.h"
-#import <ZegoLiveRoom/zego-api-mix-engine-playout-oc.h>
 
 typedef enum : NSUInteger {
     SinglePublisherRoom = 1,

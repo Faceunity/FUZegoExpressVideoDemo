@@ -79,7 +79,7 @@ NSString *kZegoDemoWolfLowDelayKey      = @"wolfLowDelay";
 }
 
 - (NSUserDefaults *)myUserDefaults {
-    return [[NSUserDefaults alloc] initWithSuiteName:@"LiveDemo5566"];
+    return [[NSUserDefaults alloc] initWithSuiteName:@"group.liveDemo5"];
 }
 
 #pragma mark - UserID & UserName

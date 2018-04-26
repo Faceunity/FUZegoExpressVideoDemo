@@ -254,6 +254,7 @@
 
 - (IBAction)onClose:(id)sender
 {
+    
     if ([self.delegate respondsToSelector:@selector(onCloseButton:)])
         [self.delegate onCloseButton:sender];
 }

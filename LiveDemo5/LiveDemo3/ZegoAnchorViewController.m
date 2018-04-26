@@ -12,12 +12,11 @@
 #import "ZegoAnchorOptionViewController.h"
 #import "ZegoLiveToolViewController.h"
 
-#import <FUAPIDemoBar/FUAPIDemoBar.h>
-#import "FUManager.h"
 
-@interface ZegoAnchorViewController () <ZegoRoomDelegate, ZegoLivePublisherDelegate, ZegoIMDelegate, ZegoLiveToolViewControllerDelegate,
-FUAPIDemoBarDelegate
->
+#import "FUManager.h"
+#import <FUAPIDemoBar/FUAPIDemoBar.h>
+
+@interface ZegoAnchorViewController () <ZegoRoomDelegate, ZegoLivePublisherDelegate, ZegoIMDelegate, ZegoLiveToolViewControllerDelegate, FUAPIDemoBarDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *playViewContainer;
 @property (weak, nonatomic) IBOutlet UIView *toolView;
@@ -43,13 +42,12 @@ FUAPIDemoBarDelegate
 
 @property (nonatomic, assign) UIInterfaceOrientation orientation;
 
+
+@property (nonatomic, strong) FUAPIDemoBar *demoBar ;
 @end
 
 @implementation ZegoAnchorViewController
-{
-    /* FaceUnity 效果展示 UI */
-    FUAPIDemoBar *_demoBar ;
-}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -87,86 +85,97 @@ FUAPIDemoBarDelegate
         [self updatePublishView:self.publishView];
     }
     
-    /**------------  FaceUnity  ------------**/
-    if (self.isShowFU) {
+    
+    if (self.beautifyFeature == 0) {
         
-        [self addFaceUnityUI];
-        
+        /**     -----  FaceUnity  ----     **/
         [[FUManager shareManager] loadItems];
-        
+        [self.view addSubview:self.demoBar] ;
         [FUManager shareManager].isShown = YES;
+        /**     -----  FaceUnity  ----     **/
     }
-    /**------------  FaceUnity  ------------**/
+    
 }
 
-/**------------  FaceUnity  ------------**/
-- (void)addFaceUnityUI {
-    
-    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn.frame = CGRectMake([UIScreen mainScreen].bounds.size.width - 80, [UIScreen mainScreen].bounds.size.height - 120, 60, 60) ;
-    [btn setImage:[UIImage imageNamed:@"camera_btn_filter_normal"] forState:UIControlStateNormal];
-    [btn addTarget:self action:@selector(showDemoBar:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:btn];
-    
-    
-    _demoBar = [[FUAPIDemoBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 208, self.view.frame.size.width, 208)];
-    
-    _demoBar.itemsDataSource =  [FUManager shareManager].itemsDataSource;
-    _demoBar.filtersDataSource = [FUManager shareManager].filtersDataSource;
-    
-    _demoBar.selectedItem = [FUManager shareManager].selectedItem;      /**选中的道具名称*/
-    _demoBar.selectedFilter = [FUManager shareManager].selectedFilter;  /**选中的滤镜名称*/
-    _demoBar.beautyLevel = [FUManager shareManager].beautyLevel;        /**美白 (0~1)*/
-    _demoBar.redLevel = [FUManager shareManager].redLevel;              /**红润 (0~1)*/
-    _demoBar.selectedBlur = [FUManager shareManager].selectedBlur;      /**磨皮(0、1、2、3、4、5、6)*/
-    _demoBar.faceShape = [FUManager shareManager].faceShape;            /**美型类型 (0、1、2、3) 默认：3，女神：0，网红：1，自然：2*/
-    _demoBar.faceShapeLevel = [FUManager shareManager].faceShapeLevel;  /**美型等级 (0~1)*/
-    _demoBar.enlargingLevel = [FUManager shareManager].enlargingLevel;  /**大眼 (0~1)*/
-    _demoBar.thinningLevel = [FUManager shareManager].thinningLevel;    /**瘦脸 (0~1)*/
-
-    
-    _demoBar.delegate = self;
-    [self.view addSubview:_demoBar];
+/**     -----  FaceUnity  ----     **/
+-(FUAPIDemoBar *)demoBar {
+    if (!_demoBar) {
+        
+        _demoBar = [[FUAPIDemoBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 164 - 44, self.view.frame.size.width, 164)];
+        
+        _demoBar.itemsDataSource = [FUManager shareManager].itemsDataSource;
+        _demoBar.selectedItem = [FUManager shareManager].selectedItem ;
+        
+        _demoBar.filtersDataSource = [FUManager shareManager].filtersDataSource ;
+        _demoBar.beautyFiltersDataSource = [FUManager shareManager].beautyFiltersDataSource ;
+        _demoBar.filtersCHName = [FUManager shareManager].filtersCHName ;
+        _demoBar.selectedFilter = [FUManager shareManager].selectedFilter ;
+        [_demoBar setFilterLevel:[FUManager shareManager].selectedFilterLevel forFilter:[FUManager shareManager].selectedFilter] ;
+        
+        _demoBar.skinDetectEnable = [FUManager shareManager].skinDetectEnable;
+        _demoBar.blurShape = [FUManager shareManager].blurShape ;
+        _demoBar.blurLevel = [FUManager shareManager].blurLevel ;
+        _demoBar.whiteLevel = [FUManager shareManager].whiteLevel ;
+        _demoBar.redLevel = [FUManager shareManager].redLevel;
+        _demoBar.eyelightingLevel = [FUManager shareManager].eyelightingLevel ;
+        _demoBar.beautyToothLevel = [FUManager shareManager].beautyToothLevel ;
+        _demoBar.faceShape = [FUManager shareManager].faceShape ;
+        
+        _demoBar.enlargingLevel = [FUManager shareManager].enlargingLevel ;
+        _demoBar.thinningLevel = [FUManager shareManager].thinningLevel ;
+        _demoBar.enlargingLevel_new = [FUManager shareManager].enlargingLevel_new ;
+        _demoBar.thinningLevel_new = [FUManager shareManager].thinningLevel_new ;
+        _demoBar.jewLevel = [FUManager shareManager].jewLevel ;
+        _demoBar.foreheadLevel = [FUManager shareManager].foreheadLevel ;
+        _demoBar.noseLevel = [FUManager shareManager].noseLevel ;
+        _demoBar.mouthLevel = [FUManager shareManager].mouthLevel ;
+        
+        _demoBar.delegate = self;
+    }
+    return _demoBar ;
 }
 
-- (void)showDemoBar:(UIButton *)sender {
-    [UIView animateWithDuration:0.4 animations:^{
-        _demoBar.frame = CGRectMake(0, [UIScreen mainScreen].bounds.size.height - 208, [UIScreen mainScreen].bounds.size.width, 208);
-    }];
+/**      FUAPIDemoBarDelegate       **/
+
+- (void)demoBarDidSelectedItem:(NSString *)itemName {
+    
+    [[FUManager shareManager] loadItem:itemName];
 }
 
--(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    [super touchesBegan:touches withEvent:event];
-    [UIView animateWithDuration:0.4 animations:^{
-        _demoBar.frame = CGRectMake(0, [UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width, 208);
-    }];
-}
-
-
-- (void)demoBarDidSelectedItem:(NSString *)item
-{
-    //加载道具
-    [[FUManager shareManager] loadItem:item];
-}
-
-/**设置美颜参数*/
-- (void)demoBarBeautyParamChanged
-{
-    [FUManager shareManager].selectedFilter = _demoBar.selectedFilter;
-    [FUManager shareManager].selectedBlur = _demoBar.selectedBlur;
-    [FUManager shareManager].beautyLevel = _demoBar.beautyLevel;
+- (void)demoBarBeautyParamChanged {
+    
+    [FUManager shareManager].skinDetectEnable = _demoBar.skinDetectEnable;
+    [FUManager shareManager].blurShape = _demoBar.blurShape;
+    [FUManager shareManager].blurLevel = _demoBar.blurLevel ;
+    [FUManager shareManager].whiteLevel = _demoBar.whiteLevel;
     [FUManager shareManager].redLevel = _demoBar.redLevel;
+    [FUManager shareManager].eyelightingLevel = _demoBar.eyelightingLevel;
+    [FUManager shareManager].beautyToothLevel = _demoBar.beautyToothLevel;
     [FUManager shareManager].faceShape = _demoBar.faceShape;
-    [FUManager shareManager].faceShapeLevel = _demoBar.faceShapeLevel;
-    [FUManager shareManager].thinningLevel = _demoBar.thinningLevel;
     [FUManager shareManager].enlargingLevel = _demoBar.enlargingLevel;
+    [FUManager shareManager].thinningLevel = _demoBar.thinningLevel;
+    [FUManager shareManager].enlargingLevel_new = _demoBar.enlargingLevel_new;
+    [FUManager shareManager].thinningLevel_new = _demoBar.thinningLevel_new;
+    [FUManager shareManager].jewLevel = _demoBar.jewLevel;
+    [FUManager shareManager].foreheadLevel = _demoBar.foreheadLevel;
+    [FUManager shareManager].noseLevel = _demoBar.noseLevel;
+    [FUManager shareManager].mouthLevel = _demoBar.mouthLevel;
+    
+    [FUManager shareManager].selectedFilter = _demoBar.selectedFilter ;
+    [FUManager shareManager].selectedFilterLevel = _demoBar.selectedFilterLevel;
 }
 
-/**------------  FaceUnity  ------------**/
+-(void)dealloc {
+    
+    [FUManager shareManager].isShown = NO;
+    [[FUManager shareManager] destoryItems];
+}
+
+
+/**     -----  FaceUnity  ----     **/
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (BOOL)shouldAutorotate
@@ -212,6 +221,9 @@ FUAPIDemoBarDelegate
     }
     
     self.viewContainersDict[self.streamID] = self.publishView;
+    
+    //开启双声道直播
+    [[ZegoDemoHelper api] setAudioChannelCount:2];
     
     bool b = [[ZegoDemoHelper api] startPublishing:self.streamID title:self.liveTitle flag:ZEGOAPI_SINGLE_ANCHOR];
     if (b)
@@ -329,7 +341,7 @@ FUAPIDemoBarDelegate
 
 - (void)onPublishQualityUpdate:(NSString *)streamID quality:(ZegoApiPublishQuality)quality
 {
-    NSString *detail = [self addStaticsInfo:YES stream:streamID fps:quality.fps kbs:quality.kbps rtt:quality.rtt pktLostRate:quality.pktLostRate];
+    NSString *detail = [self addStaticsInfo:YES stream:streamID fps:quality.fps kbs:quality.kbps akbs:quality.akbps rtt:quality.rtt pktLostRate:quality.pktLostRate];
     
     UIView *view = self.viewContainersDict[streamID];
     if (view)
@@ -348,6 +360,12 @@ FUAPIDemoBarDelegate
     [self.toolViewController updateLayout:messageList];
 }
 
+- (void)onUpdateOnlineCount:(int)onlineCount room:(NSString *)roomId
+{
+    //TODO: update online count
+    NSLog(@"Update Online Count: %d", onlineCount);
+}
+
 #pragma mark -
 
 #pragma mark close publish
@@ -360,14 +378,6 @@ FUAPIDemoBarDelegate
 #pragma mark ZegoLiveToolViewControllerDelegate
 - (void)onCloseButton:(id)sender
 {
-    
-    /**------------  FaceUnity  ------------**/
-    
-    [FUManager shareManager].isShown = NO;
-    [[FUManager shareManager] destoryItems];
-    
-    /**------------  FaceUnity  ------------**/
-    
     [self closeAllStream];
     [[ZegoDemoHelper api] logoutRoom];
     [self dismissViewControllerAnimated:YES completion:nil];

@@ -15,6 +15,7 @@
 #import <TencentOpenAPI/QQApiInterface.h>
 #import <TencentOpenAPI/QQApiInterfaceObject.h>
 #include <ZegoLiveRoom/zego-api-mix-engine-playout-oc.h>
+#include <ZegoLiveRoom/zego-api-audio-processing-oc.h>
 
 @interface ZegoLiveViewController () <UIAlertViewDelegate, ZegoLiveApiAudioRecordDelegate>
 
@@ -60,6 +61,9 @@
     self.viewMode = ZegoVideoViewModeScaleAspectFill;
     self.enableCamera = YES;
     self.enableLoopback = NO;
+    
+    self.enableVirtualStereo = NO;
+    self.enableReverb = NO;
     
     _maxStreamCount = [ZegoLiveRoomApi getMaxPlayChannelCount];
 
@@ -551,14 +555,14 @@
     textLayer.string = totalString;
 }
 
-- (NSString *)addStaticsInfo:(BOOL)publish stream:(NSString *)streamID fps:(double)fps kbs:(double)kbs rtt:(int)rtt pktLostRate:(int)pktLostRate
+- (NSString *)addStaticsInfo:(BOOL)publish stream:(NSString *)streamID fps:(double)fps kbs:(double)kbs akbs:(double)akbs rtt:(int)rtt pktLostRate:(int)pktLostRate
 {
     if (streamID.length == 0)
         return nil;
     
     // 丢包率的取值为 0~255，需要除以 256.0 得到丢包率百分比
-    NSString *qualityString = [NSString stringWithFormat:NSLocalizedString(@"[%@] 帧率: %.3f, 视频码率: %.3f kb/s, 延时: %d ms, 丢包率: %.3f%%", nil), publish ? NSLocalizedString(@"推流", nil): NSLocalizedString(@"拉流", nil), fps, kbs, rtt, pktLostRate/256.0 * 100];
-    NSString *totalString =[NSString stringWithFormat:NSLocalizedString(@"[%@] 流ID: %@, 帧率: %.3f, 视频码率: %.3f kb/s, 延时: %d ms, 丢包率: %.3f%%", nil), publish ? NSLocalizedString(@"推流", nil): NSLocalizedString(@"拉流", nil), streamID, fps, kbs, rtt, pktLostRate/256.0 * 100];
+    NSString *qualityString = [NSString stringWithFormat:NSLocalizedString(@"[%@] 帧率: %.3f, 视频码率: %.3f kb/s, 音频码率: %.3f kb/s, 延时: %d ms, 丢包率: %.3f%%", nil), publish ? NSLocalizedString(@"推流", nil): NSLocalizedString(@"拉流", nil), fps, kbs, akbs, rtt, pktLostRate/256.0 * 100];
+    NSString *totalString =[NSString stringWithFormat:NSLocalizedString(@"[%@] 流ID: %@, 帧率: %.3f, 视频码率: %.3f kb/s, 音频码率: %.3f kb/s, 延时: %d ms, 丢包率: %.3f%%", nil), publish ? NSLocalizedString(@"推流", nil): NSLocalizedString(@"拉流", nil), streamID, fps, kbs, akbs, rtt, pktLostRate/256.0 * 100];
     [self.staticsArray insertObject:totalString atIndex:0];
     
     // 通知 log 界面更新
@@ -1047,6 +1051,16 @@
     self.enableMixEnginePlayout = enable;
 }
 
+- (void)onEnableVirtualStereo:(BOOL)enable
+{
+    self.enableVirtualStereo = enable;
+}
+
+- (void)onEnableReverb:(BOOL)enable
+{
+    self.enableReverb = enable;
+}
+
 - (BOOL)onGetUseFrontCamera
 {
     return self.useFrontCamera;
@@ -1106,6 +1120,15 @@
     return self.enableLoopback;
 }
 
+- (BOOL)onGetEnableVirtualStereo
+{
+    return self.enableVirtualStereo;
+}
+
+- (BOOL)onGetEnableReverb
+{
+    return self.enableReverb;
+}
 
 #pragma mark - ZegoLiveApiAudioRecordDelegate
 
@@ -1236,6 +1259,19 @@
 {
     _enableMixEnginePlayout = enableMixEnginePlayout;
     [ZegoMixEngine MixEnginePlayout:enableMixEnginePlayout];
+}
+
+- (void)setEnableVirtualStereo:(BOOL)enableVirtualStereo
+{
+    //param angle 虚拟立体声中声源的角度，范围为0～180，90为正前方，0和180分别对应最右边和最左边
+    _enableVirtualStereo = enableVirtualStereo;
+    [ZegoAudioProcessing enableVirtualStereo:enableVirtualStereo angle:0];
+}
+
+- (void)setEnableReverb:(BOOL)enableReverb
+{
+    _enableReverb = enableReverb;
+    [ZegoAudioProcessing enableReverb:enableReverb mode: ZEGOAPI_AUDIO_REVERB_MODE_LARGE_AUDITORIUM];
 }
 
 @end

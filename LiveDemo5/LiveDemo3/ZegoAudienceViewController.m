@@ -301,7 +301,7 @@
 
 - (void)onPlayQualityUpate:(NSString *)streamID quality:(ZegoApiPlayQuality)quality
 {
-    NSString *detail = [self addStaticsInfo:NO stream:streamID fps:quality.fps kbs:quality.kbps rtt:quality.rtt pktLostRate:quality.pktLostRate];
+    NSString *detail = [self addStaticsInfo:NO stream:streamID fps:quality.fps kbs:quality.kbps akbs:quality.akbps rtt:quality.rtt pktLostRate:quality.pktLostRate];
     
     UIView *view = self.viewContainersDict[streamID];
     if (view)
@@ -326,6 +326,12 @@
 - (void)onRecvRoomMessage:(NSString *)roomId messageList:(NSArray<ZegoRoomMessage *> *)messageList
 {
     [self.toolViewController updateLayout:messageList];
+}
+
+- (void)onUpdateOnlineCount:(int)onlineCount room:(NSString *)roomId
+{
+    //TODO: update online count
+    NSLog(@"Update Online Count: %d", onlineCount);
 }
 
 #pragma mark - Stream add & delete function

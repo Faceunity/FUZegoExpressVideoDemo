@@ -45,6 +45,10 @@
 @property (nonatomic, assign) BOOL enableAux;
 //YES 合唱
 @property (nonatomic, assign) BOOL enableMixEnginePlayout;
+//虚拟立体声
+@property (nonatomic, assign) BOOL enableVirtualStereo;
+//混响
+@property (nonatomic, assign) BOOL enableReverb;
 //日志记录
 @property (nonatomic, strong) NSMutableArray *logArray;
 //帧率，码率信息
@@ -108,7 +112,7 @@
 - (NSString *)encodeDictionaryToJSON:(NSDictionary *)dictionary;
 - (NSDictionary *)decodeJSONToDictionary:(NSString *)json;
 
-- (NSString *)addStaticsInfo:(BOOL)publish stream:(NSString *)streamID fps:(double)fps kbs:(double)kbs rtt:(int)rtt pktLostRate:(int)pktLostRate;
+- (NSString *)addStaticsInfo:(BOOL)publish stream:(NSString *)streamID fps:(double)fps kbs:(double)kbs akbs:(double)akbs rtt:(int)rtt pktLostRate:(int)pktLostRate;
 
 @end
 

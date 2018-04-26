@@ -11,6 +11,8 @@
 #import "ZegoSettings.h"
 #import "ZegoLiveToolViewController.h"
 
+static id selfObject;
+
 @interface ZegoMoreAudienceViewController () <ZegoRoomDelegate, ZegoLivePlayerDelegate, ZegoLivePublisherDelegate, ZegoIMDelegate, UIAlertViewDelegate, ZegoLiveToolViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *playViewContainer;
@@ -48,6 +50,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    selfObject = self;
     
     for (UIViewController *viewController in self.childViewControllers)
     {
@@ -241,6 +245,63 @@
     [self changeFirstViewContent];
 }
 
+#pragma mark -- Media side info
+
+static int mediaSeq = 0;
+void onReceivedMediaSideInfo(const char *pszStreamID, const unsigned char* buf, int dataLen) {
+    if (dataLen == 0) {
+        NSLog(@"onReceivedMediaSideInfo data is empty");
+        return;
+    }
+    
+    NSString *streamID = [NSString stringWithCString:pszStreamID encoding:NSUTF8StringEncoding];
+    NSData *mediaInfo = [NSData dataWithBytes:buf + 4 length:dataLen - 4];
+    NSError *error = nil;
+    NSDictionary *info = [NSJSONSerialization JSONObjectWithData:mediaInfo options:0 error:&error];
+    
+    if (error == nil) {
+        int seq = [info[@"seq"] intValue];
+        if (seq <= mediaSeq) {
+            NSLog(@"onReceivedMediaSideInfo repeat seq %d, discard", seq);
+            return;
+        }
+
+        mediaSeq = seq;
+        NSLog(@"onReceivedMediaSideInfo type %@, id %@, title %@, options: %@", info[@"type"], info[@"id"], info[@"title"], info[@"options"]);
+        
+        NSString *options = info[@"options"];
+        NSArray *optionArray = [options componentsSeparatedByString:@"|"];
+        NSMutableArray *optionSorted = [[NSMutableArray alloc] initWithCapacity:[optionArray count]];
+        
+        // FIXME: 这里要改，赶时间临时这么写
+        for (NSString *item in optionArray) {
+            if ([item hasPrefix:@"A"]) {
+                optionSorted[0] = item;
+            } else if ([item hasPrefix:@"B"]) {
+                optionSorted[1] = item;
+            } else if ([item hasPrefix:@"C"]){
+                optionSorted[2] = item;
+            } else if ([item hasPrefix:@"D"]){
+                optionSorted[3] = item;
+            }
+        }
+        
+        if ([info[@"type"] isEqualToString:@"question"]) {
+            [selfObject showAlert:info[@"title"] title:info[@"type"] options:optionSorted];
+        } else if ([info[@"type"] isEqualToString:@"answer"]) {
+            NSLog(@"onReceivedMediaSideInfo type answer, don't handle");
+            // id, type
+        } else if ([info[@"type"] isEqualToString:@"sum"]) {
+            NSLog(@"onReceivedMediaSideInfo type sum, don't handle");
+            // type
+        } else {
+            NSLog(@"onReceivedMediaSideInfo unknown type, don't handle");
+        }
+        
+    }
+}
+
+
 #pragma mark - ZegoLiveRoom
 - (void)setupLiveKit
 {
@@ -248,6 +309,7 @@
     [[ZegoDemoHelper api] setPlayerDelegate:self];
     [[ZegoDemoHelper api] setPublisherDelegate:self];
     [[ZegoDemoHelper api] setIMDelegate:self];
+    [[ZegoDemoHelper api] setMediaSideCallback:onReceivedMediaSideInfo];
 }
 
 - (void)loginRoom
@@ -287,14 +349,14 @@
             NSMutableArray *newStreamList = [streamList mutableCopy];
             for (int i = (int)newStreamList.count - 1; i >= 0; i--) {
                 for (int j = (int)self.originStreamList.count - 1; j >= 0; j--) {
-                    ZegoStream *new = newStreamList[i];
+                    ZegoStream *newStream = newStreamList[i];
                     ZegoStream *old = self.originStreamList[j];
-                    if ([new.streamID isEqualToString:old.streamID]) {
+                    if ([newStream.streamID isEqualToString:old.streamID]) {
                         
                         [self.streamList removeObject:old];
-                        [self.streamList addObject:new];
+                        [self.streamList addObject:newStream];
                         
-                        [newStreamList removeObject:new];
+                        [newStreamList removeObject:newStream];
                         break;
                     }
                 }
@@ -312,9 +374,9 @@
             
             for (int i = (int)self.originStreamList.count - 1; i >= 0; i--) {
                 for (int j = (int)streamList.count - 1; j >= 0; j--) {
-                    ZegoStream *new = streamList[j];
+                    ZegoStream *newStream = streamList[j];
                     ZegoStream *old = self.originStreamList[i];
-                    if ([new.streamID isEqualToString:old.streamID]) {
+                    if ([newStream.streamID isEqualToString:old.streamID]) {
                         [self.originStreamList removeObject:old];
                         break;
                     }
@@ -372,6 +434,10 @@
         [self addLogString:logString];
         
         [self setAnchorConfig:publishView];
+        
+        //开启双声道直播
+        [[ZegoDemoHelper api] setAudioChannelCount:2];
+        
         [[ZegoDemoHelper api] startPublishing:streamID title:self.publishTitle flag:ZEGO_JOIN_PUBLISH];
     }
     else
@@ -381,6 +447,17 @@
 }
 
 #pragma mark - ZegoRoomDelegate
+
+- (void)onTempBroken:(int)errorCode roomID:(NSString *)roomID {
+    NSString *logString = [NSString stringWithFormat:NSLocalizedString(@"与服务器连接临时断开, error: %d", nil), errorCode];
+    [self addLogString:logString];
+    
+    self.toolViewController.joinLiveButton.enabled = NO;
+}
+
+- (void)onReconnect:(int)errorCode roomID:(NSString *)roomID {
+    self.toolViewController.joinLiveButton.enabled = YES;
+}
 
 - (void)onDisconnect:(int)errorCode roomID:(NSString *)roomID
 {
@@ -475,7 +552,7 @@
 
 - (void)onPlayQualityUpate:(NSString *)streamID quality:(ZegoApiPlayQuality)quality
 {
-    NSString *detail = [self addStaticsInfo:NO stream:streamID fps:quality.fps kbs:quality.kbps rtt:quality.rtt pktLostRate:quality.pktLostRate];
+    NSString *detail = [self addStaticsInfo:NO stream:streamID fps:quality.fps kbs:quality.kbps akbs:quality.akbps rtt:quality.rtt pktLostRate:quality.pktLostRate];
     
     UIView *view = self.viewContainersDict[streamID];
     if (view)
@@ -571,7 +648,7 @@
 
 - (void)onPublishQualityUpdate:(NSString *)streamID quality:(ZegoApiPublishQuality)quality
 {
-    NSString *detail = [self addStaticsInfo:YES stream:streamID fps:quality.fps kbs:quality.kbps rtt:quality.rtt pktLostRate:quality.pktLostRate];
+    NSString *detail = [self addStaticsInfo:YES stream:streamID fps:quality.fps kbs:quality.kbps akbs:quality.akbps rtt:quality.rtt pktLostRate:quality.pktLostRate];
     
     UIView *view = self.viewContainersDict[streamID];
     if (view) {
@@ -631,6 +708,27 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     [self onCloseButton:nil];
+}
+
+- (void)showAlert:(NSString *)message title:(NSString *)title options:(NSArray *)options {
+    if (!options.count) {
+        NSLog(@"options count is 0");
+        return;
+    }
+    
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title
+                                                                             message:message
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
+    
+    for (int i = 0; i < options.count; i++) {
+        UIAlertAction *action = [UIAlertAction actionWithTitle:NSLocalizedString(options[i], nil)
+                                                         style:UIAlertActionStyleDefault
+                                                       handler:^(UIAlertAction * _Nonnull action) {
+                                                           
+                                                       }];
+        [alertController addAction:action];
+    }
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 #pragma mark stream add & delete
