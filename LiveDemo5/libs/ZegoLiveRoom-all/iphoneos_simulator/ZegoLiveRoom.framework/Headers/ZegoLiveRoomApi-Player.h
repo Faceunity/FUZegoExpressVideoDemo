@@ -202,6 +202,17 @@
 - (int)activateVedioPlayStream:(NSString *)streamID active:(bool)active;
 
 /**
+ 拉流是否接收视频数据
+ 
+ @param streamID 播放流 ID
+ @param active true 接收，false 不接收
+ @param videoLayer 视频分层类型
+ @return 0 成功，否则失败
+ @discussion 仅拉 UDP 流有效
+ */
+- (int)activateVedioPlayStream:(NSString *)streamID active:(bool)active videoLayer:(VideoStreamLayer)videoLayer;
+
+/**
  设置拉流质量监控周期
  
  @param timeInMS 时间周期，单位为毫秒，取值范围为(500, 60000)。默认为 3000
@@ -378,7 +389,7 @@
  
  @param pixelBuffer 拷贝完成的 PixelBuffer 地址
  @param streamID 流名
- @discussion SDK 通过此回调通知用户数据拷贝完成
+ @discussion SDK 通过此回调通知用户数据拷贝完成。当外部渲染拉流数据，streamID 为拉流流名；当外部渲染推流数据，streamID 为常量 kZegoVideoDataMainPublishingStream 时表示第一路推流数据；streamID 为常量 kZegoVideoDataAuxPublishingStream 时表示第二路推流数据
  */
 - (void)onPixelBufferCopyed:(CVPixelBufferRef)pixelBuffer ofStream:(NSString *)streamID;
 

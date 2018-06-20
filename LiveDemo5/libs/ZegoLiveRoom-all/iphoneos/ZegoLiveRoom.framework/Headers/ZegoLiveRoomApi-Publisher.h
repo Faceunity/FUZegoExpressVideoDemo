@@ -25,6 +25,15 @@
 - (bool)setPublisherDelegate:(id<ZegoLivePublisherDelegate>)publisherDelegate;
 
 /**
+ 设置选用分层编码
+ 
+ @param codecId 是否选用分层编码
+ @return true 成功，false 失败
+ @discussion 设置选用分层编码
+ */
+- (bool)setVideoCodecId:(ZegoVideoCodecAvc)codecId ofChannel:(ZegoAPIPublishChannelIndex)channel;
+
+/**
  设置本地预览视图
  
  @param view 用于渲染本地预览视频的视图
@@ -92,7 +101,7 @@
 /**
  自定义推流配置
  
- @param config 配置信息 key-value，目前 key 仅支持 kPublishCustomTarget ，value 为用户自定义的转推 RTMP 地址。参考 ZegoLiveRoomApiDefines.h 中相关定义
+ @param config 配置信息 key-value，目前 key 仅支持 kPublishCustomTarget ，value 为用户自定义的转推 RTMP 地址。参考 zego-api-defines-oc.h 中相关定义
  @discussion 开发者如果使用自定义转推功能，推流开始前，必须调用此接口设置转推 RTMP 地址（SDK 推流方式必须为 UDP，转推地址必须为 RTMP），否则可能导致转推失败。
  */
 - (void)setPublishConfig:(NSDictionary *)config;
@@ -609,9 +618,17 @@
 
 /**
  混音数据输入回调
- 
  @param pData 混音数据
- @param pDataLen 缓冲区长度。实际填充长度必须为 0 或是缓冲区长度。0 代表无混音数据
+ <p><b>注意：</b>
+ 1. 每次必须返回 20ms 时长的音频数据；<br>
+ 2. 最大支持 48k 采样率、双声道、16位深的 PCM 音频数据；<br>
+ 3. 实际数据长度应根据当前音频数据的采样率及声道数决定；<br>
+ 4. 为确保混音效果，请不要在此 API 中执行耗时操作</p>
+ 20ms音频数据长度计算如下：
+ 长度 = 采样率 * 20 / 1000 * 位深字节数 * 通道数 位深字节数固定为2
+ 例如: 44.1K采样率双声道20ms数据的长度 *pDataLen为：
+ *pDataLen = 44100 * 20 / 1000 * 2 * 2 = 3528
+ @param pDataLen 期望的数据长度（以 44.1k 采样率、双声道、16bit 位深、20ms 时长计算得来）
  @param pSampleRate 混音数据采样率，支持16k、32k、44.1k、48k
  @param pChannelCount 混音数据声道数，支持1、2
  @discussion 用户调用该 API 将混音数据传递给 SDK。混音数据 bit depth 必须为 16

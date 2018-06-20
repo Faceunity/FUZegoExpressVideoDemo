@@ -61,6 +61,7 @@
     self.viewMode = ZegoVideoViewModeScaleAspectFill;
     self.enableCamera = YES;
     self.enableLoopback = NO;
+    self.useFrontCamera = YES;
     
     self.enableVirtualStereo = NO;
     self.enableReverb = NO;
@@ -81,10 +82,6 @@
         self.subViewPerRow = 3;
     }
     
-    self.enableMicrophone = YES;
-    self.enablePreview = YES;
-    self.viewMode = ZegoVideoViewModeScaleAspectFill;
-    self.enableCamera = YES;
     self.enableSpeaker = YES;
     self.enableAux = NO;
     if ([ZegoDemoHelper recordTime])
@@ -495,7 +492,7 @@
         qualityLayer = [CALayer layer];
         qualityLayer.name = @"quality";
         [playerView.layer addSublayer:qualityLayer];
-        qualityLayer.frame = CGRectMake(12, 22, 10, 10);
+        qualityLayer.frame = CGRectMake(12, 44, 10, 10);
         qualityLayer.contentsScale = [UIScreen mainScreen].scale;
         qualityLayer.cornerRadius = 5.0f;
     }
@@ -668,22 +665,21 @@
         if (pAuxData == NULL)
             return;
         
+        *pSampleRate = 44100;
+        *pChannelCount = 2;
+        *pDataLen = (*pSampleRate)* 20 / 1000 * 2 * (*pChannelCount);
         int nLeftLen = (int)(pAuxData + nLen - self.pPos);
         if (nLeftLen < *pDataLen) {
             self.pPos = (void *)pAuxData;
             *pDataLen = 0;
             return;
         }
-        
-        if (pSampleRate)
-            *pSampleRate = 44100;
-        
-        if (pChannelCount)
-            *pChannelCount = 2;
-        
+    
         memcpy(pData, self.pPos, *pDataLen);
         self.pPos = self.pPos + *pDataLen;
     }
+    
+    
 }
 
 - (UIView *)getFirstViewInContainer:(UIView *)containerView

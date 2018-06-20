@@ -310,6 +310,7 @@ void onReceivedMediaSideInfo(const char *pszStreamID, const unsigned char* buf, 
     [[ZegoDemoHelper api] setPublisherDelegate:self];
     [[ZegoDemoHelper api] setIMDelegate:self];
     [[ZegoDemoHelper api] setMediaSideCallback:onReceivedMediaSideInfo];
+
 }
 
 - (void)loginRoom
@@ -666,6 +667,8 @@ void onReceivedMediaSideInfo(const char *pszStreamID, const unsigned char* buf, 
         {
             NSString *logString = [NSString stringWithFormat:NSLocalizedString(@"主播已退出：%@", nil), state.userName];
             [self addLogString:logString];
+            
+            [self showNoAnchorAlert];
             break;
         }
     }
@@ -703,6 +706,21 @@ void onReceivedMediaSideInfo(const char *pszStreamID, const unsigned char* buf, 
         
         [self presentViewController:alertController animated:YES completion:nil];
     }
+}
+
+- (void)showNoAnchorAlert
+{
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示"
+                                                                             message:@"主播已退出，请前往其他房间观看直播"
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *confirm = [UIAlertAction actionWithTitle:@"确定"
+                                                     style:UIAlertActionStyleDefault
+                                                   handler:^(UIAlertAction * _Nonnull action) {
+                                                       [self onCloseButton:nil];
+    }];
+    
+    [alertController addAction:confirm];
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -1126,5 +1144,6 @@ void onReceivedMediaSideInfo(const char *pszStreamID, const unsigned char* buf, 
         }
     }
 }
+
 
 @end

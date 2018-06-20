@@ -37,6 +37,19 @@ namespace AVE
      */
     struct AudioFrame
     {
+        AudioFrame()
+        {
+            frameType = 0;
+            samples = 0;
+            bytesPerSample = 0;
+            channels = 0;
+            sampleRate = 0;
+            timeStamp = 0.0;
+            configLen = 0;
+            bufLen = 0;
+            buffer = 0;
+        }
+        
         int frameType;              //refer to enum FrameType
         int samples;                //PCM:capture pcm samples at this input.  AAC:aac encode one frame need samples
         int bytesPerSample;         //bytes per sample = 2 * channels, current bit depth only support 16bit(2 bytes).

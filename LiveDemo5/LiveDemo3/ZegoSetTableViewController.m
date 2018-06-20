@@ -18,7 +18,9 @@
 
 @interface ZegoSetTableViewController () <UITextFieldDelegate, MFMailComposeViewControllerDelegate>
 
-@property (weak, nonatomic) IBOutlet UILabel *version;
+@property (weak, nonatomic) IBOutlet UILabel *appVersion;
+@property (weak, nonatomic) IBOutlet UILabel *sdkVersion;
+@property (weak, nonatomic) IBOutlet UILabel *veVersion;
 
 @property (weak, nonatomic) IBOutlet UISwitch *testEnvSwitch;
 @property (weak, nonatomic) IBOutlet UIPickerView *appTypePicker;
@@ -363,7 +365,10 @@
 }
 
 - (void)loadVideoSettings {
-    self.version.text = [ZegoLiveRoomApi version];
+    self.appVersion.text = [NSString stringWithFormat:@"App: %@", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]];
+    self.sdkVersion.text = [NSString stringWithFormat:@"SDK: %@", [ZegoLiveRoomApi version]];
+    self.veVersion.text = [NSString stringWithFormat:@"VE: %@", [ZegoLiveRoomApi version2]];
+    
     [self.presetPicker selectRow:[ZegoSettings sharedInstance].presetIndex inComponent:0 animated:YES];
     [self updateVideoSettingUI];
 }
@@ -570,14 +575,14 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    if (indexPath.section == 0)
+    if (indexPath.section == 1)
     {
-        if (indexPath.row == 1)
+        if (indexPath.row == 0)
         {
             [ZegoLiveRoomApi uploadLog];
             [self showUploadAlertView];
         }
-        else if (indexPath.row == 2)
+        else if (indexPath.row == 1)
         {
             [self shareLogFile];
         }
@@ -596,7 +601,7 @@
     if (sectionCount >= 2 && (indexPath.section == sectionCount - 2 || indexPath.section == sectionCount - 1))
         return YES;
     
-    if (indexPath.section == 0 && (indexPath.row == 1 || indexPath.row == 2))
+    if (indexPath.section == 1 && (indexPath.row == 0 || indexPath.row == 1))
         return YES;
     
     return NO;

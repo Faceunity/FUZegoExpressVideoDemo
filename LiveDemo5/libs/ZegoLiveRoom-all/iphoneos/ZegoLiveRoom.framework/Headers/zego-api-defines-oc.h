@@ -17,8 +17,10 @@
 #define ZEGO_EXTERN     extern
 #endif
 
-ZEGO_EXTERN NSString *const kZegoStreamIDKey;           ///< 流ID，值为 NSString
-ZEGO_EXTERN NSString *const kZegoMixStreamIDKey;        ///< 混流ID，值为 NSString
+/** 流ID，值为 NSString */
+ZEGO_EXTERN NSString *const kZegoStreamIDKey;
+/** 混流ID，值为 NSString */
+ZEGO_EXTERN NSString *const kZegoMixStreamIDKey;
 
 /** 流信息列表项 */
 /** rtmp 播放 url 列表，值为 <NSArrayNSString *> */
@@ -33,8 +35,8 @@ ZEGO_EXTERN NSString *const kZegoFlvUrlListKey;
 ZEGO_EXTERN NSString *const kZegoDeviceCameraName;
 /** 麦克风设备 */
 ZEGO_EXTERN NSString *const kZegoDeviceMicrophoneName;
-
-ZEGO_EXTERN NSString *const kMixStreamAudioOutputFormat; ///< 混流输出格式，值为 NSNumber，可选 {0, 1}
+/** 混流输出格式，值为 NSNumber，可选 {0, 1} */
+ZEGO_EXTERN NSString *const kMixStreamAudioOutputFormat;
 
 /** 自定义转推 RTMP 地址 */
 ZEGO_EXTERN NSString *const kPublishCustomTarget;
@@ -75,6 +77,24 @@ typedef enum {
     /** 旋转 270 度 */
     CAPTURE_ROTATE_270  = 270
 } CAPTURE_ROTATE;
+
+/** 分层编码 */
+typedef enum {
+    /** 不支持分层编码 */
+    VIDEO_CODEC_DEFAULT = 0,
+    /** 分层编码 要达到和VIDEO_CODEC_DEFAULT相同的编码质量，建议码率和VIDEO_CODEC_DEFAULT相比增加20%左右 */
+    VIDEO_CODEC_MULTILAYER = 1
+} ZegoVideoCodecAvc;
+
+/** 视频分层类型 */
+typedef enum {
+    /**< 根据网络状态选择图层  */
+    VideoStreamLayer_Auto = -1,
+    /**< 指定拉基本层（小分辨率） */
+    VideoStreamLayer_BaseLayer = 0,
+    /**< 指定拉扩展层（大分辨率)  */
+    VideoStreamLayer_ExtendLayer = 1
+} VideoStreamLayer;
 
 /** 远程视图序号 */
 typedef enum {
@@ -334,6 +354,40 @@ typedef enum :  NSUInteger {
     ZEGOAPI_CHN_AUX,
 } ZegoAPIPublishChannelIndex;
 
+/** 音频设备类型 */
+typedef enum : NSUInteger {
+    /**< 输入设备 */
+    ZEGOAPI_AUDIO_DEVICE_INPUT = 0,
+    /**< 输出设备 */
+    ZEGOAPI_AUDIO_DEVICE_OUTPUT = 1,
+} ZegoAPIAudioDeviceType;
+
+/** 设备状态 */
+typedef enum : NSUInteger
+{
+    /**< 添加设备 */
+    ZEGOAPI_DEVICE_ADD = 0,
+    /**< 删除设备 */
+    ZEGOAPI_DEVICE_DELETE = 1,
+} ZegoAPIDeviceState;
+
+/** 音量类型 */
+typedef enum : NSUInteger
+{
+    /**< 设备音量 */
+    ZEGOAPI_VOLUME_ENDPOINT = 0,
+    /**< App 音量 */
+    ZEGOAPI_VOLUME_SIMPLE = 1,
+} ZegoAPIVolumeType;
+
+
+@interface ZegoAPIDeviceInfo : NSObject
+/** 设备ID */
+@property (copy) NSString* deviceId;
+/** 设备名 */
+@property (copy) NSString* deviceName;
+
+@end
 
 /**
  多媒体流附加信息
@@ -348,6 +402,7 @@ typedef enum :  NSUInteger {
 @property (strong) NSArray<NSString*>* flvUrls;
 
 @end
+
 
 
 #endif /* zego_api_defines_oc_h */

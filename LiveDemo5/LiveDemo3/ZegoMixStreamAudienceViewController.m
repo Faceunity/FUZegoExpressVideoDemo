@@ -85,8 +85,8 @@
     [self setupLiveKit];
     [self loginRoom];
     
-    UIImage *backgroundImage = [[ZegoSettings sharedInstance] getBackgroundImage:self.view.bounds.size withText:NSLocalizedString(@"加载中", nil)];
-    [self setBackgroundImage:backgroundImage playerView:self.playViewContainer];
+//    UIImage *backgroundImage = [[ZegoSettings sharedInstance] getBackgroundImage:self.view.bounds.size withText:NSLocalizedString(@"加载中", nil)];
+//    [self setBackgroundImage:backgroundImage playerView:self.playViewContainer];
     
     [self setButtonHidden:YES];
     
@@ -358,7 +358,7 @@
         self.publishButton.enabled = YES;
     
     //create playView
-    _mixStreamPlayView = [[UIView alloc] init];
+    self.mixStreamPlayView = [[UIView alloc] init];
     self.mixStreamPlayView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.playViewContainer addSubview:self.mixStreamPlayView];
     
@@ -833,16 +833,6 @@
             NSString *logString = [NSString stringWithFormat:NSLocalizedString(@"发布直播结束, 流ID:%@", nil), streamID];
             [self addLogString:logString];
         }
-        
-        NSLog(@"%s, stream: %@, err: %u", __func__, streamID, stateCode);
-        self.isPublishing = NO;
-        self.publishButton.enabled = YES;
-        [self.publishButton setTitle:NSLocalizedString(@"请求连麦", nil) forState:UIControlStateNormal];
-        //    self.publishStreamID = nil;
-        self.optionButton.enabled = NO;
-        
-        //删除publish的view
-        [self removeStreamViewContainer:streamID];
     }
 }
 
@@ -870,6 +860,7 @@
         {
             NSString *logString = [NSString stringWithFormat:NSLocalizedString(@"主播已退出：%@", nil), state.userName];
             [self addLogString:logString];
+            [self showNoAnchorAlert];
             break;
             
         }
@@ -882,6 +873,21 @@
 }
 
 #pragma mark - UIAlertView delegate
+
+- (void)showNoAnchorAlert
+{
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示"
+                                                                             message:@"主播已退出，请前往其他房间观看直播"
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *confirm = [UIAlertAction actionWithTitle:@"确定"
+                                                      style:UIAlertActionStyleDefault
+                                                    handler:^(UIAlertAction * _Nonnull action) {
+                                                        [self onCloseButton:nil];
+                                                    }];
+    
+    [alertController addAction:confirm];
+    [self presentViewController:alertController animated:YES completion:nil];
+}
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -1006,6 +1012,7 @@
 
 #pragma mark -- Join live
 
+// 点击申请连麦/结束连麦
 - (void)onJoinLiveButton:(id)sender
 {
     if (self.isPublishing) // 连麦中，停止直播
@@ -1013,20 +1020,20 @@
         [[ZegoDemoHelper api] stopPreview];
         [[ZegoDemoHelper api] setPreviewView:nil];
         [[ZegoDemoHelper api] stopPublishing];
+        self.isPublishing = NO;
+        self.publishButton.enabled = YES;
+        [self.publishButton setTitle:NSLocalizedString(@"请求连麦", nil) forState:UIControlStateNormal];
+        self.optionButton.enabled = NO;
+        //删除publish的view
+        [self removeStreamViewContainer:self.publishStreamID];
         
-        self.publishButton.enabled = NO;
-        
-        //改拉混流
-        if (self.mixStreamPlayView != nil)
-        {
-            //停止拉单流
-            [self.mixStreamList addObjectsFromArray:self.streamList];
-            [self onStreamUpdateForDelete:self.streamList];
-            [self.streamList removeAllObjects];
-            
-            //开始拉混流
-            [self playMixStream:self.mixStreamList];
-        }
+        //停止拉单流
+        [self.mixStreamList addObjectsFromArray:self.streamList];
+        [self onStreamUpdateForDelete:self.streamList];
+        [self.streamList removeAllObjects];
+
+        //开始拉混流
+        [self playMixStream:self.mixStreamList];
     }
     else if ([[self.publishButton currentTitle] isEqualToString:NSLocalizedString(@"请求连麦", nil)]) // 未连麦，点击请求连麦
     {

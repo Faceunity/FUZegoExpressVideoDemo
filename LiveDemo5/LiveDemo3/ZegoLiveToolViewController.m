@@ -159,7 +159,7 @@
     {
         self.anchorView.hidden = YES;
         self.audienceView.hidden = NO;
-        self.audienceViewTopConstraint.constant = 20;
+        self.audienceViewTopConstraint.constant = 44;
         self.shareButton.hidden = NO;
     }
     else

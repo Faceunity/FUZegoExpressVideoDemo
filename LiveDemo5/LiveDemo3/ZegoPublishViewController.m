@@ -16,6 +16,8 @@
 #import "ZegoSettings.h"
 #import <AVFoundation/AVFoundation.h>
 
+//#import <ZegoLiveRoom/zego-api-camera-oc.h>
+
 #define MAX_TITLE_LENGTH    30
 
 @interface ZegoPublishViewController () <UIPickerViewDelegate, UIPickerViewDataSource, UIActionSheetDelegate, ZegoDeviceEventDelegate>
@@ -37,6 +39,8 @@
 
 @property (nonatomic, strong) UIImageView *videoView;
 @property (nonatomic, strong) NSTimer *previewTimer;
+
+//@property (nonatomic, strong) UIView *focusView;
 
 @end
 
@@ -78,6 +82,15 @@
     self.settingView.backgroundColor = [UIColor clearColor];
     self.publishButton.layer.cornerRadius = 4.0f;
     
+    /**
+    _focusView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 80, 80)];
+    _focusView.layer.borderWidth = 1.0;
+    _focusView.layer.borderColor =[UIColor yellowColor].CGColor;
+    _focusView.backgroundColor = [UIColor clearColor];
+    [self.settingView addSubview:_focusView];
+    _focusView.hidden = YES;
+    **/
+    
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onTapView:)];
     [self.settingView addGestureRecognizer:tapGesture];
     
@@ -85,8 +98,6 @@
     [self.boxView addGestureRecognizer:boxTapGesture];
     
     [self addPreview];
-    
-    [ZegoDemoHelper setUsingExternalCapture:YES];
     
     [[ZegoDemoHelper api] setDeviceEventDelegate:self];
 }
@@ -206,7 +217,29 @@
 
 - (void)onTapView:(UIGestureRecognizer *)recognizer
 {
-    [self.titleField resignFirstResponder];
+    if (self.titleField.editing) {
+        [self.titleField resignFirstResponder];
+    } else {
+        /**
+        CGPoint point = [recognizer locationInView:recognizer.view];
+        CGSize size = self.settingView.bounds.size;
+        CGPoint focusPoint = CGPointMake(point.x/size.width, point.y/size.height);
+        [ZegoCamera setCamExposurePoint:focusPoint channelIndex:0];
+        
+        self.focusView.center = point;
+        self.focusView.hidden = NO;
+        
+        [UIView animateWithDuration:0.3 animations:^{
+            self.focusView.transform = CGAffineTransformMakeScale(1.25, 1.25);
+        } completion:^(BOOL finished) {
+            [UIView animateWithDuration:0.5 animations:^{
+                self.focusView.transform = CGAffineTransformIdentity;
+            } completion:^(BOOL finished) {
+                self.focusView.hidden = YES;
+            }];
+        }];
+        **/
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -332,6 +365,7 @@
     {
         [self addExternalCaptureView];
     }
+
 }
 
 

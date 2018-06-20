@@ -14,6 +14,10 @@ FUZegoLiveDemo 是集成了 [Faceunity](https://github.com/Faceunity/FULiveDemo/
 
 **这里首先需要 打开 FUZegoLiveDemo 中的外部采集选项（设置 --> 高级设置 --> 外部采集  打开）**
 
+在 Appdelegate.m 的 `-(BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions `   方法中添加 
+
+ ` [ZegoDemoHelper setUsingExternalCapture: YES]; ` 即可打开外部采集。
+
 外部采集打开之后在 video_capture_external_demo.m 的  
 
 ```C

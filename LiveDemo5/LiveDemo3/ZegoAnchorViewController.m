@@ -12,7 +12,6 @@
 #import "ZegoAnchorOptionViewController.h"
 #import "ZegoLiveToolViewController.h"
 
-
 #import "FUManager.h"
 #import <FUAPIDemoBar/FUAPIDemoBar.h>
 
@@ -41,7 +40,6 @@
 @property (nonatomic, copy) NSString *roomID;
 
 @property (nonatomic, assign) UIInterfaceOrientation orientation;
-
 
 @property (nonatomic, strong) FUAPIDemoBar *demoBar ;
 @end
@@ -85,7 +83,6 @@
         [self updatePublishView:self.publishView];
     }
     
-    
     if (self.beautifyFeature == 0) {
         
         /**     -----  FaceUnity  ----     **/
@@ -94,9 +91,7 @@
         [FUManager shareManager].isShown = YES;
         /**     -----  FaceUnity  ----     **/
     }
-    
 }
-
 /**     -----  FaceUnity  ----     **/
 -(FUAPIDemoBar *)demoBar {
     if (!_demoBar) {
@@ -170,12 +165,12 @@
     [FUManager shareManager].isShown = NO;
     [[FUManager shareManager] destoryItems];
 }
-
-
 /**     -----  FaceUnity  ----     **/
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
 }
 
 - (BOOL)shouldAutorotate

@@ -377,11 +377,9 @@
     completeMixConfig.outputAudioConfig = 0;   // * default config
     completeMixConfig.outputBackgroundColor = 0xc8c8c800;
     
-//    [completeMixConfig.inputStreamList removeAllObjects];
-    
     int height = [ZegoSettings sharedInstance].currentConfig.videoEncodeResolution.height;
     int width = [ZegoSettings sharedInstance].currentConfig.videoEncodeResolution.width;
-    int margin = 25;
+    int margin = 0; // 用于展示 outputBackgroundColor，默认不展示背景颜色
     
     if (self.isPublishing)
     {

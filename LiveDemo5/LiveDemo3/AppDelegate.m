@@ -32,6 +32,9 @@
 #endif
     
     [self setupBugly];
+    
+    
+    [ZegoDemoHelper setUsingExternalCapture: YES];
     return YES;
 }
 

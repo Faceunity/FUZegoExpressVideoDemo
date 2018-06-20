@@ -318,6 +318,7 @@
         {
             NSString *logString = [NSString stringWithFormat:NSLocalizedString(@"主播已退出：%@", nil), state.userName];
             [self addLogString:logString];
+            [self showNoAnchorAlert];
             break;
         }
     }
@@ -462,6 +463,21 @@
         
         [self presentViewController:alertController animated:YES completion:nil];
     }
+}
+
+- (void)showNoAnchorAlert
+{
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示"
+                                                                             message:@"主播已退出，请前往其他房间观看直播"
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *confirm = [UIAlertAction actionWithTitle:@"确定"
+                                                      style:UIAlertActionStyleDefault
+                                                    handler:^(UIAlertAction * _Nonnull action) {
+                                                        [self onCloseButton:nil];
+                                                    }];
+    
+    [alertController addAction:confirm];
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
