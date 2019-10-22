@@ -29,7 +29,7 @@
  
  @param codecId 是否选用分层编码
  @return true 成功，false 失败
- @discussion 设置选用分层编码
+ @discussion 设置选用分层编码,在InitSDK后，推流前调用有效
  */
 - (bool)setVideoCodecId:(ZegoVideoCodecAvc)codecId ofChannel:(ZegoAPIPublishChannelIndex)channel;
 
@@ -75,7 +75,7 @@
  @param streamID 流 ID
  @param title 直播名称，可选，默认为主播用户名
  @param flag 直播属性，参考 ZegoApiPublishFlag 定义
- @param extraInfo 流附加信息
+ @param extraInfo 流附加信息, 最大为 1024 字节
  @return true 成功，false 失败
  @discussion 发布直播成功后，等待 [ZegoLivePublisherDelegate -onPublishStateUpdate:streamID:streamInfo:] 通知
  */
@@ -84,7 +84,7 @@
 /**
  更新流附加信息
  
- @param extraInfo 流附加信息
+ @param extraInfo 流附加信息, 最大为 1024 字节
  @return true 成功，false 失败
  @discussion 通常在主播方的 [ZegoLivePublisherDelegate -onPublishStateUpdate:streamID:streamInfo:] 通知中，或其他需更新流附加信息的场合下调用。更新流附加信息成功后，除调用方外，同一房间内的其他人会收到 [ZegoLiveRoomDelegate -onStreamExtraInfoUpdated:roomID] 通知
  */
@@ -282,6 +282,16 @@
 - (bool)enableCaptureMirror:(bool)enable;
 
 /**
+ 是否启用预览和推流镜像
+ 
+ @param mode 镜像模式
+ @return true 成功，false 失败
+ @discussion 推流时可调用本 API 进行参数配置
+ @note 默认启用预览镜像，不启用推流镜像
+ */
+- (bool)setVideoMirrorMode:(ZegoVideoMirrorMode)mode;
+
+/**
  是否开启码率控制
  
  @param enable true 启用，false 不启用。默认不启用
@@ -289,6 +299,14 @@
  @discussion 开启后，在带宽不足的情况下码率自动适应当前带宽
  */
 - (bool)enableRateControl:(bool)enable;
+
+/**
+ 设置编码器码率控制策略
+ 
+ @param strategy 策略配置，参考 ZegoVideoEncoderRateControlStrategy
+ @param encoderCRF 当策略为恒定质量（ZEGOAPI_RC_VBR/ZEGOAPI_RC_CRF）有效，取值范围 [0~51]，越小质量越好，但是码率会相应变大。建议取值范围 [18, 28]
+ */
+- (void)setVideoEncoderRateControlConfig:(ZegoAPIVideoEncoderRateControlStrategy)strategy encoderCRF:(int)encoderCRF;
 
 /**
  是否使用前置摄像头
@@ -339,17 +357,25 @@
  
  @param bEnable true 打开，false 关闭。默认 false
  @return true 成功，false 失败
- @discussion 推流时可调用本 API 进行参数配置。开启采集监听，主播方讲话后，会听到自己的声音。建议开发者开启采集监听功能时，要求用户连接耳麦，否则会使手机扬声器发出的声音被反复采集
+ @discussion 推流时可调用本 API 进行参数配置。连接耳麦时设置才实际生效。开启采集监听，主播方讲话后，会听到自己的声音。
  */
 - (bool)enableLoopback:(bool)bEnable;
 
 /**
  设置采集监听音量
  
- @param volume 音量大小，取值（0, 100）。默认 100
+ @param volume 音量大小，取值（0, 100）。默认 80
  @discussion 推流时可调用本 API 进行参数配置
  */
 - (void)setLoopbackVolume:(int)volume;
+
+/**
+ 设置采集音量
+ 
+ @param volume 音量大小，取值（0, 100）。默认 100
+ @discussion SDK初始化成功后调用
+ */
+- (void)setCaptureVolume:(int)volume;
 
 /**
  混音开关
@@ -411,7 +437,7 @@
 /**
  设置音频设备模式
  
- @param mode 模式
+ @param mode 模式， 默认 ZEGOAPI_AUDIO_DEVICE_MODE_AUTO
  @discussion 在 Init 前调用
  */
 + (void)setAudioDeviceMode:(ZegoAPIAudioDeviceMode) mode;
@@ -424,6 +450,14 @@
  @discussion 建议在推流前调用设置
  */
 - (bool)enableAEC:(bool)enable;
+
+/**
+ 设置回声消除模式
+
+ @param mode 回声消除模式
+ @discussion 建议在推流前调用设置
+ */
+- (void)setAECMode:(ZegoAPIAECMode)mode;
 
 /**
  音频采集自动增益开关
@@ -439,6 +473,7 @@
  
  @param factory 工厂对象，遵循 ZegoVideoCaptureFactory 协议的对象
  @discussion 必须在 InitSDK 前调用，并且不能置空
+ @warning Deprecated，请使用 zego-api-external-video-capture-oc.h 中的 [ZegoExternalVideoCapture setVideoCaptureFactory:channelIndex:]
  */
 + (void)setVideoCaptureFactory:(id<ZegoVideoCaptureFactory>)factory;
 
@@ -447,6 +482,7 @@
  
  @param factory 工厂对象，遵循 ZegoVideoFilterFactory 协议的对象
  @discussion 必须在 Init 前调用，并且不能置空
+ @warning Deprecated，请使用 zego-api-external-video-filter-oc.h 中的 [ZegoExternalVideoFilter setVideoFilterFactory:channelIndex:]
  */
 + (void)setVideoFilterFactory:(id<ZegoVideoFilterFactory>)factory;
 
@@ -489,7 +525,9 @@
  设置推流音频声道数
  
  @param count 声道数，1 或 2，默认为 1（单声道）
- @discussion 必须在初始化 SDK 后，调用推流前设置。setLatencyMode 设置为 ZEGOAPI_LATENCY_MODE_NORMAL 或 ZEGOAPI_LATENCY_MODE_NORMAL2 才能设置双声道，在移动端双声道通常需要配合音频前处理才能体现效果
+ @discussion 必须在初始化 SDK 后，调用推流前设置。
+ @discussion setLatencyMode 设置为 ZEGO_LATENCY_MODE_NORMAL, ZEGO_LATENCY_MODE_NORMAL2, ZEGO_LATENCY_MODE_LOW3 才能设置双声道
+ @discusssion 在移动端双声道通常需要配合音频前处理才能体现效果
  */
 - (void)setAudioChannelCount:(int)count;
 
@@ -510,13 +548,31 @@
 - (void)enableDTX:(bool)enable;
 
 /**
+ 是否开启语音活动检测
+ 
+ @param enable true 开启；false 关闭，默认关闭
+ @discussion 在推流前调用，只有纯 UDP 方案才可以调用此接口
+ */
+- (void)enableVAD:(bool)enable;
+
+/**
  是否开启流量控制
  
- @param enable true 开启；false 关闭。默认开启流量控制，property 为 ZEGOAPI_TRAFFIC_FPS
+ @param enable true 开启；false 关闭。默认开启流量控制，property 为 ZEGOAPI_TRAFFIC_CONTROL_ADAPTIVE_FPS
  @param properties 流量控制属性 (帧率，分辨率）可以多选, 参考ZegoAPITrafficControlProperty定义
+ @discussion enable设置为false时，properties参数会被忽略
  @discussion 在推流前调用，在纯 UDP 方案才可以调用此接口
  */
 - (void)enableTrafficControl:(bool)enable properties:(NSUInteger)properties;
+
+/**
+ 设置TrafficControl视频码率最小值
+ 
+ @param bitrate 码率，单位为bps
+ @attention InitSDK 之后调用有效
+ @note 设置一个在traffic control中video码率的一个最小值，当网络不足以发送这个最小值的时候视频会被卡住，而不是以低于该码率继续发送。初始化SDK后默认情况下没有设置该值，即尽可能的保持视频流畅，InitSDK之后可以随时修改，未重新InitSDK之前如果需要取消该设置值的限制可以设置为0
+ */
+- (void)setMinVideoBitrateForTrafficControl:(int)bitrate mode:(ZegoAPITrafficControlMinVideoBitrateMode)mode;
 
 /**
  音频采集噪声抑制开关
@@ -525,6 +581,14 @@
  @return true 调用成功，false 调用失败
  */
 - (bool)enableNoiseSuppress:(bool)enable;
+
+/**
+ 设置推流质量监控周期
+ 
+ @param timeInMS 时间周期，单位为毫秒，取值范围为(500, 60000)。默认为 3000
+ @discussion 必须在推流前调用才能生效。该设置会影响 [ZegoLivePublisherDelegate -onPublishQualityUpdate:quality:] 的回调频率
+ */
++ (void)setPublishQualityMonitorCycle:(unsigned int)timeInMS;
 
 @end
 
@@ -604,15 +668,7 @@
  @param mixStreamID 混流ID
  @param info 混流播放信息
  @discussion 调用 [ZegoLiveRoomApi (Publisher) -setMixStreamConfig:] 设置混流配置，及 [ZegoLiveRoomApi (Publisher) -updateMixInputStreams:] 更新混流配置后，通过此 API 通知调用方
- @note 常见错误码及其含义如下：
- errorCode = 150，混流的输入流不存在。
- errorCode = 151，混流失败。
- errorCode = 152，停止混流失败。
- errorCode = 153，输入参数错误。
- errorCode = 154，输出参数错误。
- errorCode = 155，输入分辨率格式错误。
- errorCode = 156，输出分辨率格式错误。
- errorCode = 157，混流没开。
+ @note 常见错误码及其含义请参考ZegoError中kMixStream开头的错误码定义
  */
 - (void)onMixStreamConfigUpdate:(int)errorCode mixStream:(NSString *)mixStreamID streamInfo:(NSDictionary *)info;
 
@@ -620,20 +676,32 @@
  混音数据输入回调
  @param pData 混音数据
  <p><b>注意：</b>
- 1. 每次必须返回 20ms 时长的音频数据；<br>
- 2. 最大支持 48k 采样率、双声道、16位深的 PCM 音频数据；<br>
- 3. 实际数据长度应根据当前音频数据的采样率及声道数决定；<br>
- 4. 为确保混音效果，请不要在此 API 中执行耗时操作</p>
- 20ms音频数据长度计算如下：
- 长度 = 采样率 * 20 / 1000 * 位深字节数 * 通道数 位深字节数固定为2
- 例如: 44.1K采样率双声道20ms数据的长度 *pDataLen为：
- *pDataLen = 44100 * 20 / 1000 * 2 * 2 = 3528
- @param pDataLen 期望的数据长度（以 44.1k 采样率、双声道、16bit 位深、20ms 时长计算得来）
+ 1. 最大支持 48k 采样率、双声道、16位深的 PCM 音频数据；<br>
+ 2. 实际数据长度应根据当前音频数据的采样率及声道数决定；<br>
+ 3. 为确保混音效果，请不要在此 API 中执行耗时操作</p>
+ @param pDataLen pDataLen既是输入参数也是输出参数；
+                 作为输入参数，SDK会提供好长度值，用户按照这个长度写入数据即可，数据充足的情况下，无需更改*pDataLen的值
+                 作为输出参数，如果填写的数据不足SDK提供的长度值，则*pDataLen = 0,
+                 或者最后的尾音不足 SDK提供的长度值，可以用静音数据补齐。
  @param pSampleRate 混音数据采样率，支持16k、32k、44.1k、48k
  @param pChannelCount 混音数据声道数，支持1、2
  @discussion 用户调用该 API 将混音数据传递给 SDK。混音数据 bit depth 必须为 16
  */
 - (void)onAuxCallback:(void *)pData dataLen:(int *)pDataLen sampleRate:(int *)pSampleRate channelCount:(int *)pChannelCount;
+
+/**
+ 转推CDN状态信息更新
+ @param statesInfo CDN状态信息
+ @param streamID 推流的流ID
+ */
+- (void)onRelayCDNStateUpdate:(NSArray<ZegoAPIStreamRelayCDNInfo *> *)statesInfo streamID:(NSString*)streamID;
+
+/**
+ 采集视频的首帧通知
+ */
+- (void)onCaptureVideoFirstFrame;
+
+- (void)onCaptureVideoFirstFrame:(ZegoAPIPublishChannelIndex)index;
 
 @end
 

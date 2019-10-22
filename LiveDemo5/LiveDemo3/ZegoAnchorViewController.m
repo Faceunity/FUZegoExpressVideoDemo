@@ -83,20 +83,20 @@
         [self updatePublishView:self.publishView];
     }
     
-    if (self.beautifyFeature == 0) {
-        
+//    if (self.beautifyFeature == 0) {
+    
         /**     -----  FaceUnity  ----     **/
         [[FUManager shareManager] loadItems];
         [self.view addSubview:self.demoBar] ;
         [FUManager shareManager].isShown = YES;
         /**     -----  FaceUnity  ----     **/
-    }
+//    }
 }
 /**     -----  FaceUnity  ----     **/
 -(FUAPIDemoBar *)demoBar {
     if (!_demoBar) {
         
-        _demoBar = [[FUAPIDemoBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 164 - 44, self.view.frame.size.width, 164)];
+        _demoBar = [[FUAPIDemoBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 164 - 100, self.view.frame.size.width, 164)];
         
         _demoBar.itemsDataSource = [FUManager shareManager].itemsDataSource;
         _demoBar.selectedItem = [FUManager shareManager].selectedItem ;

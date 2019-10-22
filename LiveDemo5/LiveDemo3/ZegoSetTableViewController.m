@@ -116,7 +116,7 @@
     
     if (sender == self.videoResolutionSlider) {
         int v = (int)self.videoResolutionSlider.value;
-        CGSize resolution = CGSizeMake(360, 640);
+        CGSize resolution = CGSizeMake(480, 640);
         switch (v)
         {
             case 0:
@@ -126,7 +126,7 @@
                 resolution = CGSizeMake(270, 480);
                 break;
             case 2:
-                resolution = CGSizeMake(360, 640);
+                resolution = CGSizeMake(480, 640);
                 break;
             case 3:
                 resolution = CGSizeMake(540, 960);

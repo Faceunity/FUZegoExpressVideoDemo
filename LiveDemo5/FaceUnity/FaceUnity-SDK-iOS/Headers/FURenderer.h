@@ -14,6 +14,14 @@ typedef struct{
     GLuint bgraTextureHandle;
 }FUOutput;
 
+typedef enum {
+    FUFormatBGRABuffer = FU_FORMAT_BGRA_BUFFER,
+    FUFormatRGBABuffer = FU_FORMAT_RGBA_BUFFER,
+    FUFormatNV12Buffer = FU_FORMAT_NV12_BUFFER,
+    FUFormatI420Buffer = FU_FORMAT_I420_BUFFER,
+    FUFormatRGBATexture = FU_FORMAT_RGBA_TEXTURE,
+} FUFormat;
+
 @interface FURenderer : NSObject
 
 /**
@@ -29,11 +37,13 @@ typedef struct{
      - 使用该接口进行初始化的话，需要在代码中配置 EAGLContext 环境，并且保证我们的接口是在同一个 EAGLContext 下调用的
  
  @param data v3.bundle 对应的二进制数据地址
+ @param dataSize v3.bundle 数据的字节数
  @param ardata 该参数已舍弃，传 NULL 即可
  @param package 密钥数组，必须配置好密钥，SDK 才能正常工作
  @param size 密钥数组大小
+ @return 初始化结果，为0则初始化失败，大于0则初始化成功
  */
-- (void)setupWithData:(void *)data ardata:(void *)ardata authPackage:(void *)package authSize:(int)size;
+- (int)setupWithData:(void *)data dataSize:(int)dataSize ardata:(void *)ardata authPackage:(void *)package authSize:(int)size;
 
 /**
  初始化接口2：
@@ -41,12 +51,14 @@ typedef struct{
      - 与 初始化接口1 相比此接口新增 shouldCreate 参数，如果传入YES我们将在内部创建并持有一个 EAGLContext，无需外部再创建 EAGLContext 环境。
  
  @param data v3.bundle 对应的二进制数据地址
+ @param dataSize v3.bundle 数据的字节数
  @param ardata 该参数已废弃，传 NULL 即可
  @param package 密钥数组，必须配置好密钥，SDK 才能正常工作
  @param size 密钥数组大小
  @param shouldCreate 如果设置为 YES，我们会在内部创建并持有一个 EAGLContext，此时必须使用OC层接口
+ @return 初始化结果，为0则初始化失败，大于0则初始化成功
  */
-- (void)setupWithData:(void *)data ardata:(void *)ardata authPackage:(void *)package authSize:(int)size shouldCreateContext:(BOOL)shouldCreate;
+- (int)setupWithData:(void *)data dataSize:(int)dataSize ardata:(void *)ardata authPackage:(void *)package authSize:(int)size shouldCreateContext:(BOOL)shouldCreate;
 
 /**
  初始化接口3：
@@ -57,8 +69,9 @@ typedef struct{
  @param package 密钥数组，必须配置好密钥，SDK 才能正常工作
  @param size 密钥数组大小
  @param shouldCreate  如果设置为 YES，我们会在内部创建并持有一个 EAGLContext，此时必须使用OC层接口
+ @return 初始化结果，为0则初始化失败，大于0则初始化成功
  */
-- (void)setupWithDataPath:(NSString *)v3path authPackage:(void *)package authSize:(int)size shouldCreateContext:(BOOL)shouldCreate;
+- (int)setupWithDataPath:(NSString *)v3path authPackage:(void *)package authSize:(int)size shouldCreateContext:(BOOL)shouldCreate;
 
 /**
  视频处理接口1：
@@ -99,7 +112,7 @@ typedef struct{
  @param customSize 自定义输出的分辨率，目前仅支持BGRA格式
  @return 被处理过的的图像数据，与传入的 pixelBuffer 为同一个 pixelBuffer
  */
-- (CVPixelBufferRef)renderPixelBuffer:(CVPixelBufferRef)pixelBuffer withFrameId:(int)frameid items:(int*)items itemCount:(int)itemCount flipx:(BOOL)flip customSize:(CGSize)customSize;
+- (CVPixelBufferRef)renderPixelBuffer:(CVPixelBufferRef)pixelBuffer withFrameId:(int)frameid items:(int*)items itemCount:(int)itemCount flipx:(BOOL)flip customSize:(CGSize)customSize NS_AVAILABLE_IOS(8_0);
 
 /**
  视频处理接口4：
@@ -111,7 +124,7 @@ typedef struct{
  @param itemCount 句柄数组中包含的句柄个数
  @return 被处理过的的图像数据，与传入的 pixelBuffer 不是同一个 pixelBuffer
  */
-- (CVPixelBufferRef)renderToInternalPixelBuffer:(CVPixelBufferRef)pixelBuffer withFrameId:(int)frameid items:(int*)items itemCount:(int)itemCount;
+- (CVPixelBufferRef)renderToInternalPixelBuffer:(CVPixelBufferRef)pixelBuffer withFrameId:(int)frameid items:(int*)items itemCount:(int)itemCount NS_AVAILABLE_IOS(8_0);
 
 /**
  视频处理接口5：
@@ -125,7 +138,7 @@ typedef struct{
  @param itemCount 句柄数组中包含的句柄个数
  @return 被处理过的的图像数据
  */
-- (FUOutput)renderPixelBuffer:(CVPixelBufferRef)pixelBuffer bgraTexture:(GLuint)textureHandle withFrameId:(int)frameid items:(int *)items itemCount:(int)itemCount;
+- (FUOutput)renderPixelBuffer:(CVPixelBufferRef)pixelBuffer bgraTexture:(GLuint)textureHandle withFrameId:(int)frameid items:(int *)items itemCount:(int)itemCount NS_AVAILABLE_IOS(8_0);
 
 /**
  视频处理接口6：
@@ -140,7 +153,7 @@ typedef struct{
  @param flip 道具镜像使能，如果设置为 YES 可以将道具做镜像操作
  @return 被处理过的的图像数据
  */
-- (FUOutput)renderPixelBuffer:(CVPixelBufferRef)pixelBuffer bgraTexture:(GLuint)textureHandle withFrameId:(int)frameid items:(int *)items itemCount:(int)itemCount flipx:(BOOL)flip;
+- (FUOutput)renderPixelBuffer:(CVPixelBufferRef)pixelBuffer bgraTexture:(GLuint)textureHandle withFrameId:(int)frameid items:(int *)items itemCount:(int)itemCount flipx:(BOOL)flip NS_AVAILABLE_IOS(8_0);
 
 /**
  视频处理接口7：
@@ -156,7 +169,7 @@ typedef struct{
  @param customSize 自定义输出的分辨率，目前仅支持BGRA格式
  @return 被处理过的的图像数据
  */
-- (FUOutput)renderPixelBuffer:(CVPixelBufferRef)pixelBuffer bgraTexture:(GLuint)textureHandle withFrameId:(int)frameid items:(int *)items itemCount:(int)itemCount flipx:(BOOL)flip customSize:(CGSize)customSize;
+- (FUOutput)renderPixelBuffer:(CVPixelBufferRef)pixelBuffer bgraTexture:(GLuint)textureHandle withFrameId:(int)frameid items:(int *)items itemCount:(int)itemCount flipx:(BOOL)flip customSize:(CGSize)customSize NS_AVAILABLE_IOS(8_0);
 
 /**
  视频处理接口8：
@@ -217,12 +230,14 @@ typedef struct{
  @param itemCount 句柄数组中包含的句柄个数
  @param flip 道具镜像使能，如果设置为 YES 可以将道具做镜像操作
  @param masks 指定items中的道具画在多张人脸中的哪一张脸上的 int 数组，其长度要与 items 长度一致，
- masks中的每一位与items中的每一位道具一一对应。使用方法为：要使某一个道具画在检测到的第一张人脸上，
- 对应的int值为 "2的0次方"，画在第二张人脸上对应的int值为 “2的1次方”，第三张人脸对应的int值为 “2的2次方”，
- 以此类推。例：masks = {pow(2,0),pow(2,1),pow(2,2)....},值得注意的是美颜道具对应的int值为 0。
+        masks中的每一位与items中的每一位道具一一对应。使用方法为：要使某一个道具画在检测到的第一张人脸上，
+        对应的int值为 "2的0次方"，画在第二张人脸上对应的int值为 “2的1次方”，第三张人脸对应的int值为 “2的2次方”，
+        以此类推。例：masks = {pow(2,0),pow(2,1),pow(2,2)....},值得注意的是美颜道具对应的int值为 0。
  @return 被处理过的的图像数据，与传入的 pixelBuffer 为同一个 pixelBuffer
  */
 - (CVPixelBufferRef)renderPixelBuffer:(CVPixelBufferRef)pixelBuffer withFrameId:(int)frameid items:(int*)items itemCount:(int)itemCount flipx:(BOOL)flip masks:(void*)masks;
+
+- (int)renderItems:(void *)inPtr inFormat:(FUFormat)inFormat outPtr:(void *)outPtr outFormat:(FUFormat)outFormat width:(int)width height:(int)height frameId:(int)frameid items:(int *)items itemCount:(int)itemCount flipx:(BOOL)flip;
 
 /**
  resize视频图像，目前仅支持BGRA格式的pixelBuffer
@@ -231,7 +246,7 @@ typedef struct{
  @param resizeSize resizeSize
  @return resizeSize之后的pixelBuffer
  */
-- (CVPixelBufferRef)resizePixelBuffer:(CVPixelBufferRef)pixelBuffer resizeSize:(CGSize)resizeSize;
+- (CVPixelBufferRef)resizePixelBuffer:(CVPixelBufferRef)pixelBuffer resizeSize:(CGSize)resizeSize NS_AVAILABLE_IOS(8_0);
 
 /**
  通过texture获取指定大小与格式的pixelBuffer
@@ -242,7 +257,7 @@ typedef struct{
  @param outputFormat 输出的pixelBuffer的格式，接受的参数有两个，分别为：FU_FORMAT_NV12_BUFFER、FU_FORMAT_BGRA_BUFFER
  @return 从texture获取到的指定大小与格式的pixelBuffer
  */
-- (CVPixelBufferRef)getPixelBufferFromTexture:(int)texture textureSize:(CGSize)textureSize outputSize:(CGSize)outPutSize outputFormat:(int)outputFormat;
+- (CVPixelBufferRef)getPixelBufferFromTexture:(int)texture textureSize:(CGSize)textureSize outputSize:(CGSize)outPutSize outputFormat:(int)outputFormat NS_AVAILABLE_IOS(8_0);
 
 /**
  切换摄像头时需调用的接口：
@@ -330,6 +345,10 @@ typedef struct{
  */
 + (NSString *)getStringParamFromItem:(int)item withName:(NSString *)name;
 
++ (int)itemSetParamu8v:(int)item withName:(NSString *)name buffer:(void *)buffer size:(int)size;
+
++ (int)itemGetParamu8v:(int)item withName:(NSString *)name buffer:(void *)buffer size:(int)size;
+
 /**
  判断是否检测到人脸：
  
@@ -357,6 +376,8 @@ typedef struct{
  @return 检测到的人脸个数，返回 0 代表没有检测到人脸
  */
 + (int)trackFace:(int)inputFormat inputData:(void*)inputData width:(int)width height:(int)height;
+
++ (int)trackFaceWithTongue:(int)inputFormat inputData:(void*)inputData width:(int)width height:(int)height;
 
 /**
  获取人脸信息：
@@ -416,7 +437,7 @@ typedef struct{
  @param contractsCount contracts 数组中 contract 道具句柄的个数
  @return 被绑定到 avatar 道具上的普通道具个数
  */
-+ (int)avatarBindItems:(int)avatarItem items:(int *)items itemsCount:(int)itemsCount contracts:(int *)contracts contractsCount:(int)contractsCount;
++ (int)avatarBindItems:(int)avatarItem items:(int *)items itemsCount:(int)itemsCount contracts:(int *)contracts contractsCount:(int)contractsCount DEPRECATED_MSG_ATTRIBUTE("use bindItems:items:itemsCount: instead");
 
 /**
  将普通道具从avatar道具上解绑：
@@ -427,7 +448,7 @@ typedef struct{
  @param itemsCount 句柄数组包含的道具句柄个数
  @return 从 avatar 道具上解除绑定的普通道具个数
  */
-+ (int)avatarUnbindItems:(int)avatarItem items:(int *)items itemsCount:(int)itemsCount;
++ (int)avatarUnbindItems:(int)avatarItem items:(int *)items itemsCount:(int)itemsCount DEPRECATED_MSG_ATTRIBUTE("use unBindItems:items:itemsCount: instead");
 
 /**
  绑定道具：
@@ -439,6 +460,17 @@ typedef struct{
  @return 被绑定到目标道具上的普通道具个数
  */
 + (int)bindItems:(int)item items:(int*)items itemsCount:(int)itemsCount;
+
+/**
+ 解绑道具：
+ -  该接口可以将一些普通道具从某个目标道具上解绑
+ 
+ @param item 目标道具句柄
+ @param items 需要从目标道具上解除绑定的普通道具的句柄数组
+ @param itemsCount 句柄数组包含的道具句柄个数
+ @return 被绑定到目标道具上的普通道具个数
+ */
++ (int)unBindItems:(int)item items:(int *)items itemsCount:(int)itemsCount;
 
 /**
  解绑所有道具：
@@ -456,4 +488,29 @@ typedef struct{
  */
 + (NSString *)getVersion;
 
++ (void)setExpressionCalibration:(int)expressionCalibration;
+
++ (void)setFocalLengthScale:(float)scale;
+
++ (int)loadExtendedARData:(void *)data size:(int)size;
+
++ (int)loadExtendedARDataWithDataPath:(NSString *)dataPath;
+
++ (int)loadAnimModel:(void *)model size:(int)size;
+
++ (int)loadAnimModelWithModelPath:(NSString *)modelPath;
+
++ (void)setDefaultRotationMode:(float)mode;
+
++ (void)setAsyncTrackFaceEnable:(int)enable;
+
++ (void)setTongueTrackingEnable:(int)enable;
+ 
++ (int)loadTongueModel:(void*)model size:(int)size;
+
+
+/**
+ 释放nama资源
+ */
++(void)namaLibDestroy;
 @end

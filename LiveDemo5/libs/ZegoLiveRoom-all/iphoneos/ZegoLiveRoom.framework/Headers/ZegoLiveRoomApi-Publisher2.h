@@ -12,6 +12,8 @@
 
 @interface ZegoLiveRoomApi (DuoPublisher)
 
+typedef void(^ZegoUpdatePublishTargetCompletionBlock)(int errorCode, NSString *streamID);
+
 /**
  设置本地预览视图
  
@@ -58,7 +60,7 @@
  @param streamID 流 ID
  @param title 直播名称，可选，默认为主播用户名
  @param flag 直播属性，参考 ZegoApiPublishFlag 定义
- @param extraInfo 流附加信息
+ @param extraInfo 流附加信息, 最大为 1024 字节
  @param index 推流 channel Index
  @return true 成功，false 失败
  @discussion 发布直播成功后，等待 [ZegoLivePublisherDelegate -onPublishStateUpdate:streamID:streamInfo:] 通知
@@ -71,7 +73,7 @@
  @param streamID 流 ID
  @param title 直播名称，可选，默认为主播用户名
  @param flag 直播属性，参考 ZegoApiPublishFlag 定义
- @param extraInfo 流附加信息
+ @param extraInfo 流附加信息, 最大为 1024 字节
  @param params 推流参数
  @param index 推流 channel Index
  @return true 成功，false 失败
@@ -82,7 +84,7 @@
 /**
  更新流附加信息
  
- @param extraInfo 流附加信息
+ @param extraInfo 流附加信息, 最大为 1024 字节
  @param index 推流 channel Index
  @return true 成功，false 失败
  @discussion 通常在主播方的 [ZegoLivePublisherDelegate -onPublishStateUpdate:streamID:streamInfo:] 通知中，或其他需更新流附加信息的场合下调用。更新流附加信息成功后，除调用方外，同一房间内的其他人会收到 [ZegoLiveRoomDelegate -onStreamExtraInfoUpdated:roomID] 通知
@@ -108,6 +110,28 @@
 - (void)setPublishConfig:(NSDictionary *)config channelIndex:(ZegoAPIPublishChannelIndex)index;
 
 /**
+ 添加转推地址
+ 
+ @param strTarget 转推地址（支持rtmp/avertp）
+ @param pszStreamID 推流ID
+ @param completionBlock 添加转推地址回调
+ @return true 成功，false 失败
+ @attention 在InitSDK之后调用
+  */
+- (bool)addPublishTarget:(NSString *)target streamID:(NSString *)streamID completion:(ZegoUpdatePublishTargetCompletionBlock)completionBlock;
+
+/**
+ 删除转推地址
+ 
+ @param strTarget 转推地址（支持rtmp/avertp）
+ @param pszStreamID 推流ID
+ @param completionBlock 删除转推地址回调
+ @return true 成功，false 失败
+ @attention 在InitSDK之后调用
+ */
+- (bool)deletePublishTarget:(NSString *)target streamID:(NSString *)streamID completion:(ZegoUpdatePublishTargetCompletionBlock)completionBlock;
+
+/**
  设置视频配置
  
  @param config 配置参数（视频编码输出分辨率、视频采集分辨率、视频帧率、视频码率），参考 ZegoAVConfig 定义
@@ -116,6 +140,16 @@
  @discussion 推流开始前调用本 API 进行视频采集参数配置
  */
 - (bool)setAVConfig:(ZegoAVConfig *)config channelIndex:(ZegoAPIPublishChannelIndex)index;
+
+/**
+ 设置视频关键帧间隔
+ 
+ @param intervalSecond 关键帧间隔，单位为秒，默认2秒
+ @param index 推流 channel Index
+ @return true 成功，false 失败
+ @attention 推流开始前调用本 API 进行参数配置
+ */
+- (bool)setVideoKeyFrameInterval:(int)intervalSecond channelIndex:(ZegoAPIPublishChannelIndex)index;
 
 #if TARGET_OS_IPHONE
 /**
@@ -231,6 +265,17 @@
 - (bool)enableCaptureMirror:(bool)enable channelIndex:(ZegoAPIPublishChannelIndex)index;
 
 /**
+ 是否启用预览和推流镜像
+ 
+ @param mode 镜像模式
+ @param index 推流 channel Index
+ @return true 成功，false 失败
+ @discussion 推流时可调用本 API 进行参数配置
+ @note 默认启用预览镜像，不启用推流镜像
+ */
+- (bool)setVideoMirrorMode:(ZegoVideoMirrorMode)mode channelIndex:(ZegoAPIPublishChannelIndex)index;
+
+/**
  是否开启码率控制
  
  @param enable true 启用，false 不启用。默认不启用
@@ -239,6 +284,15 @@
  @discussion 开启后，在带宽不足的情况下码率自动适应当前带宽
  */
 - (bool)enableRateControl:(bool)enable channelIndex:(ZegoAPIPublishChannelIndex)index;
+
+/**
+ 设置编码器码率控制策略
+ 
+ @param strategy 策略配置，参考 ZegoVideoEncoderRateControlStrategy
+ @param encoderCRF 当策略为恒定质量（ZEGOAPI_RC_VBR/ZEGOAPI_RC_CRF）有效，取值范围 [0~51]，越小质量越好，但是码率会相应变大。建议取值范围 [18, 28]
+ @param index 推流 channel Index
+ */
+- (void)setVideoEncoderRateControlConfig:(ZegoAPIVideoEncoderRateControlStrategy)strategy encoderCRF:(int)encoderCRF channelIndex:(ZegoAPIPublishChannelIndex)index;
 
 /**
  是否使用前置摄像头
@@ -334,6 +388,18 @@
  @discussion onlyAudioPublish 开关在 start 开关开启时才生效
  */
 - (void)setMediaSideFlags:(bool)start onlyAudioPublish:(bool)onlyAudioPublish channelIndex:(ZegoAPIPublishChannelIndex)index;
+
+/**
+ 发送媒体次要信息开关
+ 
+ @param start true 开启, false 关闭
+ @param onlyAudioPublish true 纯音频直播，不传输视频数据, false 音视频直播，传输视频数据
+ @param mediaInfoType 请参考 MediaInfoType 定义，建议使用 SeiZegoDefined
+ @param seiSendType 请参考 SeiSendType 定义，此参数只对发送SEI时有效，当mediaInfoType为 SideInfoZegoDefined 时此参数无效，当发送SEI时建议使用 SeiSendInVideoFrame
+ @param index 推流 channel Index
+ @discussion onlyAudioPublish 开关在 start 开关开启时才生效
+ */
+- (void)setMediaSideFlags:(bool)start onlyAudioPublish:(bool)onlyAudioPublish mediaInfoType:(int)mediaInfoType seiSendType:(int)seiSendType channelIndex:(ZegoAPIPublishChannelIndex)index;
 
 /**
  发送媒体次要信息
