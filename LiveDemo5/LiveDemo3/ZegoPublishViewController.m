@@ -427,6 +427,7 @@
     {
         UIImage *image = [demo getCaptureDevice].videoImage;
         dispatch_async(dispatch_get_main_queue(), ^{
+            self.videoView.contentMode = UIViewContentModeScaleAspectFit;
             self.videoView.image = image;
         });
 //        NSLog(@" image %@", image);

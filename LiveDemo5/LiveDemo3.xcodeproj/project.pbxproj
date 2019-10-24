@@ -8,9 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		0B8A6F0420CE653200C3E839 /* libnama.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B8A6EF020CE653200C3E839 /* libnama.a */; };
-		0B8A6F0520CE653200C3E839 /* release_note.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0B8A6EF120CE653200C3E839 /* release_note.txt */; };
-		0B8A6F0620CE653200C3E839 /* anim_model.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0B8A6EF320CE653200C3E839 /* anim_model.bundle */; };
-		0B8A6F0720CE653200C3E839 /* ardata_ex.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0B8A6EF420CE653200C3E839 /* ardata_ex.bundle */; };
 		0B8A6F0820CE653200C3E839 /* face_beautification.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0B8A6EF520CE653200C3E839 /* face_beautification.bundle */; };
 		0B8A6F0920CE653200C3E839 /* fxaa.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0B8A6EF620CE653200C3E839 /* fxaa.bundle */; };
 		0B8A6F0A20CE653200C3E839 /* v3.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0B8A6EF720CE653200C3E839 /* v3.bundle */; };
@@ -258,9 +255,6 @@
 		0B8A6EEE20CE653200C3E839 /* funama.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = funama.h; sourceTree = "<group>"; };
 		0B8A6EEF20CE653200C3E839 /* FURenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FURenderer.h; sourceTree = "<group>"; };
 		0B8A6EF020CE653200C3E839 /* libnama.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libnama.a; sourceTree = "<group>"; };
-		0B8A6EF120CE653200C3E839 /* release_note.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = release_note.txt; sourceTree = "<group>"; };
-		0B8A6EF320CE653200C3E839 /* anim_model.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = anim_model.bundle; sourceTree = "<group>"; };
-		0B8A6EF420CE653200C3E839 /* ardata_ex.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = ardata_ex.bundle; sourceTree = "<group>"; };
 		0B8A6EF520CE653200C3E839 /* face_beautification.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = face_beautification.bundle; sourceTree = "<group>"; };
 		0B8A6EF620CE653200C3E839 /* fxaa.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = fxaa.bundle; sourceTree = "<group>"; };
 		0B8A6EF720CE653200C3E839 /* v3.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = v3.bundle; sourceTree = "<group>"; };
@@ -535,7 +529,6 @@
 			children = (
 				0B8A6EED20CE653200C3E839 /* Headers */,
 				0B8A6EF020CE653200C3E839 /* libnama.a */,
-				0B8A6EF120CE653200C3E839 /* release_note.txt */,
 				0B8A6EF220CE653200C3E839 /* Resources */,
 			);
 			path = "FaceUnity-SDK-iOS";
@@ -553,8 +546,6 @@
 		0B8A6EF220CE653200C3E839 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				0B8A6EF320CE653200C3E839 /* anim_model.bundle */,
-				0B8A6EF420CE653200C3E839 /* ardata_ex.bundle */,
 				0B8A6EF520CE653200C3E839 /* face_beautification.bundle */,
 				0B8A6EF620CE653200C3E839 /* fxaa.bundle */,
 				0B8A6EF720CE653200C3E839 /* v3.bundle */,
@@ -967,6 +958,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = EFF10F0C1D1A297900ECE11E /* Build configuration list for PBXNativeTarget "LiveDemo5" */;
 			buildPhases = (
+				E3DA4873235EF6D2007CF6E3 /* unzipNama */,
 				EF33D0931FBADD1F00900046 /* Check Build Result */,
 				EFF10EEE1D1A297900ECE11E /* Sources */,
 				EFF10EEF1D1A297900ECE11E /* Frameworks */,
@@ -1043,6 +1035,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 				"zh-Hans",
@@ -1100,11 +1093,8 @@
 				EFFBF7681D38E378002FD7F2 /* Localizable.strings in Resources */,
 				EFAC2FCF1D48E0AD000A7885 /* a.pcm in Resources */,
 				EFF10F081D1A297900ECE11E /* LaunchScreen.storyboard in Resources */,
-				0B8A6F0520CE653200C3E839 /* release_note.txt in Resources */,
 				EFF10F051D1A297900ECE11E /* Assets.xcassets in Resources */,
 				0B8A6F2B20CE66C100C3E839 /* yuguan.bundle in Resources */,
-				0B8A6F0620CE653200C3E839 /* anim_model.bundle in Resources */,
-				0B8A6F0720CE653200C3E839 /* ardata_ex.bundle in Resources */,
 				EFF10F031D1A297900ECE11E /* Main.storyboard in Resources */,
 				0B8A6F2A20CE66C100C3E839 /* yazui.bundle in Resources */,
 				0B8A6F0820CE653200C3E839 /* face_beautification.bundle in Resources */,
@@ -1118,6 +1108,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		E3DA4873235EF6D2007CF6E3 /* unzipNama */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = unzipNama;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n#!/bin/sh/\ncd FaceUnity/FaceUnity-SDK-iOS\nfilename=libnama.a\nzipname=libnama.zip\n\nif [ -f \"$zipname\" ];\nthen\nrm -f $filename\nunzip $zipname\nrm -f $zipname\nfi\n";
+		};
 		EF33D0931FBADD1F00900046 /* Check Build Result */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1362,6 +1370,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 35A6KD62ZJ;
+				ENABLE_BITCODE = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = GameLiveSetupUI/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -1392,6 +1401,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 35A6KD62ZJ;
+				ENABLE_BITCODE = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = GameLiveSetupUI/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -1431,6 +1441,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 35A6KD62ZJ;
+				ENABLE_BITCODE = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = GameLiveSetupUI/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -1461,6 +1472,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 35A6KD62ZJ;
+				ENABLE_BITCODE = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = GameLiveSetupUI/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -1500,6 +1512,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 35A6KD62ZJ;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/libs",
@@ -1534,6 +1547,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 35A6KD62ZJ;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/libs",
@@ -1577,6 +1591,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 35A6KD62ZJ;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/libs",
@@ -1611,6 +1626,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 35A6KD62ZJ;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/libs",
@@ -1709,7 +1725,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 35A6KD62ZJ;
-				ENABLE_BITCODE = YES;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/thirdLib",
@@ -1742,7 +1758,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 35A6KD62ZJ;
-				ENABLE_BITCODE = YES;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/thirdLib",
@@ -1844,7 +1860,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 35A6KD62ZJ;
-				ENABLE_BITCODE = YES;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/thirdLib",
@@ -1878,7 +1894,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 35A6KD62ZJ;
-				ENABLE_BITCODE = YES;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/thirdLib",
 					"$(PROJECT_DIR)/libs",
@@ -1905,7 +1921,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 35A6KD62ZJ;
-				ENABLE_BITCODE = YES;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/libs",
@@ -1940,7 +1956,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 35A6KD62ZJ;
-				ENABLE_BITCODE = YES;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/thirdLib",
 					"$(PROJECT_DIR)/libs",
@@ -2082,7 +2098,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 35A6KD62ZJ;
-				ENABLE_BITCODE = YES;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/thirdLib",
@@ -2115,7 +2131,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 35A6KD62ZJ;
-				ENABLE_BITCODE = YES;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/thirdLib",

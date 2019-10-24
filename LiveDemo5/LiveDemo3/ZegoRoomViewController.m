@@ -39,7 +39,6 @@
     _refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(handleRefresh:) forControlEvents:UIControlEventValueChanged];
     [self.liveView insertSubview:self.refreshControl atIndex:0];
-    
     [self getLiveRoom];
     
     self.liveView.tableFooterView = [[UIView alloc] init];

@@ -543,6 +543,7 @@
     
     if ([FUManager shareManager].isShown) {
         
+        
         [[FUManager shareManager] renderItemsToPixelBuffer:buffer];
         
     }
@@ -558,7 +559,7 @@
     
     CGImageRelease(img);
     
-    [client_ onIncomingCapturedData:buffer withPresentationTimeStamp:pts];
+//    [client_ onIncomingCapturedData:buffer withPresentationTimeStamp:pts];
 }
 
 - (CGImageRef)createCGImageFromCVPixelBuffer:(CVPixelBufferRef)pixels {

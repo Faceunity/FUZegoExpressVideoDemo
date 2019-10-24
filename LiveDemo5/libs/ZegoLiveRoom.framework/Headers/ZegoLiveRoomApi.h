@@ -14,6 +14,7 @@
 @protocol ZegoDeviceEventDelegate;
 @protocol ZegoAVEngineDelegate;
 
+typedef void(^ZegoInitSDKCompletionBlock)(int errorCode);
 typedef void(^ZegoLoginCompletionBlock)(int errorCode, NSArray<ZegoStream*> *streamList);
 typedef void(^ZegoResponseBlock)(int result, NSString *fromUserID, NSString *fromUserName);
 typedef void(^ZegoCustomCommandBlock)(int errorCode, NSString *roomID);
@@ -71,6 +72,7 @@ typedef void(^ZegoCustomCommandBlock)(int errorCode, NSString *roomID);
  上报日志
  
  @discussion 上传日志到后台便于分析问题
+ @discussion 在初始化 SDK 成功后调用
  */
 + (void)uploadLog;
 
@@ -84,6 +86,15 @@ typedef void(^ZegoCustomCommandBlock)(int errorCode, NSString *roomID);
  */
 + (bool)setUserID:(NSString *)userID userName:(NSString *)userName;
 
+
+/**
+ 设置SDK日志大小
+
+ @param size 日志大小，单位为字节。取值范围[5*1024*1024, 100*1024*1024]
+ @discussion 在初始化 SDK 之前调用有效
+ */
++ (void)setLogSize:(unsigned int)size;
+
 /**
  初始化 SDK
  
@@ -93,6 +104,17 @@ typedef void(^ZegoCustomCommandBlock)(int errorCode, NSString *roomID);
  @discussion 初始化 SDK 时调用。初始化 SDK 失败可能导致 SDK 功能异常
  */
 - (instancetype)initWithAppID:(unsigned int)appID appSignature:(NSData*)appSignature;
+
+/**  
+ 初始化 SDK
+ 
+ @param appID  Zego 派发的数字 ID, 开发者的唯一标识
+ @param appSignature  Zego 派发的签名, 用来校验对应 appID 的合法性
+ @param blk 回调 block
+ @return SDK 实例，nil 表示初始化失败
+ @discussion 初始化 SDK 时调用。初始化 SDK 失败可能导致 SDK 功能异常
+ */
+- (instancetype)initWithAppID:(unsigned int)appID appSignature:(NSData*)appSignature completionBlock:(ZegoInitSDKCompletionBlock)blk;
 
 /**
  设置 room 代理对象
@@ -109,8 +131,26 @@ typedef void(^ZegoCustomCommandBlock)(int errorCode, NSString *roomID);
  @param audienceCreateRoom 观众是否可以创建房间。true 可以，false 不可以。默认 true
  @param userStateUpdate 用户状态（用户进入、退出房间）是否广播。true 广播，false 不广播。默认 false
  @discussion 在 userStateUpdate 为 true 的情况下，用户进入、退出房间会触发 [ZegoLiveRoomApi (IM) -onUserUpdate:updateType:] 回调
+ @discussion 在登录房间前调用有效，退出房间后失效
  */
 - (void)setRoomConfig:(bool)audienceCreateRoom userStateUpdate:(bool)userStateUpdate;
+
+/**
+ 设置自定义token信息
+ 
+ @param thirdPartyToken 第三方传入的token
+ @discussion 使用此方法验证登录时用户的合法性，登录房间前调用，token的生成规则请联系即构。若不需要验证用户合法性，不需要调用此函数。
+@discussion 在登录房间前调用有效，退出房间后失效
+ */
+- (void)setCustomToken:(NSString *)thirdPartyToken;
+
+/**
+ 设置房间最大在线人数
+ 
+ @param userCount 最大人数
+ @discussion 在登录房间前调用有效，退出房间后失效
+ */
+- (void)setRoomMaxUserCount:(unsigned int)userCount;
 
 /**
  登录房间
@@ -189,6 +229,16 @@ typedef void(^ZegoCustomCommandBlock)(int errorCode, NSString *roomID);
  @discussion 用于需要恢复指定模块的场合，例如来电结束后恢复音频模块。暂停指定模块后，注意在合适时机下恢复模块
  */
 - (void)resumeModule:(int)moduleType;
+
+/**
+ 设置是否允许SDK使用麦克风设备
+ 
+ @param enable YES 表示允许使用麦克风，NO 表示禁止使用麦克风，此时如果SDK在占用麦克风则会立即释放。
+ @return YES 调用成功 NO 调用失败
+ @discussion 调用时机为引擎创建后的任意时刻。
+ @note 接口由于涉及对设备的操作，极为耗时，不建议随便调用，只在真正需要让出麦克风给其他应用的时候才调用
+ */
+- (BOOL)enableMicDevice:(BOOL)enable;
 #endif
 
 #if TARGET_OS_OSX
@@ -332,6 +382,13 @@ typedef void(^ZegoCustomCommandBlock)(int errorCode, NSString *roomID);
 - (void)setSpeaker:(NSString *)deviceId simpleMute:(bool)mute;
 
 /**
+ 获取默认的视频设备
+ 
+ @return deviceId
+ */
+- (NSString *)getDefaultVideoDeviceId;
+
+/**
  获取默认的音频设备
  
  @param deviceType 音频类型
@@ -376,6 +433,7 @@ typedef void(^ZegoCustomCommandBlock)(int errorCode, NSString *roomID);
  @discussion "enforce_audio_loopback_in_sync", bool value, default: false. enforce audio loopback in synchronous method
  @discussion "audio_session_mix_with_others", bool value, default: true. set AVAudioSessionCategoryOptionMixWithOthers
  @discussion "support_general_mode_below_ios9", bool value, default: false. support general mode below ios 9.0
+ @discussion "play_nodata_abort", bool value, default: false，设置拉流时没拉到数据是否终止拉流，设置为false表示不终止，设置为true表示终止，拉流之前调用有效
  */
 + (void)setConfig:(NSString *)config;
 
@@ -387,7 +445,7 @@ typedef void(^ZegoCustomCommandBlock)(int errorCode, NSString *roomID);
 @optional
 
 /**
- 因为使用同一个 UserId 登录，用户被挤出聊天室
+ 用户被踢出房间
  
  @param reason 被踢出原因
  @param roomID 房间 ID
@@ -480,7 +538,7 @@ typedef enum : NSUInteger {
  直播事件回调
  
  @param event 直播事件状态，参考 ZegoLiveEvent 定义
- @param info 信息，目前为空
+ @param info 信息
  @discussion 调用 [ZegoLiveRoomApi -setLiveEventDelegate] 设置直播事件代理对象后，在此回调中获取直播事件状态
  */
 - (void)zego_onLiveEvent:(ZegoLiveEvent)event info:(NSDictionary<NSString*, NSString*>*)info;
@@ -492,8 +550,8 @@ typedef enum : NSUInteger {
 /**
  设备事件回调
  
- @param deviceName 设备名，支持摄像头和麦克风设备，参考 zego-api-defines-oc.h 中定义
- @param errorCode 错误码。设备无错误不会回调，目前出错后的错误码均为 -1
+ @param deviceName 设备名，取值 "audio_device", "camera", "hw_encoder", "sw_encoder"
+ @param errorCode 错误码。设备无错误不会回调，目前没有权限的错误码为-3，其他错误情况的错误码均为-1
  @discussion 调用 [ZegoLiveRoomApi -setDeviceEventDelegate] 设置设备事件代理对象后，在此回调中获取设备状态或错误
  */
 - (void)zego_onDevice:(NSString *)deviceName error:(int)errorCode;
@@ -539,6 +597,11 @@ typedef enum : NSUInteger {
 @end
 
 @protocol ZegoAVEngineDelegate <NSObject>
+
+/**
+ 音视频引擎开始时回调
+ */
+- (void)onAVEngineStart;
 
 /**
  音视频引擎停止时回调

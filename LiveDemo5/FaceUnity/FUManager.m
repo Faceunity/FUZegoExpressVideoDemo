@@ -43,17 +43,6 @@ static FUManager *shareManager = NULL;
          还有设置为YES,则需要调用FURenderer.h中的接口，不能再调用funama.h中的接口。*/
         [[FURenderer shareRenderer] setupWithDataPath:path authPackage:&g_auth_package authSize:sizeof(g_auth_package) shouldCreateContext:YES];
         
-        // 开启表情跟踪优化功能
-        NSData *animModelData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"anim_model.bundle" ofType:nil]];
-        int res0 = fuLoadAnimModel((void *)animModelData.bytes, (int)animModelData.length);
-        NSLog(@"fuLoadAnimModel %@",res0 == 0 ? @"failure":@"success" );
-
-        NSData *arModelData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"ardata_ex.bundle" ofType:nil]];
-        
-        
-        int res1 = fuLoadExtendedARData((void *)arModelData.bytes, (int)arModelData.length);
-        
-        NSLog(@"fuLoadAnimModel %@",res1 == 0 ? @"failure":@"success" );
         
        [self setDefaultParameters];
         
@@ -69,7 +58,13 @@ static FUManager *shareManager = NULL;
     self.itemsDataSource = @[ @"noitem", @"fengya_ztt_fu", @"hudie_lm_fu", @"juanhuzi_lm_fu", @"mask_hat", @"touhua_ztt_fu", @"yazui", @"yuguan"];
     self.selectedItem = @"fengya_ztt_fu" ;
     
-    self.filtersDataSource = @[@"origin", @"delta", @"electric", @"slowlived", @"tokyo", @"warm"];
+    self.filtersDataSource = @[@"origin",@"bailiang1",@"bailiang2",@"bailiang3",@"bailiang4",@"bailiang5",@"bailiang6",@"bailiang7",
+                               @"fennen1",@"fennen2",@"fennen3",@"fennen4",@"fennen5",@"fennen6",@"fennen7",@"fennen8",
+                               @"gexing1",@"gexing2",@"gexing3",@"gexing4",@"gexing5",@"gexing6",@"gexing7",@"gexing8",@"gexing9",@"gexing10",
+                               @"heibai1",@"heibai2",@"heibai3",@"heibai4",@"heibai5",
+                               @"lengsediao1",@"lengsediao2",@"lengsediao3",@"lengsediao4",@"lengsediao5",@"lengsediao6",@"lengsediao7",@"lengsediao8",@"lengsediao9",@"lengsediao10",@"lengsediao11",
+                               @"nuansediao1",@"nuansediao2",@"nuansediao3",
+                               @"xiaoqingxin1",@"xiaoqingxin2",@"xiaoqingxin3",@"xiaoqingxin4",@"xiaoqingxin5"];
     self.selectedFilter         = self.filtersDataSource[0] ;
     
     self.beautyFiltersDataSource = @[@"ziran", @"danya", @"fennen", @"qingxin", @"hongrun"];
@@ -89,8 +84,8 @@ static FUManager *shareManager = NULL;
     self.faceShape              = 4 ;
     self.enlargingLevel         = 0.4 ;
     self.thinningLevel          = 0.4 ;
-    self.enlargingLevel_new         = 0.4 ;
-    self.thinningLevel_new          = 0.4 ;
+    self.enlargingLevel_new     = 1.0 ;
+    self.thinningLevel_new      = 1.0 ;
     
     self.jewLevel               = 0.3 ;
     self.foreheadLevel          = 0.3 ;
@@ -103,11 +98,12 @@ static FUManager *shareManager = NULL;
 
 - (void)loadItems
 {
-    /**加载普通道具*/
-    [self loadItem:self.selectedItem];
-    
     /**加载美颜道具*/
     [self loadFilter];
+    /**加载普通道具*/
+//    [self loadItem:self.selectedItem];
+    [self loadItem:@"teddybear_Animoji"];
+
 }
 
 - (void)setEnableGesture:(BOOL)enableGesture
@@ -150,6 +146,8 @@ static FUManager *shareManager = NULL;
     
     /**销毁道具后，重置默认参数*/
     [self setDefaultParameters];
+    
+
 }
 
 #pragma -Faceunity Load Data
@@ -229,10 +227,25 @@ static FUManager *shareManager = NULL;
     [self setBeautyParams];
     
     /*Faceunity核心接口，将道具及美颜效果绘制到pixelBuffer中，执行完此函数后pixelBuffer即包含美颜及贴纸效果*/
-    CVPixelBufferRef buffer = [[FURenderer shareRenderer] renderPixelBuffer:pixelBuffer withFrameId:frameID items:items itemCount:sizeof(items)/sizeof(int) flipx:YES];//flipx 参数设为YES可以使道具做水平方向的镜像翻转
+    CVPixelBufferRef buffer = [[FURenderer shareRenderer] renderPixelBuffer:pixelBuffer withFrameId:frameID items:items itemCount:sizeof(items)/sizeof(int) flipx:NO];//flipx 参数设为YES可以使道具做水平方向的镜像翻转
     frameID += 1;
     
     return buffer;
+}
+
+/**将道具绘制到pixelBuffer*/
+
+- (int)renderItemWithTexture:(int)texture Width:(int)width Height:(int)height {
+    
+    [self setBeautyParams];
+    
+//    fuRenderItemsEx(FU_FORMAT_RGBA_TEXTURE, &texture, FU_FORMAT_RGBA_TEXTURE, &texture, width, height, frameID, items, sizeof(items)/sizeof(int)) ;
+    
+fuRenderItemsEx2(FU_FORMAT_RGBA_TEXTURE, &texture, FU_FORMAT_RGBA_TEXTURE, &texture, width, height, frameID, items, sizeof(items)/sizeof(int), NAMA_RENDER_FEATURE_FULL | NAMA_RENDER_OPTION_FLIP_X,NULL);
+    
+    frameID ++ ;
+    
+    return texture;
 }
 
 /**获取图像中人脸中心点*/
