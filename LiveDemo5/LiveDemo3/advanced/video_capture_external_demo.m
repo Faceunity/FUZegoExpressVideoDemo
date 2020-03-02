@@ -541,7 +541,7 @@
     CMTime pts = CMSampleBufferGetPresentationTimeStamp(sampleBuffer);
     CVImageBufferRef buffer = CMSampleBufferGetImageBuffer(sampleBuffer);
     
-    if ([FUManager shareManager].isShown) {
+    if ([FUManager shareManager].showFaceUnityEffect) {
         
         
         [[FUManager shareManager] renderItemsToPixelBuffer:buffer];
