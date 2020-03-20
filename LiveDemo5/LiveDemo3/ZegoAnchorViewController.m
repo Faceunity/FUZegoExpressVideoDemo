@@ -88,7 +88,7 @@
         /**     -----  FaceUnity  ----     **/
         [[FUManager shareManager] loadItems];
         [self.view addSubview:self.demoBar] ;
-        [FUManager shareManager].isShown = YES;
+        [FUManager shareManager].showFaceUnityEffect = YES;
         /**     -----  FaceUnity  ----     **/
 //    }
 }
@@ -162,7 +162,7 @@
 
 -(void)dealloc {
     
-    [FUManager shareManager].isShown = NO;
+    [FUManager shareManager].showFaceUnityEffect = NO;
     [[FUManager shareManager] destoryItems];
 }
 /**     -----  FaceUnity  ----     **/
