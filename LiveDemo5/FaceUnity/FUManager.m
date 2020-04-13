@@ -56,7 +56,7 @@ static FUManager *shareManager = NULL;
 }
 
 -(void)loadAIModle{
-    /* 单独使用美颜场景，只需加载 ai_facelandmarks75*/
+    /* 单独使用美颜场景，只需加载 ai_facelandmarks75,注：美颜和贴纸都用场景用 ai_face_processor*/
 //    NSData *ai_facelandmarks75 = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"ai_facelandmarks75.bundle" ofType:nil]];
 //    [FURenderer loadAIModelFromPackage:(void *)ai_facelandmarks75.bytes size:(int)ai_facelandmarks75.length aitype:FUAITYPE_FACELANDMARKS75];
     
@@ -196,22 +196,19 @@ static FUManager *shareManager = NULL;
 }
 
 /**加载美颜道具*/
+/**加载美颜道具*/
 - (void)loadFilter
 {
     NSString *path = [[NSBundle mainBundle] pathForResource:@"face_beautification.bundle" ofType:nil];
 
     items[0] = [FURenderer itemWithContentsOfFile:path];
     
-    
-    NSLog(@"---- load filter ~");
 }
-
 /**设置美颜参数*/
 - (void)setBeautyParams {
     
     [FURenderer itemSetParam:items[0] withName:@"skin_detect" value:@(self.skinDetectEnable)]; //是否开启皮肤检测
-    [FURenderer itemSetParam:items[0] withName:@"heavy_blur" value:@(0)]; // 美肤类型 (0、1、) 清晰：0，朦胧：1
-    [FURenderer itemSetParam:items[0] withName:@"blur_type" value:@(2)];
+    [FURenderer itemSetParam:items[0] withName:@"heavy_blur" value:@(self.blurShape)]; // 美肤类型 (0、1、) 清晰：0，朦胧：1
     [FURenderer itemSetParam:items[0] withName:@"blur_level" value:@(self.blurLevel * 6.0 )]; //磨皮 (0.0 - 6.0)
     [FURenderer itemSetParam:items[0] withName:@"color_level" value:@(self.whiteLevel)]; //美白 (0~1)
     [FURenderer itemSetParam:items[0] withName:@"red_level" value:@(self.redLevel)]; //红润 (0~1)
@@ -243,6 +240,15 @@ static FUManager *shareManager = NULL;
     return buffer;
 }
 
+/**处理YUV*/
+- (void)processFrameWithY:(void*)y U:(void*)u V:(void*)v yStride:(int)ystride uStride:(int)ustride vStride:(int)vstride FrameWidth:(int)width FrameHeight:(int)height {
+    
+    /**设置美颜参数*/
+    [self setBeautyParams];
+    
+    [[FURenderer shareRenderer] renderFrame:y u:u  v:v  ystride:ystride ustride:ustride vstride:vstride width:width height:height frameId:frameID items:items itemCount:sizeof(items)/sizeof(int)];
+    frameID ++ ;
+}
 
 /**将道具绘制到pixelBuffer*/
 
@@ -250,6 +256,8 @@ static FUManager *shareManager = NULL;
     
     [self setBeautyParams];
     [self prepareToRender];
+    
+    GLint aa =  glGetError();
     
     if(self.flipx){
        fuRenderItemsEx2(FU_FORMAT_RGBA_TEXTURE,&texture, FU_FORMAT_RGBA_TEXTURE, &texture, width, height, frameID, items, sizeof(items)/sizeof(int), NAMA_RENDER_OPTION_FLIP_X | NAMA_RENDER_FEATURE_FULL, NULL);
@@ -286,6 +294,7 @@ static FUManager *shareManager = NULL;
         }
     }
 }
+
 
 /**获取图像中人脸中心点*/
 - (CGPoint)getFaceCenterInFrameSize:(CGSize)frameSize{
