@@ -1,52 +1,113 @@
-# liveroom-topics-iOS/macOS
+# FUZegoLiveDemo 快速集成文档
 
->国内用户推荐去码云下载，速度更快 [https://gitee.com/zegodev/liveroom-topics-ios-macos.git](https://gitee.com/zegodev/liveroom-topics-ios-macos.git)  
+FUZegoLiveDemo 是集成了 Faceunity 面部跟踪和虚拟道具功能 和 [ZegoLive](https://github.com/zegodev/ZegoLive) 功能的 Demo。
 
-## Demo 使用指引
-本 Demo 包含若个 Target。
-- `LiveRoomPlayground-iOS`为 iOS 项目。
-- `GameLive`是录屏进程程序。
-- `GameLiveSetupUI`是 iOS11 以下录屏必须的录屏界面程序。
-- `LiveRoomPlayground-macOS`是 macOS 项目。
+本文是 FaceUnity SDK 快速对接融云 videotalk 的导读说明，关于 `FaceUnity SDK` 的详细说明，请参看 [FULiveDemo](https://github.com/Faceunity/FULiveDemo/tree/dev)
 
 
-1.`ZGKeyCenter.m`中填写正确的 `appID` 和 `appSign`，若无，请在[即构管理控制台](https://console.zego.im/acount/register)申请。
+## 快速集成方法
 
-2.如果需要体验外部滤镜，需要在`authpack.h`文件中填写正确的 faceUnity 的证书。
+### 一、接入 Faceunity SDK
 
-3.本Demo包含了`声浪（频率功率谱）`模块，若需要体验，把Demo中 `ModuleCompileDefine.h` 文件中 `_Module_SoundLevel` 宏打开，这样就可以在Demo首页的模块列表中出现`声浪/音频频谱`入口进行体验，如下处理：
+将  FaceUnity  文件夹全部拖入工程中，并且添加依赖库 Accelerate.framework、CoreMedia.framework、AVFoundation.framework、libc++.tbd
+
+#### 1、快速加载道具
+
+调用 FUManager 里面的 `[[FUManager shareManager] loadItems]` 加载贴纸道具及美颜道具
+
+#### 2、更新美颜参数
+本例中通过添加 FUAPIDemoBar 来实现切换道具及调整美颜参数的具体实现，FUAPIDemoBar 是快速集成用的UI，客户可自定义UI。
+在 ZGExternalVideoFilterPublishViewController.m  中添加 demoBar 属性，并实现 demoBar 代理方法，以进一步实现道具的切换及美颜参数的调整。
+
+```C
+-(FUAPIDemoBar *)demoBar {
+    if (!_demoBar) {
+        _demoBar = [[FUAPIDemoBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 180, self.view.frame.size.width, 164)];
+        
+        _demoBar.itemsDataSource = [FUManager shareManager].itemsDataSource;
+        _demoBar.selectedItem = [FUManager shareManager].selectedItem ;
+        
+        _demoBar.filtersDataSource = [FUManager shareManager].filtersDataSource ;
+        _demoBar.beautyFiltersDataSource = [FUManager shareManager].beautyFiltersDataSource ;
+        _demoBar.filtersCHName = [FUManager shareManager].filtersCHName ;
+        _demoBar.selectedFilter = [FUManager shareManager].selectedFilter ;
+        [_demoBar setFilterLevel:[FUManager shareManager].selectedFilterLevel forFilter:[FUManager shareManager].selectedFilter] ;
+        
+        _demoBar.skinDetectEnable = [FUManager shareManager].skinDetectEnable;
+        _demoBar.blurShape = [FUManager shareManager].blurShape ;
+        _demoBar.blurLevel = [FUManager shareManager].blurLevel ;
+        _demoBar.whiteLevel = [FUManager shareManager].whiteLevel ;
+        _demoBar.redLevel = [FUManager shareManager].redLevel;
+        _demoBar.eyelightingLevel = [FUManager shareManager].eyelightingLevel ;
+        _demoBar.beautyToothLevel = [FUManager shareManager].beautyToothLevel ;
+        _demoBar.faceShape = [FUManager shareManager].faceShape ;
+        
+        _demoBar.enlargingLevel = [FUManager shareManager].enlargingLevel ;
+        _demoBar.thinningLevel = [FUManager shareManager].thinningLevel ;
+        _demoBar.enlargingLevel_new = [FUManager shareManager].enlargingLevel_new ;
+        _demoBar.thinningLevel_new = [FUManager shareManager].thinningLevel_new ;
+        _demoBar.jewLevel = [FUManager shareManager].jewLevel ;
+        _demoBar.foreheadLevel = [FUManager shareManager].foreheadLevel ;
+        _demoBar.noseLevel = [FUManager shareManager].noseLevel ;
+        _demoBar.mouthLevel = [FUManager shareManager].mouthLevel ;
+        
+        _demoBar.delegate = self;
+    }
+    return _demoBar ;
+}
+
+/**      FUAPIDemoBarDelegate       **/
+- (void)demoBarDidSelectedItem:(NSString *)itemName {
+    
+    [[FUManager shareManager] loadItem:itemName];
+}
+
+- (void)demoBarBeautyParamChanged {
+    
+    [FUManager shareManager].skinDetectEnable = _demoBar.skinDetectEnable;
+    [FUManager shareManager].blurShape = _demoBar.blurShape;
+    [FUManager shareManager].blurLevel = _demoBar.blurLevel ;
+    [FUManager shareManager].whiteLevel = _demoBar.whiteLevel;
+    [FUManager shareManager].redLevel = _demoBar.redLevel;
+    [FUManager shareManager].eyelightingLevel = _demoBar.eyelightingLevel;
+    [FUManager shareManager].beautyToothLevel = _demoBar.beautyToothLevel;
+    [FUManager shareManager].faceShape = _demoBar.faceShape;
+    [FUManager shareManager].enlargingLevel = _demoBar.enlargingLevel;
+    [FUManager shareManager].thinningLevel = _demoBar.thinningLevel;
+    [FUManager shareManager].enlargingLevel_new = _demoBar.enlargingLevel_new;
+    [FUManager shareManager].thinningLevel_new = _demoBar.thinningLevel_new;
+    [FUManager shareManager].jewLevel = _demoBar.jewLevel;
+    [FUManager shareManager].foreheadLevel = _demoBar.foreheadLevel;
+    [FUManager shareManager].noseLevel = _demoBar.noseLevel;
+    [FUManager shareManager].mouthLevel = _demoBar.mouthLevel;
+    
+    [FUManager shareManager].selectedFilter = _demoBar.selectedFilter ;
+    [FUManager shareManager].selectedFilterLevel = _demoBar.selectedFilterLevel;
+}
 ```
-#define _Module_SoundLevel @"声浪/音频频谱"
+
+### 二、获取视频数据回调
+
+参照官网和源码,[视频外部滤镜](https://www.zego.im/html/document/#Live_Room/Advanced_Feature_Guide/ExternalFilter:ios)
+```C
+// SDK 回调。App 在此接口中获取 SDK 采集到的视频帧数据，并进行处理
+- (void)queueInputBuffer:(CVPixelBufferRef)pixel_buffer timestamp:(unsigned long long)timestamp_100n {
+    // * 采集到的图像数据通过这个传进来，这个点需要异步处理
+    dispatch_async(queue_, ^ {
+                
+        /*----------faceU---------数据处理*/
+        [[FUManager shareManager] renderItemsToPixelBuffer:pixel_buffer];
+    
+        [self copyPixelBufferToPool:pixel_buffer timestamp:timestamp_100n];
+        self.pendingCount = self.pendingCount - 1;
+
+        CVPixelBufferRelease(pixel_buffer);
+    });
+}
 ```
 
-专题目录如下：
-## 快速开始  
-### [推流](/src/LiveRoomPlayground-iOS/PublishUI)  
-### [拉流](/src/LiveRoomPlayground-iOS/PlayUI)  
-## 常用功能
-### [视频通话](/src/Topics/VideoTalk)
-### [直播连麦](/src/Topics/JoinLive)
-### [房间消息 iOS](/src/LiveRoomPlayground-iOS/RoomMessageUI)
-## 进阶功能  
-### [混流](/src/Topics/MixStream)
-### [混音](/src/Topics/AudioAux)
-### [声浪/音频频谱](/src/Topics/SoundLevel)
-### [媒体播放器 iOS](/src/LiveRoomPlayground-iOS/MediaPlayerUI)
-### [媒体播放器 Macos](/src/LiveRoomPlayground-macOS/MediaPlayerUI)
-### [音效播放器 iOS](/src/LiveRoomPlayground-iOS/AudioPlayerUI)
-### [媒体次要信息 iOS](/src/LiveRoomPlayground-iOS/MediaSideInfoUI)
-### [媒体次要信息 Macos](/src/LiveRoomPlayground-macOS/MediaSideInfoUI)
-### [分层视频编码](/src/Topics/SVC)
-### [本地媒体录制](/src/Topics/MediaRecord)
-### [视频外部渲染 iOS](/src/LiveRoomPlayground-iOS/ExternalVideoRenderUI)
-### [视频外部渲染 Macos](/src/LiveRoomPlayground-macOS/ExternalVideoRender)  
-### [视频外部采集 iOS](/src/LiveRoomPlayground-iOS/ExternalVideoCaptureUI)
-### [视频外部采集 Macos](/src/LiveRoomPlayground-macOS/ExternalVideoCapture)
-### [自定义前处理(faceUnity)](/src/Topics/ExternalVideoFilter)
-### [变声、混响、立体声 iOS](/src/LiveRoomPlayground-iOS/AudioProcessingUI)
+### 三、道具销毁
 
-## ZEGO Support
-Please visit [ZEGO Developer Center](https://www.zego.im/html/document/#Application_Scenes/Video_Live)
-
+调用 `[[FUManager shareManager] destoryItems];` 销毁贴纸及美颜道具。
 
 
