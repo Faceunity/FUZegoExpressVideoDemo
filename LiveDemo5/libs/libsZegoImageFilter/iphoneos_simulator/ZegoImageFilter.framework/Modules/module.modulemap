@@ -1,6 +1,0 @@
-framework module ZegoImageFilter {
-  umbrella header "ZegoImageFilter.h"
-
-  export *
-  module * { export * }
-}
