@@ -36,7 +36,7 @@
                 break;
                 
             case ZegoVideoBufferTypeAsyncI420PixelBuffer:
-                g_filter_ = [[ZGVideoFilterI420Demo alloc] init];
+//                g_filter_ = [[ZGVideoFilterI420Demo alloc] init];
                 break;
                 
             case ZegoVideoBufferTypeAsyncNV12PixelBuffer:

@@ -7,16 +7,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "DB7A0D61-57DC-41D8-8940-F7D601049103"
+            uuid = "8E91774F-CF65-4C28-978D-B3AB9245870D"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LiveRoomPlayground-macOS/ExternalVideoFilter/FUManager-mac.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "69"
-            endingLineNumber = "69"
-            landmarkName = "-init"
+            startingLineNumber = "104"
+            endingLineNumber = "104"
+            landmarkName = "-loadFilter"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
