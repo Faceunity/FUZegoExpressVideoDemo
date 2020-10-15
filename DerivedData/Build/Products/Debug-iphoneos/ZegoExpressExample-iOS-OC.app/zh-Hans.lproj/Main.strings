@@ -1,0 +1,12 @@
+
+/* Class = "UINavigationItem"; title = "ZegoExpressExample"; ObjectID = "Mm9-5r-MlY"; */
+"Mm9-5r-MlY.title" = "ZegoExpressExample";
+
+/* Class = "UIButton"; normalTitle = "FAQ"; ObjectID = "UNi-E0-neK"; */
+"UNi-E0-neK.normalTitle" = "常见问题";
+
+/* Class = "UIButton"; normalTitle = "Doc Link"; ObjectID = "bZy-oo-Xhh"; */
+"bZy-oo-Xhh.normalTitle" = "文档链接";
+
+/* Class = "UIButton"; normalTitle = "Download Code"; ObjectID = "noq-lp-Pj5"; */
+"noq-lp-Pj5.normalTitle" = "示例代码";
