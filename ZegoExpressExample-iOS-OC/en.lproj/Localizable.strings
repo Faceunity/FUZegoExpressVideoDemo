@@ -1,0 +1,29 @@
+/* 
+  Localizable.strings
+  ZegoExpressExample-iOS-OC
+
+  Created by Patrick Fu on 2020/8/24.
+  Copyright © 2020 Zego. All rights reserved.
+*/
+
+"home.setting.button" = "Setting";
+
+"Topic.QuickStart"               = "QuickStart";
+"Topic.PublishStream"            = "PublishStream";
+"Topic.PlayStream"               = "PlayStream";
+"Topic.RecordCapture"            = "RecordCapture";
+"Topic.VideoTalk"                = "VideoTalk";
+"Topic.RoomMessage"              = "RoomMessage";
+"Topic.Mixer"                    = "Mixer";
+"Topic.SoundLevel&AudioSpectrum" = "SoundLevel&AudioSpectrum";
+"Topic.AudioMixing"              = "AudioMixing";
+"Topic.Beautify&Watermark"       = "Beautify&Watermark";
+"Topic.MediaPlayer"              = "MediaPlayer";
+"Topic.AuxPublisher"             = "AuxPublisher";
+"Topic.CustomVideoCapture"       = "CustomVideoCapture";
+"Topic.CustomVideoRender"        = "CustomVideoRender";
+"Topic.CustomAudioIO"            = "CustomAudioIO";
+"Topic.AudioEffect"              = "AudioEffect";
+"Topic.APITest"                  = "API Test";
+
+"CustomVideoCapture.RenderPreview" = "When the custom video capture BufferType is EncodedFrame, the engine cannot render the preview encoded video frame and the developer should render the preview frame himself. Please use another device to play this stream to view the screen.";
