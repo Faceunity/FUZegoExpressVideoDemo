@@ -19,7 +19,6 @@
 /**faceU */
 #import "FUManager.h"
 #import "FUAPIDemoBar.h"
-#import "FUTestRecorder.h"
 /**faceU */
 
 // The number of displays per row of the stream view
@@ -65,6 +64,8 @@ CGFloat const ZGVideoTalkStreamViewSpacing = 8.f;
 @property (weak, nonatomic) IBOutlet UISwitch *speakerSwitch;
 
 @property (nonatomic, strong) id<ZGCaptureDevice> captureDevice;
+
+/**faceu */
 @property(nonatomic, strong) FUAPIDemoBar *demoBar;
 
 
@@ -84,9 +85,7 @@ CGFloat const ZGVideoTalkStreamViewSpacing = 8.f;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-        [[FUTestRecorder shareRecorder] setupRecord];
-    
-    self.roomID = @"ly123";
+    self.roomID = @"faceu123";
     
     // Use user ID as stream ID
     self.localUserID = ZGUserIDHelper.userID;
@@ -208,9 +207,11 @@ CGFloat const ZGVideoTalkStreamViewSpacing = 8.f;
     // Login room
     ZGLogInfo(@"🚪 Login room, roomID: %@", _roomID);
     [[ZegoExpressEngine sharedEngine] loginRoom:_roomID user:[ZegoUser userWithUserID:_localUserID]];
-    
+
     // Set the publish video configuration
-    [[ZegoExpressEngine sharedEngine] setVideoConfig:[ZegoVideoConfig configWithPreset:ZegoVideoConfigPreset720P]];
+    ZegoVideoConfig *videoConfig = [ZegoVideoConfig configWithPreset:(ZegoVideoConfigPreset720P)];
+    videoConfig.fps = 30;
+    [[ZegoExpressEngine sharedEngine] setVideoConfig:videoConfig];
     
     // Get the local user's preview view and start preview
     ZegoCanvas *previewCanvas = [ZegoCanvas canvasWithView:self.localUserViewObject.view];
@@ -242,7 +243,7 @@ CGFloat const ZGVideoTalkStreamViewSpacing = 8.f;
 #pragma mark - ZGCustomVideoCapturePixelBufferDelegate
 
 - (void)captureDevice:(id<ZGCaptureDevice>)device didCapturedData:(CMSampleBufferRef)data {
-     [[FUTestRecorder shareRecorder] processFrameWithLog];
+    
     // BufferType: CVPixelBuffer
     CVPixelBufferRef buffer = CMSampleBufferGetImageBuffer(data);
     CMTime timeStamp = CMSampleBufferGetPresentationTimeStamp(data);
