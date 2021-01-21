@@ -19,8 +19,10 @@
 /**fuceU */
 #import "FUManager.h"
 #import "FUAPIDemoBar.h"
-#import "FUTestRecorder.h"
 /**faceU */
+
+
+#import "FUTestRecorder.h"
 
 NSString* const ZGPublishStreamTopicRoomID = @"ZGPublishStreamTopicRoomID";
 NSString* const ZGPublishStreamTopicStreamID = @"ZGPublishStreamTopicStreamID";
@@ -60,44 +62,14 @@ NSString* const ZGPublishStreamTopicStreamID = @"ZGPublishStreamTopicStreamID";
 
 @implementation ZGPublishStreamViewController
 
-+ (instancetype)instanceFromStoryboard {
-    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"PublishStream" bundle:nil];
-    return [sb instantiateViewControllerWithIdentifier:NSStringFromClass([ZGPublishStreamViewController class])];
-}
-
-- (void)viewDidAppear:(BOOL)animated{
-    
-    [super viewDidAppear:animated];
-    self.demoBar.frame = CGRectMake(0, self.view.frame.size.height - 164 - 195, self.view.frame.size.width, 195);
-}
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-
-    [self setupUI];
-
-    [self createEngine];
-
-    self.enableCamera = YES;
-    self.enableHardwareEncoder = NO;
-    self.captureVolume = 100;
-
-    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged:) name:UIDeviceOrientationDidChangeNotification object:[UIDevice currentDevice]];
-    
-    /**faceU */
-    [[FUManager shareManager] loadFilter];
-    [FUManager shareManager].isRender = YES;
-    [self.view addSubview:self.demoBar];
-    
-    [[FUTestRecorder shareRecorder] setupRecord];
-    
-    /**faceU */
-}
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
 
+    /**faceU */
+    /**销毁全部道具*/
+    [[FUManager shareManager] destoryItems];
+    
     ZGLogInfo(@"🔌 Stop preview");
     [[ZegoExpressEngine sharedEngine] stopPreview];
 
@@ -117,11 +89,48 @@ NSString* const ZGPublishStreamTopicStreamID = @"ZGPublishStreamTopicStreamID";
     ZGLogInfo(@"🏳️ Destroy ZegoExpressEngine");
     [ZegoExpressEngine destroyEngine:nil];
     
-    /**faceU */
-    /**销毁全部道具*/
-    [[FUManager shareManager] destoryItems];
-    
 }
+
++ (instancetype)instanceFromStoryboard {
+    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"PublishStream" bundle:nil];
+    return [sb instantiateViewControllerWithIdentifier:NSStringFromClass([ZGPublishStreamViewController class])];
+}
+
+- (void)viewDidAppear:(BOOL)animated{
+    
+    [super viewDidAppear:animated];
+    self.demoBar.frame = CGRectMake(0, self.view.frame.size.height - 195 - 44, self.view.frame.size.width, 195);
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+
+    [self setupUI];
+
+    [self createEngine];
+
+    self.enableCamera = YES;
+    self.enableHardwareEncoder = NO;
+    self.captureVolume = 100;
+    self.startLiveButton.enabled = YES;
+    self.stopLiveButton.enabled = YES;
+    
+
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged:) name:UIDeviceOrientationDidChangeNotification object:[UIDevice currentDevice]];
+    
+    /**faceU */
+    [[FUManager shareManager] loadFilter];
+    [FUManager shareManager].isRender = YES;
+    [FUManager shareManager].flipx = YES;
+    [FUManager shareManager].trackFlipx = YES;
+
+    [self.view addSubview:self.demoBar];
+    
+    /**faceU */
+}
+
+
 
 
 - (void)setupUI {
@@ -189,12 +198,18 @@ NSString* const ZGPublishStreamTopicStreamID = @"ZGPublishStreamTopicStreamID";
     // Set self as custom video capture handler
     [[ZegoExpressEngine sharedEngine] setCustomVideoCaptureHandler:self];
     
+    ZegoVideoConfig *videoConfig = [ZegoVideoConfig configWithPreset:(ZegoVideoConfigPreset720P)];
+    videoConfig.fps = 30;
+    [[ZegoExpressEngine sharedEngine] setVideoConfig:videoConfig];
+    
+    [[ZegoExpressEngine sharedEngine] setVideoMirrorMode:(ZegoVideoMirrorModeNoMirror)];
+    
     
     // 加入房间
     [self appendLog:@"🚪 Start login room"];
-
-    self.roomID = @"123";
-    self.streamID = @"123";
+    
+    self.roomID = [NSString stringWithFormat:@"%d",arc4random() % 1000000 + 1];
+    self.streamID = [NSString stringWithFormat:@"%.0f",CACurrentMediaTime() * 1000];
 
     // This demonstrates simply using the device model as the userID. In actual use, you can set the business-related userID as needed.
     NSString *userID = ZGUserIDHelper.userID;
@@ -207,7 +222,7 @@ NSString* const ZGPublishStreamTopicStreamID = @"ZGPublishStreamTopicStreamID";
     
     // Start preview
     ZegoCanvas *previewCanvas = [ZegoCanvas canvasWithView:self.previewView];
-//    previewCanvas.viewMode = self.previewViewMode;
+    previewCanvas.viewMode = ZegoViewModeAspectFill;
     [self appendLog:@"🔌 Start preview"];
     [[ZegoExpressEngine sharedEngine] startPreview:previewCanvas];
 }
@@ -257,13 +272,12 @@ NSString* const ZGPublishStreamTopicStreamID = @"ZGPublishStreamTopicStreamID";
 }
 
 - (void)showLiveRequestingStateUI {
-    [self.startLiveButton setEnabled:NO];
-    [self.stopLiveButton setEnabled:NO];
+    [self.startLiveButton setEnabled:YES];
+    [self.stopLiveButton setEnabled:YES];
 }
 
 - (void)showLiveStartedStateUI {
-    [self.startLiveButton setEnabled:NO];
-    [self.stopLiveButton setEnabled:YES];
+
     [UIView animateWithDuration:0.5 animations:^{
         self.startPublishConfigView.alpha = 0;
         self.stopLiveButton.alpha = 1;
@@ -271,8 +285,6 @@ NSString* const ZGPublishStreamTopicStreamID = @"ZGPublishStreamTopicStreamID";
 }
 
 - (void)showLiveStoppedStateUI {
-    [self.startLiveButton setEnabled:YES];
-    [self.stopLiveButton setEnabled:NO];
     [UIView animateWithDuration:0.5 animations:^{
         self.startPublishConfigView.alpha = 1;
         self.stopLiveButton.alpha = 0;
@@ -338,19 +350,19 @@ NSString* const ZGPublishStreamTopicStreamID = @"ZGPublishStreamTopicStreamID";
         // This is because rotating the device to the left requires rotating the content to the right.
         case UIDeviceOrientationLandscapeLeft:
             orientation = UIInterfaceOrientationLandscapeRight;
-            videoConfig.encodeResolution = CGSizeMake(640, 360);
+            videoConfig.encodeResolution = CGSizeMake(720, 1280);
             break;
         case UIDeviceOrientationLandscapeRight:
             orientation = UIInterfaceOrientationLandscapeLeft;
-            videoConfig.encodeResolution = CGSizeMake(640, 360);
+            videoConfig.encodeResolution = CGSizeMake(720, 1280);
             break;
         case UIDeviceOrientationPortrait:
             orientation = UIInterfaceOrientationPortrait;
-            videoConfig.encodeResolution = CGSizeMake(360, 640);
+            videoConfig.encodeResolution = CGSizeMake(720, 1280);
             break;
         case UIDeviceOrientationPortraitUpsideDown:
             orientation = UIInterfaceOrientationPortraitUpsideDown;
-            videoConfig.encodeResolution = CGSizeMake(360, 640);
+            videoConfig.encodeResolution = CGSizeMake(720, 1280);
             break;
         default:
             // Unknown / FaceUp / FaceDown
@@ -492,7 +504,7 @@ NSString* const ZGPublishStreamTopicStreamID = @"ZGPublishStreamTopicStreamID";
 #pragma mark - ZGCustomVideoCapturePixelBufferDelegate
 
 - (void)captureDevice:(id<ZGCaptureDevice>)device didCapturedData:(CMSampleBufferRef)data {
-     [[FUTestRecorder shareRecorder] processFrameWithLog];
+    
     // BufferType: CVPixelBuffer
     CVPixelBufferRef buffer = CMSampleBufferGetImageBuffer(data);
     CMTime timeStamp = CMSampleBufferGetPresentationTimeStamp(data);
@@ -510,7 +522,7 @@ NSString* const ZGPublishStreamTopicStreamID = @"ZGPublishStreamTopicStreamID";
     if (!_captureDevice) {
         
         // BGRA32 or NV12
-        _captureDevice = [[ZGCaptureDeviceCamera alloc] initWithPixelFormatType:kCVPixelFormatType_32BGRA];
+        _captureDevice = [[ZGCaptureDeviceCamera alloc] initWithPixelFormatType:kCVPixelFormatType_420YpCbCr8BiPlanarFullRange];
         _captureDevice.delegate = self;
     }
     return _captureDevice;
@@ -521,7 +533,7 @@ NSString* const ZGPublishStreamTopicStreamID = @"ZGPublishStreamTopicStreamID";
 -(FUAPIDemoBar *)demoBar {
     if (!_demoBar) {
         
-        _demoBar = [[FUAPIDemoBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 164 - 195, self.view.frame.size.width, 195)];
+        _demoBar = [[FUAPIDemoBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 195 - 44, self.view.frame.size.width, 195)];
         _demoBar.mDelegate = self;
     }
     return _demoBar ;

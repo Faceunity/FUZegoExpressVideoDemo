@@ -1,18 +1,18 @@
 dependencies: \
-  /Users/sunmu/Desktop/集成/github/FUZegoLiveDemo/FaceUnity/FUManager.m \
-  /Users/sunmu/Desktop/集成/github/FUZegoLiveDemo/ZegoExpressExample-iOS-OC/PrefixHeader.pch \
-  /Users/sunmu/Desktop/集成/github/FUZegoLiveDemo/ZegoExpressExample-iOS-OC/ModuleCompileDefine.h \
-  /Users/sunmu/Desktop/集成/github/FUZegoLiveDemo/ZegoExpressExample-iOS-OC/Helper/NSObject+Persistence.h \
-  /Users/sunmu/Desktop/集成/github/FUZegoLiveDemo/ZegoExpressExample-iOS-OC/Helper/ZGURLDefine.h \
-  /Users/sunmu/Desktop/集成/github/FUZegoLiveDemo/ZegoExpressExample-iOS-OC/HomePage/ZegoHudManager.h \
-  /Users/sunmu/Desktop/集成/github/FUZegoLiveDemo/ZegoExpressExample-iOS-OC/Helper/ZegoLog/ZegoLog.h \
-  /Users/sunmu/Desktop/集成/github/FUZegoLiveDemo/ZegoExpressExample-iOS-OC/Helper/ZegoLog/ZegoLog-Defines.h \
-  /Users/sunmu/Desktop/集成/github/FUZegoLiveDemo/ZegoExpressExample-iOS-OC/Helper/ZegoLog/ZegoLogMessage.h \
-  /Users/sunmu/Desktop/集成/github/FUZegoLiveDemo/ZegoExpressExample-iOS-OC/Helper/ZegoDefine.h \
-  /Users/sunmu/Desktop/集成/github/FUZegoLiveDemo/FaceUnity/FUManager.h \
-  /Users/sunmu/Desktop/集成/github/FUZegoLiveDemo/FaceUnity/Lib/libCNamaSDK.framework/Modules/module.modulemap \
-  /Users/sunmu/Desktop/集成/github/FUZegoLiveDemo/FaceUnity/Lib/libCNamaSDK.framework/Headers/CNamaSDK.h \
-  /Users/sunmu/Desktop/集成/github/FUZegoLiveDemo/FaceUnity/Lib/libCNamaSDK.framework/Headers/FURenderer.h \
-  /Users/sunmu/Desktop/集成/github/FUZegoLiveDemo/FaceUnity/FUAPIDemoBar/FUBeautyParam.h \
-  /Users/sunmu/Desktop/集成/github/FUZegoLiveDemo/FaceUnity/FUAPIDemoBar/modle/FUDateHandle.h \
-  /Users/sunmu/Desktop/集成/github/FUZegoLiveDemo/FaceUnity/Lib/authpack.h
+  /Users/sunmu/Desktop/集成/gitLab/ZegoExpressExample-iOS-OC/FaceUnity/FUManager.m \
+  /Users/sunmu/Desktop/集成/gitLab/ZegoExpressExample-iOS-OC/ZegoExpressExample-iOS-OC/PrefixHeader.pch \
+  /Users/sunmu/Desktop/集成/gitLab/ZegoExpressExample-iOS-OC/ZegoExpressExample-iOS-OC/ModuleCompileDefine.h \
+  /Users/sunmu/Desktop/集成/gitLab/ZegoExpressExample-iOS-OC/ZegoExpressExample-iOS-OC/Helper/NSObject+Persistence.h \
+  /Users/sunmu/Desktop/集成/gitLab/ZegoExpressExample-iOS-OC/ZegoExpressExample-iOS-OC/Helper/ZGURLDefine.h \
+  /Users/sunmu/Desktop/集成/gitLab/ZegoExpressExample-iOS-OC/ZegoExpressExample-iOS-OC/HomePage/ZegoHudManager.h \
+  /Users/sunmu/Desktop/集成/gitLab/ZegoExpressExample-iOS-OC/ZegoExpressExample-iOS-OC/Helper/ZegoLog/ZegoLog.h \
+  /Users/sunmu/Desktop/集成/gitLab/ZegoExpressExample-iOS-OC/ZegoExpressExample-iOS-OC/Helper/ZegoLog/ZegoLog-Defines.h \
+  /Users/sunmu/Desktop/集成/gitLab/ZegoExpressExample-iOS-OC/ZegoExpressExample-iOS-OC/Helper/ZegoLog/ZegoLogMessage.h \
+  /Users/sunmu/Desktop/集成/gitLab/ZegoExpressExample-iOS-OC/ZegoExpressExample-iOS-OC/Helper/ZegoDefine.h \
+  /Users/sunmu/Desktop/集成/gitLab/ZegoExpressExample-iOS-OC/FaceUnity/FUManager.h \
+  /Users/sunmu/Desktop/集成/gitLab/ZegoExpressExample-iOS-OC/FaceUnity/Lib/libCNamaSDK.framework/Modules/module.modulemap \
+  /Users/sunmu/Desktop/集成/gitLab/ZegoExpressExample-iOS-OC/FaceUnity/Lib/libCNamaSDK.framework/Headers/CNamaSDK.h \
+  /Users/sunmu/Desktop/集成/gitLab/ZegoExpressExample-iOS-OC/FaceUnity/Lib/libCNamaSDK.framework/Headers/FURenderer.h \
+  /Users/sunmu/Desktop/集成/gitLab/ZegoExpressExample-iOS-OC/FaceUnity/FUAPIDemoBar/FUBeautyParam.h \
+  /Users/sunmu/Desktop/集成/gitLab/ZegoExpressExample-iOS-OC/FaceUnity/FUAPIDemoBar/modle/FUDateHandle.h \
+  /Users/sunmu/Desktop/集成/gitLab/ZegoExpressExample-iOS-OC/FaceUnity/Lib/authpack.h

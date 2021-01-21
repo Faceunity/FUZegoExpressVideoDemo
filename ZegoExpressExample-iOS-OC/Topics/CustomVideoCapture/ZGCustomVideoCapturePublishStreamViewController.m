@@ -22,7 +22,6 @@
 
 /**fuceU */
 #import "FUManager.h"
-#import "FUTestRecorder.h"
 #import "FUAPIDemoBar.h"
 /**faceU */
 
@@ -52,6 +51,12 @@
 
 /**faceU */
 
+/**房间状态 */
+@property (nonatomic, assign) ZegoRoomState roomState;
+
+/** 推流状态 */
+@property (nonatomic, assign) ZegoPublisherState publisherState;
+
 
 @end
 
@@ -67,9 +72,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    [[FUTestRecorder shareRecorder] setupRecord];
-    
     [self setupUI];
     [self createEngineAndLoginRoom];
     
@@ -197,21 +199,26 @@
 
     // Set self as custom video capture handler
     [[ZegoExpressEngine sharedEngine] setCustomVideoCaptureHandler:self];
+    
+    // Set video config
+    ZegoVideoConfig *videoConfig = [ZegoVideoConfig configWithPreset:(ZegoVideoConfigPreset720P)];
+    videoConfig.fps = 30;
+    [[ZegoExpressEngine sharedEngine] setVideoConfig:videoConfig];
+    
 
     // Login room
     ZegoUser *user = [ZegoUser userWithUserID:[ZGUserIDHelper userID] userName:[ZGUserIDHelper userName]];
     ZGLogInfo(@"🚪 Login room. roomID: %@", self.roomID);
     [[ZegoExpressEngine sharedEngine] loginRoom:self.roomID user:user config:[ZegoRoomConfig defaultConfig]];
 
-    // Set video config
-    [[ZegoExpressEngine sharedEngine] setVideoConfig:[ZegoVideoConfig configWithPreset:ZegoVideoConfigPreset720P]];
+    ZGLogInfo(@"🔌 Start preview");
+    [[ZegoExpressEngine sharedEngine] startPreview:[ZegoCanvas canvasWithView:self.previewView]];
+    
 }
 
 - (void)startLive {
     // The engine supports rendering the preview when the capture type is CVPixelBuffer.
     // Not supported when the capture type is EncodedData.
-    ZGLogInfo(@"🔌 Start preview");
-    [[ZegoExpressEngine sharedEngine] startPreview:[ZegoCanvas canvasWithView:self.previewView]];
 
     ZGLogInfo(@"📤 Start publishing stream. streamID: %@", self.streamID);
     [[ZegoExpressEngine sharedEngine] startPublishingStream:self.streamID];
@@ -219,31 +226,39 @@
 
 - (void)stopLive {
     ZGLogInfo(@"🔌 Stop preview");
-    [[ZegoExpressEngine sharedEngine] stopPreview];
+//    [[ZegoExpressEngine sharedEngine] stopPreview];
 
     ZGLogInfo(@"📤 Stop publishing stream");
     [[ZegoExpressEngine sharedEngine] stopPublishingStream];
 }
 
-- (void)dealloc {
-    ZGLogInfo(@"🏳️ Destroy ZegoExpressEngine");
-    [ZegoExpressEngine destroyEngine:^{
-        // This callback is only used to notify the completion of the release of internal resources of the engine.
-        // Developers cannot release resources related to the engine within this callback.
-        //
-        // In general, developers do not need to listen to this callback.
-        ZGLogInfo(@"🚩 🏳️ Destroy ZegoExpressEngine complete");
-    }];
 
-    // After destroying the engine, you will not receive the `-onStop:` callback, you need to stop the custom video caputre manually.
-    [_captureDevice stopCapture];
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    
+- (void)dealloc {
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
+
     /**faceU */
     /**销毁全部道具*/
     [[FUManager shareManager] destoryItems];
     
+    ZGLogInfo(@"🔌 Stop preview");
+    [[ZegoExpressEngine sharedEngine] stopPreview];
+
+    // Stop publishing before exiting
+    if (self.publisherState != ZegoPublisherStateNoPublish) {
+        ZGLogInfo(@"📤 Stop publishing stream");
+        [[ZegoExpressEngine sharedEngine] stopPublishingStream];
+    }
+
+    // Logout room before exiting
+    if (self.roomState != ZegoRoomStateDisconnected) {
+        ZGLogInfo(@"🚪 Logout room");
+        [[ZegoExpressEngine sharedEngine] logoutRoom:self.roomID];
+    }
+
+    // Can destroy the engine when you don't need audio and video calls
+    ZGLogInfo(@"🏳️ Destroy ZegoExpressEngine");
+    [ZegoExpressEngine destroyEngine:nil];
     
 }
 
@@ -258,19 +273,19 @@
         // This is because rotating the device to the left requires rotating the content to the right.
         case UIDeviceOrientationLandscapeLeft:
             orientation = UIInterfaceOrientationLandscapeRight;
-            videoConfig.encodeResolution = CGSizeMake(640, 360);
+            videoConfig.encodeResolution = CGSizeMake(720, 1280);
             break;
         case UIDeviceOrientationLandscapeRight:
             orientation = UIInterfaceOrientationLandscapeLeft;
-            videoConfig.encodeResolution = CGSizeMake(640, 360);
+            videoConfig.encodeResolution = CGSizeMake(720, 1280);
             break;
         case UIDeviceOrientationPortrait:
             orientation = UIInterfaceOrientationPortrait;
-            videoConfig.encodeResolution = CGSizeMake(360, 640);
+            videoConfig.encodeResolution = CGSizeMake(720, 1280);
             break;
         case UIDeviceOrientationPortraitUpsideDown:
             orientation = UIInterfaceOrientationPortraitUpsideDown;
-            videoConfig.encodeResolution = CGSizeMake(360, 640);
+            videoConfig.encodeResolution = CGSizeMake(720, 1280);
             break;
         default:
             // Unknown / FaceUp / FaceDown
@@ -336,8 +351,7 @@
 - (void)captureDevice:(id<ZGCaptureDevice>)device didCapturedData:(CMSampleBufferRef)data {
 
     if (self.captureBufferType == ZGCustomVideoCaptureBufferTypeCVPixelBuffer) {
-        
-         [[FUTestRecorder shareRecorder] processFrameWithLog];
+
         // BufferType: CVPixelBuffer
         CVPixelBufferRef buffer = CMSampleBufferGetImageBuffer(data);
         CMTime timeStamp = CMSampleBufferGetPresentationTimeStamp(data);
@@ -381,6 +395,35 @@
 
 #pragma mark - ZegoEventHandler
 
+#pragma mark - ZegoExpress EventHandler Room Event
+
+- (void)onRoomStateUpdate:(ZegoRoomState)state errorCode:(int)errorCode extendedData:(NSDictionary *)extendedData roomID:(NSString *)roomID {
+    if (errorCode != 0) {
+       
+    } else {
+        switch (state) {
+            case ZegoRoomStateConnected:
+               
+                break;
+
+            case ZegoRoomStateConnecting:
+              
+                break;
+
+            case ZegoRoomStateDisconnected:
+                
+
+                ZGLogInfo(@"🔌 Start preview");
+                [[ZegoExpressEngine sharedEngine] startPreview:[ZegoCanvas canvasWithView:self.previewView]];
+                break;
+        }
+    }
+    self.roomState = state;
+
+}
+
+
+
 - (void)onPublisherStateUpdate:(ZegoPublisherState)state errorCode:(int)errorCode extendedData:(NSDictionary *)extendedData streamID:(NSString *)streamID {
     ZGLogInfo(@"🚩 📤 Publisher State Update Callback: %lu, errorCode: %d, streamID: %@", (unsigned long)state, (int)errorCode, streamID);
 
@@ -398,6 +441,9 @@
             self.navigationItem.rightBarButtonItem = self.stopLiveButton;
             break;
     }
+    
+    self.publisherState = state;
+    
 }
 
 - (void)onPublisherVideoSizeChanged:(CGSize)size channel:(ZegoPublishChannel)channel {
