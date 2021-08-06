@@ -112,7 +112,7 @@
     
     self.volumeSlider.maximumValue = 100.0;
     self.volumeSlider.minimumValue = 0.0;
-    self.volumeSlider.value = self.player.volume;
+    self.volumeSlider.value = self.player.playVolume;
     self.volumeSlider.continuous = NO;
     
     self.enableRepeatSwitch.on = YES;

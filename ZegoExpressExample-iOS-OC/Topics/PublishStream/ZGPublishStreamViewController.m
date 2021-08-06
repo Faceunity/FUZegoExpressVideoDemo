@@ -13,21 +13,18 @@
 #import "ZGAppGlobalConfigManager.h"
 #import "ZGUserIDHelper.h"
 #import <ZegoExpressEngine/ZegoExpressEngine.h>
+#import <Masonry.h>
 #import "ZGCaptureDeviceCamera.h"
 #import "ZGCaptureDeviceImage.h"
 
 /**fuceU */
-#import "FUManager.h"
-#import "FUAPIDemoBar.h"
+#import "UIViewController+FaceUnityUIExtension.h"
 /**faceU */
-
-
-#import "FUTestRecorder.h"
 
 NSString* const ZGPublishStreamTopicRoomID = @"ZGPublishStreamTopicRoomID";
 NSString* const ZGPublishStreamTopicStreamID = @"ZGPublishStreamTopicStreamID";
 
-@interface ZGPublishStreamViewController () <ZegoEventHandler, UIPopoverPresentationControllerDelegate,ZegoCustomVideoCaptureHandler,ZGCaptureDeviceDataOutputPixelBufferDelegate,FUAPIDemoBarDelegate>
+@interface ZGPublishStreamViewController () <ZegoEventHandler, UIPopoverPresentationControllerDelegate,ZegoCustomVideoCaptureHandler,ZGCaptureDeviceDataOutputPixelBufferDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *previewView;
 @property (weak, nonatomic) IBOutlet UITextView *logTextView;
@@ -50,13 +47,6 @@ NSString* const ZGPublishStreamTopicStreamID = @"ZGPublishStreamTopicStreamID";
 @property (nonatomic) ZegoPublisherState publisherState;
 
 @property (nonatomic, strong) id<ZGCaptureDevice> captureDevice;
-
-
-/**faceU */
-@property(nonatomic, strong) FUAPIDemoBar *demoBar;
-
-/**faceU */
-
 
 @end
 
@@ -99,7 +89,6 @@ NSString* const ZGPublishStreamTopicStreamID = @"ZGPublishStreamTopicStreamID";
 - (void)viewDidAppear:(BOOL)animated{
     
     [super viewDidAppear:animated];
-    self.demoBar.frame = CGRectMake(0, self.view.frame.size.height - 195 - 44, self.view.frame.size.width, 195);
 }
 
 - (void)viewDidLoad {
@@ -119,15 +108,8 @@ NSString* const ZGPublishStreamTopicStreamID = @"ZGPublishStreamTopicStreamID";
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged:) name:UIDeviceOrientationDidChangeNotification object:[UIDevice currentDevice]];
     
-    /**faceU */
-    [[FUManager shareManager] loadFilter];
-    [FUManager shareManager].isRender = YES;
-    [FUManager shareManager].flipx = YES;
-    [FUManager shareManager].trackFlipx = YES;
-
-    [self.view addSubview:self.demoBar];
-    
-    /**faceU */
+    // faceunityf
+    [self setupFaceUnity];
 }
 
 
@@ -198,7 +180,7 @@ NSString* const ZGPublishStreamTopicStreamID = @"ZGPublishStreamTopicStreamID";
     // Set self as custom video capture handler
     [[ZegoExpressEngine sharedEngine] setCustomVideoCaptureHandler:self];
     
-    ZegoVideoConfig *videoConfig = [ZegoVideoConfig configWithPreset:(ZegoVideoConfigPreset720P)];
+    ZegoVideoConfig *videoConfig = [ZegoVideoConfig configWithPreset:ZegoVideoConfigPreset720P];
     videoConfig.fps = 30;
     [[ZegoExpressEngine sharedEngine] setVideoConfig:videoConfig];
     
@@ -234,7 +216,6 @@ NSString* const ZGPublishStreamTopicStreamID = @"ZGPublishStreamTopicStreamID";
 - (IBAction)stopLiveButtonClick:(id)sender {
     [self stopLive];
 }
-
 
 - (void)startLive {
 
@@ -508,9 +489,17 @@ NSString* const ZGPublishStreamTopicStreamID = @"ZGPublishStreamTopicStreamID";
     // BufferType: CVPixelBuffer
     CVPixelBufferRef buffer = CMSampleBufferGetImageBuffer(data);
     CMTime timeStamp = CMSampleBufferGetPresentationTimeStamp(data);
-    CVPixelBufferRef fuBuffer = [[FUManager shareManager] renderItemsToPixelBuffer:buffer];
-    [[ZegoExpressEngine sharedEngine] sendCustomVideoCapturePixelBuffer:fuBuffer timestamp:timeStamp];
-    
+    if ([FUManager shareManager].isRender) {
+        FURenderInput *input = [[FURenderInput alloc] init];
+        input.renderConfig.imageOrientation = FUImageOrientationUP;
+        input.pixelBuffer = buffer;
+        //开启重力感应，内部会自动计算正确方向，设置fuSetDefaultRotationMode，无须外面设置
+        input.renderConfig.gravityEnable = YES;
+        FURenderOutput *output = [[FURenderKit shareRenderKit] renderWithInput:input];
+        if (output) {
+            [[ZegoExpressEngine sharedEngine] sendCustomVideoCapturePixelBuffer:output.pixelBuffer timestamp:timeStamp];
+        }
+    }
 }
 
 
@@ -530,15 +519,6 @@ NSString* const ZGPublishStreamTopicStreamID = @"ZGPublishStreamTopicStreamID";
 
 #pragma mark --------------FaceUnity
 
--(FUAPIDemoBar *)demoBar {
-    if (!_demoBar) {
-        
-        _demoBar = [[FUAPIDemoBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 195 - 44, self.view.frame.size.width, 195)];
-        _demoBar.mDelegate = self;
-    }
-    return _demoBar ;
-}
-
 /// 销毁道具
 - (void)destoryFaceunityItems
 {
@@ -546,36 +526,6 @@ NSString* const ZGPublishStreamTopicStreamID = @"ZGPublishStreamTopicStreamID";
     [[FUManager shareManager] destoryItems];
     
 }
-
-#pragma -FUAPIDemoBarDelegate
--(void)filterValueChange:(FUBeautyParam *)param{
-    [[FUManager shareManager] filterValueChange:param];
-}
-
--(void)switchRenderState:(BOOL)state{
-    [FUManager shareManager].isRender = state;
-}
-
--(void)bottomDidChange:(int)index{
-    if (index < 3) {
-        [[FUManager shareManager] setRenderType:FUDataTypeBeautify];
-    }
-    if (index == 3) {
-        [[FUManager shareManager] setRenderType:FUDataTypeStrick];
-    }
-    
-    if (index == 4) {
-        [[FUManager shareManager] setRenderType:FUDataTypeMakeup];
-    }
-    if (index == 5) {
-        
-        [[FUManager shareManager] setRenderType:FUDataTypebody];
-    }
-}
-
-
-
-
 
 
 @end

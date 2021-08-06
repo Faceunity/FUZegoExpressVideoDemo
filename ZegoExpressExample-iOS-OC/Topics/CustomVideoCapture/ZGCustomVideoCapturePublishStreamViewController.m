@@ -18,15 +18,15 @@
 #import "ZGVideoFrameEncoder.h"
 
 #import <ZegoExpressEngine/ZegoExpressEngine.h>
+#import <Masonry.h>
 
 
 /**fuceU */
-#import "FUManager.h"
-#import "FUAPIDemoBar.h"
+#import "UIViewController+FaceUnityUIExtension.h"
 /**faceU */
 
 
-@interface ZGCustomVideoCapturePublishStreamViewController () <ZegoEventHandler, ZegoCustomVideoCaptureHandler, ZGCaptureDeviceDataOutputPixelBufferDelegate, ZGVideoFrameEncoderDelegate,FUAPIDemoBarDelegate>
+@interface ZGCustomVideoCapturePublishStreamViewController () <ZegoEventHandler, ZegoCustomVideoCaptureHandler, ZGCaptureDeviceDataOutputPixelBufferDelegate, ZGVideoFrameEncoderDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *previewView;
 
@@ -46,11 +46,6 @@
 @property (nonatomic, strong) ZegoVideoEncodedFrameParam *encodeFrameParam;
 @property (nonatomic, strong) ZGVideoFrameEncoder *encoder;
 
-/**faceU */
-@property(nonatomic, strong) FUAPIDemoBar *demoBar;
-
-/**faceU */
-
 /**房间状态 */
 @property (nonatomic, assign) ZegoRoomState roomState;
 
@@ -66,7 +61,7 @@
 - (void)viewDidAppear:(BOOL)animated{
     
     [super viewDidAppear:animated];
-    self.demoBar.frame = CGRectMake(0, self.view.frame.size.height - 164 - 231, self.view.frame.size.width, 195);
+    
 }
 
 
@@ -78,28 +73,13 @@
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged:) name:UIDeviceOrientationDidChangeNotification object:[UIDevice currentDevice]];
     
-    /**faceU */
-    [[FUManager shareManager] loadFilter];
-    [FUManager shareManager].isRender = YES;
-    [FUManager shareManager].flipx = YES;
-    [FUManager shareManager].trackFlipx = YES;
-    [self.view addSubview:self.demoBar];
-    /**faceU */
+    // faceunity
+    [self setupFaceUnity];
     
     [self startLive];
 }
 
 #pragma mark --------------FaceUnity
-
--(FUAPIDemoBar *)demoBar {
-    if (!_demoBar) {
-        
-        _demoBar = [[FUAPIDemoBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 164 - 195, self.view.frame.size.width, 195)];
-        
-        _demoBar.mDelegate = self;
-    }
-    return _demoBar ;
-}
 
 /// 销毁道具
 - (void)destoryFaceunityItems
@@ -108,34 +88,6 @@
     [[FUManager shareManager] destoryItems];
     
 }
-
-#pragma -FUAPIDemoBarDelegate
--(void)filterValueChange:(FUBeautyParam *)param{
-    [[FUManager shareManager] filterValueChange:param];
-}
-
--(void)switchRenderState:(BOOL)state{
-    [FUManager shareManager].isRender = state;
-}
-
--(void)bottomDidChange:(int)index{
-    if (index < 3) {
-        [[FUManager shareManager] setRenderType:FUDataTypeBeautify];
-    }
-    if (index == 3) {
-        [[FUManager shareManager] setRenderType:FUDataTypeStrick];
-    }
-    
-    if (index == 4) {
-        [[FUManager shareManager] setRenderType:FUDataTypeMakeup];
-    }
-    if (index == 5) {
-        
-        [[FUManager shareManager] setRenderType:FUDataTypebody];
-    }
-}
-
-
 
 - (void)setupUI {
     self.roomIDLabel.text = [NSString stringWithFormat:@"RoomID: %@", self.roomID];
@@ -201,7 +153,7 @@
     [[ZegoExpressEngine sharedEngine] setCustomVideoCaptureHandler:self];
     
     // Set video config
-    ZegoVideoConfig *videoConfig = [ZegoVideoConfig configWithPreset:(ZegoVideoConfigPreset720P)];
+    ZegoVideoConfig *videoConfig = [ZegoVideoConfig configWithPreset:ZegoVideoConfigPreset720P];
     videoConfig.fps = 30;
     [[ZegoExpressEngine sharedEngine] setVideoConfig:videoConfig];
     
@@ -355,13 +307,18 @@
         // BufferType: CVPixelBuffer
         CVPixelBufferRef buffer = CMSampleBufferGetImageBuffer(data);
         CMTime timeStamp = CMSampleBufferGetPresentationTimeStamp(data);
-        CVPixelBufferRef fuBuffer = [[FUManager shareManager] renderItemsToPixelBuffer:buffer];
-        
-        [[ZegoExpressEngine sharedEngine] sendCustomVideoCapturePixelBuffer:fuBuffer timestamp:timeStamp];
-        
-        // Send pixel buffer to ZEGO SDK
-//        [[ZegoExpressEngine sharedEngine] sendCustomVideoCapturePixelBuffer:CMSampleBufferGetImageBuffer(data) timestamp:CMSampleBufferGetPresentationTimeStamp(data)];
-
+        if ([FUManager shareManager].isRender) {
+            FURenderInput *input = [[FURenderInput alloc] init];
+            input.renderConfig.imageOrientation = FUImageOrientationUP;
+            input.pixelBuffer = buffer;
+            //开启重力感应，内部会自动计算正确方向，设置fuSetDefaultRotationMode，无须外面设置
+            input.renderConfig.gravityEnable = YES;
+            FURenderOutput *output = [[FURenderKit shareRenderKit] renderWithInput:input];
+            if (output && output.pixelBuffer) {
+                // [[ZegoExpressEngine sharedEngine] enableCamera:YES];
+                [[ZegoExpressEngine sharedEngine] sendCustomVideoCapturePixelBuffer:output.pixelBuffer timestamp:timeStamp];
+            }
+        }
     } else if (self.captureBufferType == ZGCustomVideoCaptureBufferTypeEncodedFrame) {
 
         // BufferType: Encoded frame (H.264)
@@ -454,8 +411,6 @@
     self.fpsLabel.text = [NSString stringWithFormat:@"FPS: %d fps \n", (int)quality.videoSendFPS];
     self.bitrateLabel.text = [NSString stringWithFormat:@"Bitrate: %.2f kb/s \n", quality.videoKBPS];
 }
-
-
 
 @end
 
