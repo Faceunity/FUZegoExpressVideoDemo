@@ -15,13 +15,9 @@
 ### FaceUnity 模块简介
 ```C
 -FUManager              //nama 业务类
--FUCamera               //视频采集类(示例程序未用到)    
 +Lib                    //nama SDK  
     -authpack.h             //权限文件
-    +libCNamaSDK.framework      
-        +Headers
-            -funama.h          //C 接口
-            -FURenderer.h      //OC 接口
+    -FURenderKit.framework      
     +Resources
         +model              //AI模型
             -ai_face_processor.bundle      // 人脸识别AI能力模型，需要默认加载
@@ -44,51 +40,34 @@
 
 ### 二、加入展示 FaceUnity SDK 美颜贴纸效果的UI
 
-1、在 `ZGCustomVideoCapturePublishStreamViewController.m` 中添加头文件，并创建页面属性
+1、在相关类比如： `ZGCustomVideoCapturePublishStreamViewController.m` 中添加头文件，并创建页面属性
 
 ```C
 /**fuceU */
-#import "FUManager.h"
-#import "FUAPIDemoBar.h"
-
-@property (nonatomic, strong) FUAPIDemoBar *demoBar;
+#import "UIViewController+FaceUnityUIExtension.h"
 
 ```
 
-2、初始化 UI，并遵循代理  FUAPIDemoBarDelegate ，实现代理方法 `bottomDidChange:` 切换贴纸 和 `filterValueChange:` 更新美颜参数。
+2、在 `viewDidLoad` 中初始化 FaceUnity的界面和 SDK，FaceUnity界面工具和SDK都放在UIViewController+FaceUnityUIExtension中初始化了，也可以自行调用FUAPIDemoBar和FUManager初始化
 
-```C
-// demobar 初始化
--(FUAPIDemoBar *)demoBar {
-    if (!_demoBar) {
-        
-        _demoBar = [[FUAPIDemoBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 164 - 195, self.view.frame.size.width, 195)];
-        
-        _demoBar.mDelegate = self;
-    }
-    return _demoBar ;
-}
-
+```objc
+[self setupFaceUnity];
 ```
 
-#### 切换贴纸
+#### 底部栏切换功能：使用不同的ViewModel控制
 
 ```C
-// 切换贴纸
--(void)bottomDidChange:(int)index{
-    if (index < 3) {
-        [[FUManager shareManager] setRenderType:FUDataTypeBeautify];
+-(void)bottomDidChangeViewModel:(FUBaseViewModel *)viewModel {
+    if (viewModel.type == FUDataTypeBeauty || viewModel.type == FUDataTypebody) {
+        self.renderSwitch.hidden = NO;
+    } else {
+        self.renderSwitch.hidden = YES;
     }
-    if (index == 3) {
-        [[FUManager shareManager] setRenderType:FUDataTypeStrick];
-    }
+
+    [[FUManager shareManager].viewModelManager addToRenderLoop:viewModel];
     
-    if (index == 4) {
-        [[FUManager shareManager] setRenderType:FUDataTypeMakeup];
-    }
-    if (index == 5) {
-        [[FUManager shareManager] setRenderType:FUDataTypebody];
-    }
+    // 设置人脸数
+    [[FUManager shareManager].viewModelManager resetMaxFacesNumber:viewModel.type];
 }
 
 ```
@@ -96,40 +75,36 @@
 #### 更新美颜参数
 
 ```C
-// 更新美颜参数    
-- (void)filterValueChange:(FUBeautyParam *)param{
-    [[FUManager shareManager] filterValueChange:param];
+- (IBAction)filterSliderValueChange:(FUSlider *)sender {
+    _seletedParam.mValue = @(sender.value * _seletedParam.ratio);
+    /**
+     * 这里使用抽象接口，有具体子类决定去哪个业务员模块处理数据
+     */
+    [self.selectedView.viewModel consumerWithData:_seletedParam viewModelBlock:nil];
 }
 ```
 
-### 三、在 `viewDidLoad:` 中初始化 SDK  并将  demoBar 添加到页面上
+### 三、图像处理
+
+在 `ZGCustomVideoCapturePixelBufferDelegate` 代理方法中, 实现 `- (void)captureDevice:(id<ZGCaptureDevice>)device didCapturedData:(CMSampleBufferRef)data` 代理方法（FURenderInput输入和FURenderOutput输出）
 
 ```C
-
-/**faceU */
-[[FUManager shareManager] loadFilter];
-[FUManager shareManager].isRender = YES;
-[FUManager shareManager].flipx = YES;
-[FUManager shareManager].trackFlipx = YES;
-[self.view addSubview:self.demoBar];
-/**faceU */
-
-```
-
-### 四、图像处理
-
-在 `ZGCustomVideoCapturePixelBufferDelegate` 代理方法中, 实现 `- (void)captureDevice:(id<ZGCaptureDevice>)device didCapturedData:(CMSampleBufferRef)data` 代理方法
-
-```C
-if (self.captureBufferType == ZGCustomVideoCaptureBufferTypeCVPixelBuffer) {
-
+- (void)captureDevice:(id<ZGCaptureDevice>)device didCapturedData:(CMSampleBufferRef)data {
+    
     // BufferType: CVPixelBuffer
     CVPixelBufferRef buffer = CMSampleBufferGetImageBuffer(data);
     CMTime timeStamp = CMSampleBufferGetPresentationTimeStamp(data);
-    CVPixelBufferRef fuBuffer = [[FUManager shareManager] renderItemsToPixelBuffer:buffer];
-        
-    [[ZegoExpressEngine sharedEngine] sendCustomVideoCapturePixelBuffer:fuBuffer timestamp:timeStamp];
-        
+    if ([FUManager shareManager].isRender) {
+        FURenderInput *input = [[FURenderInput alloc] init];
+        input.renderConfig.imageOrientation = FUImageOrientationUP;
+        input.pixelBuffer = buffer;
+        //开启重力感应，内部会自动计算正确方向，设置fuSetDefaultRotationMode，无须外面设置
+        input.renderConfig.gravityEnable = YES;
+        FURenderOutput *output = [[FURenderKit shareRenderKit] renderWithInput:input];
+        if (output) {
+            [[ZegoExpressEngine sharedEngine] sendCustomVideoCapturePixelBuffer:output.pixelBuffer timestamp:timeStamp];
+        }
+    }
 }
 
 ```
