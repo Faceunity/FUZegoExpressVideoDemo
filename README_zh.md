@@ -44,32 +44,18 @@
 
 ```C
 /**fuceU */
-#import "UIViewController+FaceUnityUIExtension.h"
+#import "FUDemoManager.h"
 
 ```
 
-2、在 `viewDidLoad` 中初始化 FaceUnity的界面和 SDK，FaceUnity界面工具和SDK都放在UIViewController+FaceUnityUIExtension中初始化了，也可以自行调用FUAPIDemoBar和FUManager初始化
+2、在 `viewDidLoad` 中初始化 FaceUnity的界面和 SDK，FaceUnity界面工具和SDK都放在FUDemoManager中初始化了，也可以自行调用FUAPIDemoBar和FUManager初始化
 
 ```objc
-[self setupFaceUnity];
-```
-
-#### 底部栏切换功能：使用不同的ViewModel控制
-
-```C
--(void)bottomDidChangeViewModel:(FUBaseViewModel *)viewModel {
-    if (viewModel.type == FUDataTypeBeauty || viewModel.type == FUDataTypebody) {
-        self.renderSwitch.hidden = NO;
-    } else {
-        self.renderSwitch.hidden = YES;
+    CGFloat safeAreaBottom = 150;
+    if (@available(iOS 11.0, *)) {
+        safeAreaBottom = [UIApplication sharedApplication].delegate.window.safeAreaInsets.bottom + 150;
     }
-
-    [[FUManager shareManager].viewModelManager addToRenderLoop:viewModel];
-    
-    // 设置人脸数
-    [[FUManager shareManager].viewModelManager resetMaxFacesNumber:viewModel.type];
-}
-
+    [FUDemoManager setupFaceUnityDemoInController:self originY:CGRectGetHeight(self.view.frame) - FUBottomBarHeight - safeAreaBottom];
 ```
 
 #### 更新美颜参数

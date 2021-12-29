@@ -22,7 +22,8 @@
 
 
 /**fuceU */
-#import "UIViewController+FaceUnityUIExtension.h"
+#import "FUDemoManager.h"
+#import "FUTestRecorder.h"
 /**faceU */
 
 
@@ -74,20 +75,16 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged:) name:UIDeviceOrientationDidChangeNotification object:[UIDevice currentDevice]];
     
     // faceunity
-    [self setupFaceUnity];
+    CGFloat safeAreaBottom = 150;
+    if (@available(iOS 11.0, *)) {
+        safeAreaBottom = [UIApplication sharedApplication].delegate.window.safeAreaInsets.bottom + 150;
+    }
+    [FUDemoManager setupFaceUnityDemoInController:self originY:CGRectGetHeight(self.view.frame) - FUBottomBarHeight - safeAreaBottom];
     
     [self startLive];
 }
 
 #pragma mark --------------FaceUnity
-
-/// 销毁道具
-- (void)destoryFaceunityItems
-{
-
-    [[FUManager shareManager] destoryItems];
-    
-}
 
 - (void)setupUI {
     self.roomIDLabel.text = [NSString stringWithFormat:@"RoomID: %@", self.roomID];
@@ -308,6 +305,8 @@
         CVPixelBufferRef buffer = CMSampleBufferGetImageBuffer(data);
         CMTime timeStamp = CMSampleBufferGetPresentationTimeStamp(data);
         if ([FUManager shareManager].isRender) {
+            [[FUTestRecorder shareRecorder] processFrameWithLog];
+            [[FUManager shareManager] updateBeautyBlurEffect];
             FURenderInput *input = [[FURenderInput alloc] init];
             input.renderConfig.imageOrientation = FUImageOrientationUP;
             input.pixelBuffer = buffer;
