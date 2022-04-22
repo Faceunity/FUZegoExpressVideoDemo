@@ -27,6 +27,7 @@
     if (self = [super initWithFrame:frame]) {
         [self setThumbImage:[UIImage imageNamed:@"expource_slider_dot"] forState:UIControlStateNormal];
         [self setMaximumTrackTintColor:[UIColor whiteColor]];
+        [self setMinimumTrackTintColor:[UIColor colorWithRed:55/255.0 green:151/255.0 blue:240/255.0 alpha:1]];
         [self addSubview:self.tipBackgroundImageView];
         [self addSubview:self.tipLabel];
         

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -13,6 +13,23 @@
 		2D9FA3F624F89F9B00D0FDA7 /* CoreML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D9FA3F524F89F9B00D0FDA7 /* CoreML.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		2D9FA3F824F89FA500D0FDA7 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D9FA3F724F89FA500D0FDA7 /* CoreMedia.framework */; };
 		2D9FA3FA24F89FBB00D0FDA7 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D9FA3F924F89FBB00D0FDA7 /* Accelerate.framework */; };
+		2DFDCCAB2779B285005FD7A7 /* ai_human_processor_mb_fast.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2DFDCC9A2779B284005FD7A7 /* ai_human_processor_mb_fast.bundle */; };
+		2DFDCCAC2779B285005FD7A7 /* ai_face_recognizer.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2DFDCC9B2779B284005FD7A7 /* ai_face_recognizer.bundle */; };
+		2DFDCCAD2779B285005FD7A7 /* ai_hand_processor.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2DFDCC9C2779B284005FD7A7 /* ai_hand_processor.bundle */; };
+		2DFDCCAE2779B285005FD7A7 /* ai_face_processor.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2DFDCC9D2779B284005FD7A7 /* ai_face_processor.bundle */; };
+		2DFDCCAF2779B285005FD7A7 /* ai_bgseg_green.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2DFDCC9E2779B284005FD7A7 /* ai_bgseg_green.bundle */; };
+		2DFDCCB02779B285005FD7A7 /* ai_face_processor_lite.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2DFDCC9F2779B284005FD7A7 /* ai_face_processor_lite.bundle */; };
+		2DFDCCB12779B285005FD7A7 /* ai_hairseg.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2DFDCCA02779B284005FD7A7 /* ai_hairseg.bundle */; };
+		2DFDCCB22779B285005FD7A7 /* ai_human_processor.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2DFDCCA12779B284005FD7A7 /* ai_human_processor.bundle */; };
+		2DFDCCB32779B285005FD7A7 /* tongue.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2DFDCCA32779B284005FD7A7 /* tongue.bundle */; };
+		2DFDCCB42779B285005FD7A7 /* fxaa.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2DFDCCA42779B284005FD7A7 /* fxaa.bundle */; };
+		2DFDCCB52779B285005FD7A7 /* face_makeup.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2DFDCCA52779B284005FD7A7 /* face_makeup.bundle */; };
+		2DFDCCB62779B285005FD7A7 /* controller_cpp.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2DFDCCA62779B284005FD7A7 /* controller_cpp.bundle */; };
+		2DFDCCB72779B285005FD7A7 /* body_slim.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2DFDCCA72779B284005FD7A7 /* body_slim.bundle */; };
+		2DFDCCB82779B285005FD7A7 /* fuzzytoonfilter.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2DFDCCA82779B284005FD7A7 /* fuzzytoonfilter.bundle */; };
+		2DFDCCB92779B285005FD7A7 /* face_beautification.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2DFDCCA92779B284005FD7A7 /* face_beautification.bundle */; };
+		2DFDCCBB2779B2BB005FD7A7 /* FURenderKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DFDCCAA2779B285005FD7A7 /* FURenderKit.framework */; platformFilter = ios; };
+		2DFDCCBC2779B2BB005FD7A7 /* FURenderKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2DFDCCAA2779B285005FD7A7 /* FURenderKit.framework */; platformFilter = ios; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6C80915370B66B0F4B55D7A0 /* Pods_ZegoExpressExample_iOS_OC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B971B0148DCFFEB655FBBF53 /* Pods_ZegoExpressExample_iOS_OC.framework */; };
 		8608C3AE23631EDB00CE367B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8608C3AD23631EDB00CE367B /* AppDelegate.m */; };
 		8608C3B923631EDC00CE367B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8608C3B823631EDC00CE367B /* Assets.xcassets */; };
@@ -118,18 +135,6 @@
 		86EDFE7E23CB0D2100A1A3AC /* ZGCaptureDeviceImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EDFE7D23CB0D2100A1A3AC /* ZGCaptureDeviceImage.m */; };
 		86F6058924AB1D960034C137 /* RecordCapture.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86F6058824AB1D960034C137 /* RecordCapture.storyboard */; };
 		86F6058C24AB1DAF0034C137 /* ZGRecordCaptureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86F6058B24AB1DAF0034C137 /* ZGRecordCaptureViewController.m */; };
-		E32D5332263957CE00E6C1C2 /* controller_cpp.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E32D5331263957CE00E6C1C2 /* controller_cpp.bundle */; };
-		E340F2EC26241F93001D967B /* ai_hand_processor.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E340F2DF26241F93001D967B /* ai_hand_processor.bundle */; };
-		E340F2ED26241F93001D967B /* ai_face_processor.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E340F2E026241F93001D967B /* ai_face_processor.bundle */; };
-		E340F2EE26241F93001D967B /* ai_face_processor_lite.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E340F2E126241F93001D967B /* ai_face_processor_lite.bundle */; };
-		E340F2EF26241F93001D967B /* ai_hairseg.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E340F2E226241F93001D967B /* ai_hairseg.bundle */; };
-		E340F2F026241F93001D967B /* ai_human_processor.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E340F2E326241F93001D967B /* ai_human_processor.bundle */; };
-		E340F2F126241F93001D967B /* tongue.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E340F2E526241F93001D967B /* tongue.bundle */; };
-		E340F2F226241F93001D967B /* fxaa.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E340F2E626241F93001D967B /* fxaa.bundle */; };
-		E340F2F326241F93001D967B /* face_makeup.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E340F2E726241F93001D967B /* face_makeup.bundle */; };
-		E340F2F526241F93001D967B /* body_slim.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E340F2E926241F93001D967B /* body_slim.bundle */; };
-		E340F2F626241F93001D967B /* fuzzytoonfilter.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E340F2EA26241F93001D967B /* fuzzytoonfilter.bundle */; };
-		E340F2F726241F93001D967B /* face_beautification.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E340F2EB26241F93001D967B /* face_beautification.bundle */; };
 		E37525202714313D00DCD894 /* FUViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E37524D12714313D00DCD894 /* FUViewModel.m */; };
 		E37525212714313D00DCD894 /* FUBeautySkinViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E37524D22714313D00DCD894 /* FUBeautySkinViewModel.m */; };
 		E37525222714313D00DCD894 /* FUBeautyShapeViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E37524D32714313D00DCD894 /* FUBeautyShapeViewModel.m */; };
@@ -178,8 +183,6 @@
 		E375254D2714313D00DCD894 /* DaisyPig.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E375251E2714313D00DCD894 /* DaisyPig.bundle */; };
 		E375254E2714313D00DCD894 /* FUManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E375251F2714313D00DCD894 /* FUManager.m */; };
 		E3E0A8CD26BD0D340078E40C /* README_zh.md in Resources */ = {isa = PBXBuildFile; fileRef = E3E0A8CC26BD0D340078E40C /* README_zh.md */; };
-		E3E0A8D026BD0DB00078E40C /* FURenderKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3E0A8CE26BD0DAA0078E40C /* FURenderKit.framework */; };
-		E3E0A8D126BD0DB00078E40C /* FURenderKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E3E0A8CE26BD0DAA0078E40C /* FURenderKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -189,7 +192,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				E3E0A8D126BD0DB00078E40C /* FURenderKit.framework in Embed Frameworks */,
+				2DFDCCBC2779B2BB005FD7A7 /* FURenderKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -205,6 +208,22 @@
 		2D9FA3F524F89F9B00D0FDA7 /* CoreML.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreML.framework; path = System/Library/Frameworks/CoreML.framework; sourceTree = SDKROOT; };
 		2D9FA3F724F89FA500D0FDA7 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		2D9FA3F924F89FBB00D0FDA7 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		2DFDCC9A2779B284005FD7A7 /* ai_human_processor_mb_fast.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = ai_human_processor_mb_fast.bundle; sourceTree = "<group>"; };
+		2DFDCC9B2779B284005FD7A7 /* ai_face_recognizer.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = ai_face_recognizer.bundle; sourceTree = "<group>"; };
+		2DFDCC9C2779B284005FD7A7 /* ai_hand_processor.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = ai_hand_processor.bundle; sourceTree = "<group>"; };
+		2DFDCC9D2779B284005FD7A7 /* ai_face_processor.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = ai_face_processor.bundle; sourceTree = "<group>"; };
+		2DFDCC9E2779B284005FD7A7 /* ai_bgseg_green.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = ai_bgseg_green.bundle; sourceTree = "<group>"; };
+		2DFDCC9F2779B284005FD7A7 /* ai_face_processor_lite.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = ai_face_processor_lite.bundle; sourceTree = "<group>"; };
+		2DFDCCA02779B284005FD7A7 /* ai_hairseg.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = ai_hairseg.bundle; sourceTree = "<group>"; };
+		2DFDCCA12779B284005FD7A7 /* ai_human_processor.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = ai_human_processor.bundle; sourceTree = "<group>"; };
+		2DFDCCA32779B284005FD7A7 /* tongue.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = tongue.bundle; sourceTree = "<group>"; };
+		2DFDCCA42779B284005FD7A7 /* fxaa.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = fxaa.bundle; sourceTree = "<group>"; };
+		2DFDCCA52779B284005FD7A7 /* face_makeup.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = face_makeup.bundle; sourceTree = "<group>"; };
+		2DFDCCA62779B284005FD7A7 /* controller_cpp.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = controller_cpp.bundle; sourceTree = "<group>"; };
+		2DFDCCA72779B284005FD7A7 /* body_slim.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = body_slim.bundle; sourceTree = "<group>"; };
+		2DFDCCA82779B284005FD7A7 /* fuzzytoonfilter.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = fuzzytoonfilter.bundle; sourceTree = "<group>"; };
+		2DFDCCA92779B284005FD7A7 /* face_beautification.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = face_beautification.bundle; sourceTree = "<group>"; };
+		2DFDCCAA2779B285005FD7A7 /* FURenderKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FURenderKit.framework; sourceTree = "<group>"; };
 		436AFA135F7547EFFB390DDA /* Pods-ZegoExpressExample-iOS-OC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZegoExpressExample-iOS-OC.debug.xcconfig"; path = "Target Support Files/Pods-ZegoExpressExample-iOS-OC/Pods-ZegoExpressExample-iOS-OC.debug.xcconfig"; sourceTree = "<group>"; };
 		8608C3A923631EDB00CE367B /* ZegoExpressExample-iOS-OC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ZegoExpressExample-iOS-OC.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8608C3AC23631EDB00CE367B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -397,18 +416,6 @@
 		86F6058B24AB1DAF0034C137 /* ZGRecordCaptureViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZGRecordCaptureViewController.m; sourceTree = "<group>"; };
 		B971B0148DCFFEB655FBBF53 /* Pods_ZegoExpressExample_iOS_OC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ZegoExpressExample_iOS_OC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E32D52A32639514C00E6C1C2 /* authpack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = authpack.h; sourceTree = "<group>"; };
-		E32D5331263957CE00E6C1C2 /* controller_cpp.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = controller_cpp.bundle; sourceTree = "<group>"; };
-		E340F2DF26241F93001D967B /* ai_hand_processor.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = ai_hand_processor.bundle; sourceTree = "<group>"; };
-		E340F2E026241F93001D967B /* ai_face_processor.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = ai_face_processor.bundle; sourceTree = "<group>"; };
-		E340F2E126241F93001D967B /* ai_face_processor_lite.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = ai_face_processor_lite.bundle; sourceTree = "<group>"; };
-		E340F2E226241F93001D967B /* ai_hairseg.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = ai_hairseg.bundle; sourceTree = "<group>"; };
-		E340F2E326241F93001D967B /* ai_human_processor.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = ai_human_processor.bundle; sourceTree = "<group>"; };
-		E340F2E526241F93001D967B /* tongue.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = tongue.bundle; sourceTree = "<group>"; };
-		E340F2E626241F93001D967B /* fxaa.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = fxaa.bundle; sourceTree = "<group>"; };
-		E340F2E726241F93001D967B /* face_makeup.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = face_makeup.bundle; sourceTree = "<group>"; };
-		E340F2E926241F93001D967B /* body_slim.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = body_slim.bundle; sourceTree = "<group>"; };
-		E340F2EA26241F93001D967B /* fuzzytoonfilter.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = fuzzytoonfilter.bundle; sourceTree = "<group>"; };
-		E340F2EB26241F93001D967B /* face_beautification.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = face_beautification.bundle; sourceTree = "<group>"; };
 		E37524D12714313D00DCD894 /* FUViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FUViewModel.m; sourceTree = "<group>"; };
 		E37524D22714313D00DCD894 /* FUBeautySkinViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FUBeautySkinViewModel.m; sourceTree = "<group>"; };
 		E37524D32714313D00DCD894 /* FUBeautyShapeViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FUBeautyShapeViewModel.m; sourceTree = "<group>"; };
@@ -482,7 +489,6 @@
 		E375251E2714313D00DCD894 /* DaisyPig.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = DaisyPig.bundle; sourceTree = "<group>"; };
 		E375251F2714313D00DCD894 /* FUManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FUManager.m; sourceTree = "<group>"; };
 		E3E0A8CC26BD0D340078E40C /* README_zh.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README_zh.md; sourceTree = "<group>"; };
-		E3E0A8CE26BD0DAA0078E40C /* FURenderKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FURenderKit.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -498,7 +504,7 @@
 				2D9FA3F624F89F9B00D0FDA7 /* CoreML.framework in Frameworks */,
 				86AA7AB1237BDB7300B2D31E /* SSZipArchive.framework in Frameworks */,
 				867BBD0C2376E018008F7D4F /* SystemConfiguration.framework in Frameworks */,
-				E3E0A8D026BD0DB00078E40C /* FURenderKit.framework in Frameworks */,
+				2DFDCCBB2779B2BB005FD7A7 /* FURenderKit.framework in Frameworks */,
 				867BBD0E2376E02B008F7D4F /* libz.tbd in Frameworks */,
 				2D9FA3F224F89F8B00D0FDA7 /* OpenGLES.framework in Frameworks */,
 				6C80915370B66B0F4B55D7A0 /* Pods_ZegoExpressExample_iOS_OC.framework in Frameworks */,
@@ -524,6 +530,44 @@
 				2D7AEBDF2541341B002D1E5E /* MBProgressHUD.m */,
 			);
 			path = MBProgressHUD;
+			sourceTree = "<group>";
+		};
+		2DFDCC982779B284005FD7A7 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				2DFDCC992779B284005FD7A7 /* model */,
+				2DFDCCA22779B284005FD7A7 /* graphics */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		2DFDCC992779B284005FD7A7 /* model */ = {
+			isa = PBXGroup;
+			children = (
+				2DFDCC9A2779B284005FD7A7 /* ai_human_processor_mb_fast.bundle */,
+				2DFDCC9B2779B284005FD7A7 /* ai_face_recognizer.bundle */,
+				2DFDCC9C2779B284005FD7A7 /* ai_hand_processor.bundle */,
+				2DFDCC9D2779B284005FD7A7 /* ai_face_processor.bundle */,
+				2DFDCC9E2779B284005FD7A7 /* ai_bgseg_green.bundle */,
+				2DFDCC9F2779B284005FD7A7 /* ai_face_processor_lite.bundle */,
+				2DFDCCA02779B284005FD7A7 /* ai_hairseg.bundle */,
+				2DFDCCA12779B284005FD7A7 /* ai_human_processor.bundle */,
+			);
+			path = model;
+			sourceTree = "<group>";
+		};
+		2DFDCCA22779B284005FD7A7 /* graphics */ = {
+			isa = PBXGroup;
+			children = (
+				2DFDCCA32779B284005FD7A7 /* tongue.bundle */,
+				2DFDCCA42779B284005FD7A7 /* fxaa.bundle */,
+				2DFDCCA52779B284005FD7A7 /* face_makeup.bundle */,
+				2DFDCCA62779B284005FD7A7 /* controller_cpp.bundle */,
+				2DFDCCA72779B284005FD7A7 /* body_slim.bundle */,
+				2DFDCCA82779B284005FD7A7 /* fuzzytoonfilter.bundle */,
+				2DFDCCA92779B284005FD7A7 /* face_beautification.bundle */,
+			);
+			path = graphics;
 			sourceTree = "<group>";
 		};
 		8608C3A023631EDB00CE367B = {
@@ -994,46 +1038,11 @@
 		E340F2DA26241F6C001D967B /* Lib */ = {
 			isa = PBXGroup;
 			children = (
-				E3E0A8CE26BD0DAA0078E40C /* FURenderKit.framework */,
+				2DFDCCAA2779B285005FD7A7 /* FURenderKit.framework */,
+				2DFDCC982779B284005FD7A7 /* Resources */,
 				E32D52A32639514C00E6C1C2 /* authpack.h */,
-				E340F2DD26241F93001D967B /* Resources */,
 			);
 			path = Lib;
-			sourceTree = "<group>";
-		};
-		E340F2DD26241F93001D967B /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				E340F2DE26241F93001D967B /* model */,
-				E340F2E426241F93001D967B /* graphics */,
-			);
-			path = Resources;
-			sourceTree = "<group>";
-		};
-		E340F2DE26241F93001D967B /* model */ = {
-			isa = PBXGroup;
-			children = (
-				E340F2DF26241F93001D967B /* ai_hand_processor.bundle */,
-				E340F2E026241F93001D967B /* ai_face_processor.bundle */,
-				E340F2E126241F93001D967B /* ai_face_processor_lite.bundle */,
-				E340F2E226241F93001D967B /* ai_hairseg.bundle */,
-				E340F2E326241F93001D967B /* ai_human_processor.bundle */,
-			);
-			path = model;
-			sourceTree = "<group>";
-		};
-		E340F2E426241F93001D967B /* graphics */ = {
-			isa = PBXGroup;
-			children = (
-				E340F2E926241F93001D967B /* body_slim.bundle */,
-				E32D5331263957CE00E6C1C2 /* controller_cpp.bundle */,
-				E340F2EB26241F93001D967B /* face_beautification.bundle */,
-				E340F2E726241F93001D967B /* face_makeup.bundle */,
-				E340F2EA26241F93001D967B /* fuzzytoonfilter.bundle */,
-				E340F2E626241F93001D967B /* fxaa.bundle */,
-				E340F2E526241F93001D967B /* tongue.bundle */,
-			);
-			path = graphics;
 			sourceTree = "<group>";
 		};
 		E37524CF2714313C00DCD894 /* Demo */ = {
@@ -1234,6 +1243,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E375253A2714313D00DCD894 /* yanshimao.bundle in Resources */,
+				2DFDCCB42779B285005FD7A7 /* fxaa.bundle in Resources */,
 				E37525472714313D00DCD894 /* nuandong.bundle in Resources */,
 				8698292E24C19E56008145B1 /* AudioEffect.storyboard in Resources */,
 				860B6391240673E500D0E9C8 /* AuxPublisher.storyboard in Resources */,
@@ -1242,41 +1252,44 @@
 				8656819C24476DF100BEE4C8 /* test.wav in Resources */,
 				E37525382714313D00DCD894 /* Rose.bundle in Resources */,
 				863FED9A24F3BC920008F272 /* Localizable.strings in Resources */,
-				E340F2F326241F93001D967B /* face_makeup.bundle in Resources */,
-				E340F2F526241F93001D967B /* body_slim.bundle in Resources */,
 				8608C3E22363244A00CE367B /* GlobalConfig.storyboard in Resources */,
 				861376302387B78400C30486 /* RoomMessage.storyboard in Resources */,
 				E37525452714313D00DCD894 /* shaonv.bundle in Resources */,
+				2DFDCCB32779B285005FD7A7 /* tongue.bundle in Resources */,
+				2DFDCCAB2779B285005FD7A7 /* ai_human_processor_mb_fast.bundle in Resources */,
 				E37525422714313D00DCD894 /* renyu.bundle in Resources */,
 				86BF9808239F47B000319709 /* Beautify.storyboard in Resources */,
+				2DFDCCB92779B285005FD7A7 /* face_beautification.bundle in Resources */,
+				2DFDCCAE2779B285005FD7A7 /* ai_face_processor.bundle in Resources */,
 				E3E0A8CD26BD0D340078E40C /* README_zh.md in Resources */,
 				E375254D2714313D00DCD894 /* DaisyPig.bundle in Resources */,
 				E37525392714313D00DCD894 /* linjia.bundle in Resources */,
 				E37525372714313D00DCD894 /* oumei.bundle in Resources */,
+				2DFDCCB72779B285005FD7A7 /* body_slim.bundle in Resources */,
 				861376192384E65700C30486 /* Mixer.storyboard in Resources */,
+				2DFDCCB02779B285005FD7A7 /* ai_face_processor_lite.bundle in Resources */,
 				8608C3ED2363244A00CE367B /* Main.storyboard in Resources */,
 				86EDFE7123CABC6900A1A3AC /* CustomVideoCapture.storyboard in Resources */,
 				86B6E5552395223600078757 /* SoundLevel.storyboard in Resources */,
 				86F6058924AB1D960034C137 /* RecordCapture.storyboard in Resources */,
-				E340F2ED26241F93001D967B /* ai_face_processor.bundle in Resources */,
+				2DFDCCAD2779B285005FD7A7 /* ai_hand_processor.bundle in Resources */,
+				2DFDCCB52779B285005FD7A7 /* face_makeup.bundle in Resources */,
 				E375254B2714313D00DCD894 /* sdlu.bundle in Resources */,
-				E340F2F626241F93001D967B /* fuzzytoonfilter.bundle in Resources */,
 				E37525492714313D00DCD894 /* FaceUnity.xcassets in Resources */,
 				E37525412714313D00DCD894 /* chuju.bundle in Resources */,
+				2DFDCCB22779B285005FD7A7 /* ai_human_processor.bundle in Resources */,
 				E375254C2714313D00DCD894 /* xueqiu_lm_fu.bundle in Resources */,
+				2DFDCCB62779B285005FD7A7 /* controller_cpp.bundle in Resources */,
+				2DFDCCB12779B285005FD7A7 /* ai_hairseg.bundle in Resources */,
 				E37525462714313D00DCD894 /* chuqiu.bundle in Resources */,
+				2DFDCCAF2779B285005FD7A7 /* ai_bgseg_green.bundle in Resources */,
 				8608C3BC23631EDC00CE367B /* LaunchScreen.storyboard in Resources */,
-				E340F2F226241F93001D967B /* fxaa.bundle in Resources */,
-				E340F2EE26241F93001D967B /* ai_face_processor_lite.bundle in Resources */,
 				8608C3EC2363244A00CE367B /* Test.storyboard in Resources */,
 				E37525432714313D00DCD894 /* qianzhihe.bundle in Resources */,
-				E340F2F026241F93001D967B /* ai_human_processor.bundle in Resources */,
-				E32D5332263957CE00E6C1C2 /* controller_cpp.bundle in Resources */,
 				8656819B24476DF100BEE4C8 /* sample.mp3 in Resources */,
-				E340F2F126241F93001D967B /* tongue.bundle in Resources */,
 				865A5F4123B308BB001BB0F4 /* ad.mp4 in Resources */,
 				8608C3B923631EDC00CE367B /* Assets.xcassets in Resources */,
-				E340F2EF26241F93001D967B /* ai_hairseg.bundle in Resources */,
+				2DFDCCB82779B285005FD7A7 /* fuzzytoonfilter.bundle in Resources */,
 				E375253F2714313D00DCD894 /* jianling.bundle in Resources */,
 				E37525362714313D00DCD894 /* FaceUnity.strings in Resources */,
 				865A5F3423B30626001BB0F4 /* MediaPlayer.storyboard in Resources */,
@@ -1284,10 +1297,9 @@
 				8684965A23BC97F100AE7A58 /* CustomVideoRender.storyboard in Resources */,
 				86A502722369719900D51012 /* VideoTalk.storyboard in Resources */,
 				86BB7092236457D500FF2608 /* PlayStream.storyboard in Resources */,
-				E340F2F726241F93001D967B /* face_beautification.bundle in Resources */,
+				2DFDCCAC2779B285005FD7A7 /* ai_face_recognizer.bundle in Resources */,
 				86E90C9F24AB2FDE00507352 /* CustomAudioIO.storyboard in Resources */,
 				E375253C2714313D00DCD894 /* ziyun.bundle in Resources */,
-				E340F2EC26241F93001D967B /* ai_hand_processor.bundle in Resources */,
 				86294D2623A3992B00D91DD6 /* ZegoTestJson.json in Resources */,
 				E37525442714313D00DCD894 /* wumei.bundle in Resources */,
 				E375253D2714313D00DCD894 /* chaomo.bundle in Resources */,
@@ -1685,7 +1697,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 35A6KD62ZJ;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
