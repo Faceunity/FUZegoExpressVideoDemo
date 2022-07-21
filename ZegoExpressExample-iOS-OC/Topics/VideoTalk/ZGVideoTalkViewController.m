@@ -66,6 +66,8 @@ CGFloat const ZGVideoTalkStreamViewSpacing = 8.f;
 
 @property (nonatomic, strong) id<ZGCaptureDevice> captureDevice;
 
+@property (nonatomic, strong) FUDemoManager *demoManager;
+
 
 @end
 
@@ -98,7 +100,8 @@ CGFloat const ZGVideoTalkStreamViewSpacing = 8.f;
     if (@available(iOS 11.0, *)) {
         safeAreaBottom = [UIApplication sharedApplication].delegate.window.safeAreaInsets.bottom + 150;
     }
-    [FUDemoManager setupFaceUnityDemoInController:self originY:CGRectGetHeight(self.view.frame) - FUBottomBarHeight - safeAreaBottom];
+    
+    self.demoManager =  [[FUDemoManager alloc] initWithTargetController:self originY:CGRectGetHeight(self.view.frame) - FUBottomBarHeight - safeAreaBottom];
     
     [self createEngine];
     [self joinTalkRoom];

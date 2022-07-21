@@ -53,6 +53,8 @@
 /** 推流状态 */
 @property (nonatomic, assign) ZegoPublisherState publisherState;
 
+@property (nonatomic, strong) FUDemoManager *demoManager;
+
 
 @end
 
@@ -79,7 +81,7 @@
     if (@available(iOS 11.0, *)) {
         safeAreaBottom = [UIApplication sharedApplication].delegate.window.safeAreaInsets.bottom + 150;
     }
-    [FUDemoManager setupFaceUnityDemoInController:self originY:CGRectGetHeight(self.view.frame) - FUBottomBarHeight - safeAreaBottom];
+    self.demoManager =  [[FUDemoManager alloc] initWithTargetController:self originY:CGRectGetHeight(self.view.frame) - FUBottomBarHeight - safeAreaBottom];
     
     [self startLive];
 }
