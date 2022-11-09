@@ -493,6 +493,7 @@ NSString* const ZGPublishStreamTopicStreamID = @"ZGPublishStreamTopicStreamID";
 
 - (void)captureDevice:(id<ZGCaptureDevice>)device didCapturedData:(CMSampleBufferRef)data {
     
+    [self.demoManager faceUnityManagerCheckAI];
     // BufferType: CVPixelBuffer
     CVPixelBufferRef buffer = CMSampleBufferGetImageBuffer(data);
     CMTime timeStamp = CMSampleBufferGetPresentationTimeStamp(data);

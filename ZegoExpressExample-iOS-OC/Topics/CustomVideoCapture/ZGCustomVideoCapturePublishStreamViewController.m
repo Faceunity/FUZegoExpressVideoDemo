@@ -302,7 +302,7 @@
 - (void)captureDevice:(id<ZGCaptureDevice>)device didCapturedData:(CMSampleBufferRef)data {
 
     if (self.captureBufferType == ZGCustomVideoCaptureBufferTypeCVPixelBuffer) {
-
+        [self.demoManager faceUnityManagerCheckAI];
         // BufferType: CVPixelBuffer
         CVPixelBufferRef buffer = CMSampleBufferGetImageBuffer(data);
         CMTime timeStamp = CMSampleBufferGetPresentationTimeStamp(data);
