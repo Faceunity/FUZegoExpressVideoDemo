@@ -53,8 +53,6 @@
 /** 推流状态 */
 @property (nonatomic, assign) ZegoPublisherState publisherState;
 
-@property (nonatomic, strong) FUDemoManager *demoManager;
-
 
 @end
 
@@ -77,11 +75,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged:) name:UIDeviceOrientationDidChangeNotification object:[UIDevice currentDevice]];
     
     // faceunity
-    CGFloat safeAreaBottom = 150;
-    if (@available(iOS 11.0, *)) {
-        safeAreaBottom = [UIApplication sharedApplication].delegate.window.safeAreaInsets.bottom + 150;
-    }
-    self.demoManager =  [[FUDemoManager alloc] initWithTargetController:self originY:CGRectGetHeight(self.view.frame) - FUBottomBarHeight - safeAreaBottom];
+    [FUDemoManager setupFUSDK];
+    [[FUDemoManager shared] addDemoViewToView:self.view originY:CGRectGetHeight(self.view.frame) - FUBottomBarHeight - FUSafaAreaBottomInsets() - 150];
     
     [self startLive];
 }
@@ -119,7 +114,7 @@
         [self.captureDevice switchCameraPosition];
         
         /**faceU 切换摄像头 */
-        [[FUManager shareManager] onCameraChange];
+        [FUDemoManager resetTrackedResult];
         
     }
     
@@ -190,7 +185,7 @@
 
     /**faceU */
     /**销毁全部道具*/
-    [[FUManager shareManager] destoryItems];
+    [FUDemoManager destory];
     
     ZGLogInfo(@"🔌 Stop preview");
     [[ZegoExpressEngine sharedEngine] stopPreview];
@@ -302,13 +297,13 @@
 - (void)captureDevice:(id<ZGCaptureDevice>)device didCapturedData:(CMSampleBufferRef)data {
 
     if (self.captureBufferType == ZGCustomVideoCaptureBufferTypeCVPixelBuffer) {
-        [self.demoManager faceUnityManagerCheckAI];
+        [[FUDemoManager shared] checkAITrackedResult];
         // BufferType: CVPixelBuffer
         CVPixelBufferRef buffer = CMSampleBufferGetImageBuffer(data);
         CMTime timeStamp = CMSampleBufferGetPresentationTimeStamp(data);
-        if ([FUManager shareManager].isRender) {
+        if ([FUDemoManager shared].shouldRender) {
             [[FUTestRecorder shareRecorder] processFrameWithLog];
-            [[FUManager shareManager] updateBeautyBlurEffect];
+            [FUDemoManager updateBeautyBlurEffect];
             FURenderInput *input = [[FURenderInput alloc] init];
             input.renderConfig.imageOrientation = FUImageOrientationUP;
             input.pixelBuffer = buffer;
@@ -319,6 +314,8 @@
                 // [[ZegoExpressEngine sharedEngine] enableCamera:YES];
                 [[ZegoExpressEngine sharedEngine] sendCustomVideoCapturePixelBuffer:output.pixelBuffer timestamp:timeStamp];
             }
+        } else {
+            [[ZegoExpressEngine sharedEngine] sendCustomVideoCapturePixelBuffer:buffer timestamp:timeStamp];
         }
     } else if (self.captureBufferType == ZGCustomVideoCaptureBufferTypeEncodedFrame) {
 

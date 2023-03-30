@@ -66,9 +66,6 @@ CGFloat const ZGVideoTalkStreamViewSpacing = 8.f;
 
 @property (nonatomic, strong) id<ZGCaptureDevice> captureDevice;
 
-@property (nonatomic, strong) FUDemoManager *demoManager;
-
-
 @end
 
 @implementation ZGVideoTalkViewController
@@ -96,12 +93,8 @@ CGFloat const ZGVideoTalkStreamViewSpacing = 8.f;
     
     [self setupUI];
 
-    CGFloat safeAreaBottom = 150;
-    if (@available(iOS 11.0, *)) {
-        safeAreaBottom = [UIApplication sharedApplication].delegate.window.safeAreaInsets.bottom + 150;
-    }
-    
-    self.demoManager =  [[FUDemoManager alloc] initWithTargetController:self originY:CGRectGetHeight(self.view.frame) - FUBottomBarHeight - safeAreaBottom];
+    [FUDemoManager setupFUSDK];
+    [[FUDemoManager shared] addDemoViewToView:self.view originY:CGRectGetHeight(self.view.frame) - FUBottomBarHeight - FUSafaAreaBottomInsets() - 150];
     
     [self createEngine];
     [self joinTalkRoom];
@@ -197,13 +190,13 @@ CGFloat const ZGVideoTalkStreamViewSpacing = 8.f;
 #pragma mark - ZGCustomVideoCapturePixelBufferDelegate
 
 - (void)captureDevice:(id<ZGCaptureDevice>)device didCapturedData:(CMSampleBufferRef)data {
-    [self.demoManager faceUnityManagerCheckAI];
+    [[FUDemoManager shared] checkAITrackedResult];
     // BufferType: CVPixelBuffer
     CVPixelBufferRef buffer = CMSampleBufferGetImageBuffer(data);
     CMTime timeStamp = CMSampleBufferGetPresentationTimeStamp(data);
-    if ([FUManager shareManager].isRender) {
+    if ([FUDemoManager shared].shouldRender) {
         [[FUTestRecorder shareRecorder] processFrameWithLog];
-        [[FUManager shareManager] updateBeautyBlurEffect];
+        [FUDemoManager updateBeautyBlurEffect];
         FURenderInput *input = [[FURenderInput alloc] init];
         input.renderConfig.imageOrientation = FUImageOrientationUP;
         input.pixelBuffer = buffer;
@@ -213,6 +206,8 @@ CGFloat const ZGVideoTalkStreamViewSpacing = 8.f;
         if (output) {
             [[ZegoExpressEngine sharedEngine] sendCustomVideoCapturePixelBuffer:output.pixelBuffer timestamp:timeStamp];
         }
+    } else {
+        [[ZegoExpressEngine sharedEngine] sendCustomVideoCapturePixelBuffer:buffer timestamp:timeStamp];
     }
     
 }
@@ -226,14 +221,11 @@ CGFloat const ZGVideoTalkStreamViewSpacing = 8.f;
     [[ZegoExpressEngine sharedEngine] logoutRoom:_roomID];
     ZGLogInfo(@"🏳️ Destroy ZegoExpressEngine");
     [ZegoExpressEngine destroyEngine:nil];
-    
-    // 销毁道具
-    [[FUManager shareManager] destoryItems];
-    
 }
 
 /// Exit room when VC dealloc
 - (void)dealloc {
+    [FUDemoManager destory];
     [self exitRoom];
 }
 

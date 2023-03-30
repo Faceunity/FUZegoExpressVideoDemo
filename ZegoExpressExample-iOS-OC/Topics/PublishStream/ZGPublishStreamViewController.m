@@ -49,8 +49,6 @@ NSString* const ZGPublishStreamTopicStreamID = @"ZGPublishStreamTopicStreamID";
 
 @property (nonatomic, strong) id<ZGCaptureDevice> captureDevice;
 
-@property (nonatomic, strong) FUDemoManager *demoManager;
-
 @end
 
 @implementation ZGPublishStreamViewController
@@ -61,7 +59,7 @@ NSString* const ZGPublishStreamTopicStreamID = @"ZGPublishStreamTopicStreamID";
 
     /**faceU */
     /**销毁全部道具*/
-    [[FUManager shareManager] destoryItems];
+    [FUDemoManager destory];
     
     ZGLogInfo(@"🔌 Stop preview");
     [[ZegoExpressEngine sharedEngine] stopPreview];
@@ -112,11 +110,8 @@ NSString* const ZGPublishStreamTopicStreamID = @"ZGPublishStreamTopicStreamID";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged:) name:UIDeviceOrientationDidChangeNotification object:[UIDevice currentDevice]];
     
     // faceunity
-    CGFloat safeAreaBottom = 150;
-    if (@available(iOS 11.0, *)) {
-        safeAreaBottom = [UIApplication sharedApplication].delegate.window.safeAreaInsets.bottom + 150;
-    }
-    self.demoManager =  [[FUDemoManager alloc] initWithTargetController:self originY:CGRectGetHeight(self.view.frame) - FUBottomBarHeight - safeAreaBottom];
+    [FUDemoManager setupFUSDK];
+    [[FUDemoManager shared] addDemoViewToView:self.view originY:CGRectGetHeight(self.view.frame) - FUBottomBarHeight - FUSafaAreaBottomInsets() - 150];
 }
 
 
@@ -493,13 +488,13 @@ NSString* const ZGPublishStreamTopicStreamID = @"ZGPublishStreamTopicStreamID";
 
 - (void)captureDevice:(id<ZGCaptureDevice>)device didCapturedData:(CMSampleBufferRef)data {
     
-    [self.demoManager faceUnityManagerCheckAI];
+    [[FUDemoManager shared] checkAITrackedResult];
     // BufferType: CVPixelBuffer
     CVPixelBufferRef buffer = CMSampleBufferGetImageBuffer(data);
     CMTime timeStamp = CMSampleBufferGetPresentationTimeStamp(data);
-    if ([FUManager shareManager].isRender) {
+    if ([FUDemoManager shared].shouldRender) {
         [[FUTestRecorder shareRecorder] processFrameWithLog];
-        [[FUManager shareManager] updateBeautyBlurEffect];
+        [FUDemoManager updateBeautyBlurEffect];
         FURenderInput *input = [[FURenderInput alloc] init];
         input.renderConfig.imageOrientation = FUImageOrientationUP;
         input.pixelBuffer = buffer;
@@ -509,6 +504,8 @@ NSString* const ZGPublishStreamTopicStreamID = @"ZGPublishStreamTopicStreamID";
         if (output) {
             [[ZegoExpressEngine sharedEngine] sendCustomVideoCapturePixelBuffer:output.pixelBuffer timestamp:timeStamp];
         }
+    } else {
+        [[ZegoExpressEngine sharedEngine] sendCustomVideoCapturePixelBuffer:buffer timestamp:timeStamp];
     }
 }
 
