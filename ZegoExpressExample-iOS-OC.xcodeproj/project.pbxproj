@@ -1770,7 +1770,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.zego.VideoTalk;
 				PRODUCT_NAME = "ZegoExpressExample-iOS-OC";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = FUWildcard;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = FULiveDemo_dev;
 				SYMROOT = DerivedData/Build/Products;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1806,7 +1806,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.zego.VideoTalk;
 				PRODUCT_NAME = "ZegoExpressExample-iOS-OC";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = FUWildcard;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = FULiveDemo_dev;
 				SYMROOT = DerivedData/Build/Products;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
