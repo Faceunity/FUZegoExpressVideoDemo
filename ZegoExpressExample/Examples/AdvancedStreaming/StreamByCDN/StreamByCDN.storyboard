@@ -1,0 +1,554 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="vy6-Lt-WFM">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Stream ByCDN Controller-->
+        <scene sceneID="3Ir-XW-Tzf">
+            <objects>
+                <viewController storyboardIdentifier="StreamByCDN" id="vy6-Lt-WFM" customClass="ZGStreamByCDNController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Md3-Wf-cvm"/>
+                        <viewControllerLayoutGuide type="bottom" id="4ce-2A-hJI"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="aZh-Hi-lJf">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xOj-hH-Ybg">
+                                <rect key="frame" x="12" y="132" width="189" height="252"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Preview" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fCR-9g-ecm">
+                                        <rect key="frame" x="64.5" y="5" width="60" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemFillColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="xOj-hH-Ybg" secondAttribute="height" multiplier="3:4" id="Tzy-TM-JXo"/>
+                                    <constraint firstItem="fCR-9g-ecm" firstAttribute="centerX" secondItem="xOj-hH-Ybg" secondAttribute="centerX" id="i1o-sS-49R"/>
+                                    <constraint firstItem="fCR-9g-ecm" firstAttribute="top" secondItem="xOj-hH-Ybg" secondAttribute="top" constant="5" id="m0t-d1-J4j"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qiJ-ek-42x">
+                                <rect key="frame" x="213" y="132" width="189" height="252"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Play Stream" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Btu-bY-XX9">
+                                        <rect key="frame" x="49" y="5" width="91" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemFillColor"/>
+                                <constraints>
+                                    <constraint firstItem="Btu-bY-XX9" firstAttribute="top" secondItem="qiJ-ek-42x" secondAttribute="top" constant="5" id="2ML-To-HxN"/>
+                                    <constraint firstItem="Btu-bY-XX9" firstAttribute="centerX" secondItem="qiJ-ek-42x" secondAttribute="centerX" id="bjc-VA-xIs"/>
+                                </constraints>
+                            </view>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="XMt-XP-vs7">
+                                <rect key="frame" x="0.0" y="44" width="414" height="60"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="afb-5r-7HD"/>
+                                </constraints>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="ILi-Em-59R">
+                                <rect key="frame" x="12" y="396" width="390" height="207"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="edS-F0-8Yc">
+                                        <rect key="frame" x="0.0" y="0.0" width="390" height="111"/>
+                                        <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="awS-Ay-vFp">
+                                                <rect key="frame" x="0.0" y="0.0" width="390" height="17"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="转推 CDN" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zbP-3q-Jda">
+                                                        <rect key="frame" x="0.0" y="0.0" width="128.5" height="17"/>
+                                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="将音视频流从 Zego 实时音视频云转推到 CDN" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kss-Vx-uee">
+                                                        <rect key="frame" x="140.5" y="0.0" width="249.5" height="17"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                            </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="NB4-sp-skm">
+                                                <rect key="frame" x="0.0" y="17" width="390" height="30"/>
+                                                <subviews>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="cUC-Rp-OH2">
+                                                        <rect key="frame" x="0.0" y="6.5" width="137.5" height="17"/>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Step1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bF8-2d-isZ">
+                                                                <rect key="frame" x="0.0" y="0.0" width="35.5" height="17"/>
+                                                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
+                                                                <nil key="textColor"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Start Publishing" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f6e-xe-aEJ">
+                                                                <rect key="frame" x="47.5" y="1.5" width="90" height="14.5"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                        </subviews>
+                                                    </stackView>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dNa-QJ-ENo">
+                                                        <rect key="frame" x="281" y="0.0" width="109" height="30"/>
+                                                        <state key="normal" title="Start Publishing"/>
+                                                        <connections>
+                                                            <action selector="onStartPublishingButtonTapped:" destination="vy6-Lt-WFM" eventType="touchUpInside" id="55D-mQ-wH8"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                            </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="fgD-6O-DGa">
+                                                <rect key="frame" x="0.0" y="47" width="390" height="30"/>
+                                                <subviews>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="JJk-Vd-qdj">
+                                                        <rect key="frame" x="0.0" y="6.5" width="129" height="17"/>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Step2" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wdu-dg-PHM">
+                                                                <rect key="frame" x="0.0" y="0.0" width="38" height="17"/>
+                                                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
+                                                                <nil key="textColor"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add CDN URL" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ysx-Bs-nnX">
+                                                                <rect key="frame" x="50" y="1.5" width="79" height="14.5"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                                <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                        </subviews>
+                                                    </stackView>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eqo-q7-iWd">
+                                                        <rect key="frame" x="293" y="0.0" width="97" height="30"/>
+                                                        <state key="normal" title="Add CDN URL"/>
+                                                        <connections>
+                                                            <action selector="onAddCDNURLButtonTapped:" destination="vy6-Lt-WFM" eventType="touchUpInside" id="Is9-sV-5vX"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                            </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="LWe-Bw-OCf">
+                                                <rect key="frame" x="0.0" y="77" width="390" height="34"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Publish CDN URL" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2s6-fV-RUe">
+                                                        <rect key="frame" x="0.0" y="0.0" width="178" height="34"/>
+                                                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="p0C-z8-KVy">
+                                                        <rect key="frame" x="190" y="0.0" width="200" height="34"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="200" id="oVX-SJ-5cF"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits"/>
+                                                    </textField>
+                                                </subviews>
+                                            </stackView>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="3lX-I3-cH8">
+                                        <rect key="frame" x="0.0" y="126" width="390" height="81"/>
+                                        <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="mOc-4l-DIp">
+                                                <rect key="frame" x="0.0" y="0.0" width="390" height="17"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="从 URL 拉流" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q4m-jV-vAZ">
+                                                        <rect key="frame" x="0.0" y="0.0" width="390" height="17"/>
+                                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                            </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="gQ7-QX-7oj">
+                                                <rect key="frame" x="0.0" y="17" width="390" height="34"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="CDN URL" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N6H-2X-kfR">
+                                                        <rect key="frame" x="0.0" y="0.0" width="178" height="34"/>
+                                                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Wix-8O-tee">
+                                                        <rect key="frame" x="190" y="0.0" width="200" height="34"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="200" id="pNn-j9-1i8"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits"/>
+                                                    </textField>
+                                                </subviews>
+                                            </stackView>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pcx-et-xr0">
+                                                <rect key="frame" x="0.0" y="51" width="390" height="30"/>
+                                                <state key="normal" title="Play Stream From URL"/>
+                                                <connections>
+                                                    <action selector="onStartPlayingButtonTappd:" destination="vy6-Lt-WFM" eventType="touchUpInside" id="djN-yc-irm"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                            </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="RoomID: 0029 UserID: 0029 " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6nk-X7-6zQ">
+                                <rect key="frame" x="12" y="112" width="139.5" height="12"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="12" id="DGE-ap-otp"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WKV-dD-jh5">
+                                <rect key="frame" x="334" y="826" width="55" height="28"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <state key="normal" title="直推CDN"/>
+                                <connections>
+                                    <action selector="onPushDirectCDNButtonTapped:" destination="vy6-Lt-WFM" eventType="touchUpInside" id="W0v-gG-qe6"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="将音视频流直接从本地客户端推送到 CDN" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sLm-GQ-M3k">
+                                <rect key="frame" x="137" y="834" width="189" height="12"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="oxs-rU-Plf"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="ILi-Em-59R" firstAttribute="top" secondItem="xOj-hH-Ybg" secondAttribute="bottom" constant="12" id="1nI-pj-d47"/>
+                            <constraint firstItem="qiJ-ek-42x" firstAttribute="leading" secondItem="xOj-hH-Ybg" secondAttribute="trailing" constant="12" id="41Q-Wu-Dvw"/>
+                            <constraint firstItem="xOj-hH-Ybg" firstAttribute="leading" secondItem="oxs-rU-Plf" secondAttribute="leading" constant="12" id="8RJ-QR-Shh"/>
+                            <constraint firstItem="xOj-hH-Ybg" firstAttribute="width" secondItem="qiJ-ek-42x" secondAttribute="width" id="A5N-x5-pu6"/>
+                            <constraint firstItem="oxs-rU-Plf" firstAttribute="trailing" secondItem="WKV-dD-jh5" secondAttribute="trailing" constant="25" id="Bdo-dC-kBz"/>
+                            <constraint firstItem="ILi-Em-59R" firstAttribute="leading" secondItem="oxs-rU-Plf" secondAttribute="leading" constant="12" id="CK5-yO-fIt"/>
+                            <constraint firstItem="xOj-hH-Ybg" firstAttribute="bottom" secondItem="qiJ-ek-42x" secondAttribute="bottom" id="Ddo-gi-8HA"/>
+                            <constraint firstItem="sLm-GQ-M3k" firstAttribute="centerY" secondItem="WKV-dD-jh5" secondAttribute="centerY" id="KSp-TO-Ca7"/>
+                            <constraint firstItem="XMt-XP-vs7" firstAttribute="top" secondItem="oxs-rU-Plf" secondAttribute="top" id="TQ4-W8-zKa"/>
+                            <constraint firstItem="oxs-rU-Plf" firstAttribute="trailing" secondItem="qiJ-ek-42x" secondAttribute="trailing" constant="12" id="TyE-QG-N9u"/>
+                            <constraint firstItem="WKV-dD-jh5" firstAttribute="leading" secondItem="sLm-GQ-M3k" secondAttribute="trailing" constant="8" id="U3b-2G-DUW"/>
+                            <constraint firstItem="6nk-X7-6zQ" firstAttribute="leading" secondItem="oxs-rU-Plf" secondAttribute="leading" constant="12" id="Vbt-bg-Xfa"/>
+                            <constraint firstItem="XMt-XP-vs7" firstAttribute="leading" secondItem="oxs-rU-Plf" secondAttribute="leading" id="aCN-0E-Mho"/>
+                            <constraint firstItem="oxs-rU-Plf" firstAttribute="trailing" secondItem="XMt-XP-vs7" secondAttribute="trailing" id="du5-hF-mJe"/>
+                            <constraint firstItem="oxs-rU-Plf" firstAttribute="bottom" secondItem="WKV-dD-jh5" secondAttribute="bottom" constant="8" id="e5W-3L-lSk"/>
+                            <constraint firstItem="oxs-rU-Plf" firstAttribute="trailing" secondItem="ILi-Em-59R" secondAttribute="trailing" constant="12" id="miq-5K-joK"/>
+                            <constraint firstItem="qiJ-ek-42x" firstAttribute="top" secondItem="xOj-hH-Ybg" secondAttribute="top" id="r5i-b1-dFR"/>
+                            <constraint firstItem="6nk-X7-6zQ" firstAttribute="top" secondItem="XMt-XP-vs7" secondAttribute="bottom" constant="8" id="ur6-2e-u7i"/>
+                            <constraint firstItem="fCR-9g-ecm" firstAttribute="centerX" secondItem="aZh-Hi-lJf" secondAttribute="centerX" constant="-100.5" id="vh2-y2-N5b"/>
+                            <constraint firstItem="xOj-hH-Ybg" firstAttribute="top" secondItem="6nk-X7-6zQ" secondAttribute="bottom" constant="8" id="zn8-55-OJa"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="addCDNURLButton" destination="eqo-q7-iWd" id="Agd-Qt-fa6"/>
+                        <outlet property="localPreviewView" destination="xOj-hH-Ybg" id="oDw-p9-VFI"/>
+                        <outlet property="logTextView" destination="XMt-XP-vs7" id="5Ua-da-3zk"/>
+                        <outlet property="playStreamLabel" destination="Btu-bY-XX9" id="eGd-XB-58N"/>
+                        <outlet property="playURLTextField" destination="Wix-8O-tee" id="vnN-gR-YOV"/>
+                        <outlet property="previewLabel" destination="fCR-9g-ecm" id="Lff-cm-3Mz"/>
+                        <outlet property="publishCDNURLTextField" destination="p0C-z8-KVy" id="Cch-aj-klD"/>
+                        <outlet property="remotePlayView" destination="qiJ-ek-42x" id="r6T-yC-QpK"/>
+                        <outlet property="startPlayingButton" destination="pcx-et-xr0" id="8iu-SF-Oma"/>
+                        <outlet property="startPublishingButton" destination="dNa-QJ-ENo" id="8Ad-kh-6Z1"/>
+                        <outlet property="userIDRoomIDLabel" destination="6nk-X7-6zQ" id="YhG-Rg-J4Y"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1Wo-z3-HaZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="96" y="17"/>
+        </scene>
+        <!--Stream DirectCDN Controller-->
+        <scene sceneID="YFy-dv-5bG">
+            <objects>
+                <viewController storyboardIdentifier="StreamDirectCDN" id="Xax-1O-5jI" customClass="ZGStreamDirectCDNController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="s55-fu-NdH"/>
+                        <viewControllerLayoutGuide type="bottom" id="TD5-SR-uUS"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="AyL-gz-1Et">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qUX-Oz-Wix">
+                                <rect key="frame" x="12" y="132" width="189" height="252"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Preview" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SAF-F6-mbv">
+                                        <rect key="frame" x="64.5" y="5" width="60" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemFillColor"/>
+                                <constraints>
+                                    <constraint firstItem="SAF-F6-mbv" firstAttribute="top" secondItem="qUX-Oz-Wix" secondAttribute="top" constant="5" id="Bhb-X1-yyG"/>
+                                    <constraint firstItem="SAF-F6-mbv" firstAttribute="centerX" secondItem="qUX-Oz-Wix" secondAttribute="centerX" id="OmD-8n-CAN"/>
+                                    <constraint firstAttribute="width" secondItem="qUX-Oz-Wix" secondAttribute="height" multiplier="3:4" id="trQ-E6-RjB"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xhd-tA-w4N">
+                                <rect key="frame" x="213" y="132" width="189" height="252"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Play Stream" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pLt-9G-RqD">
+                                        <rect key="frame" x="49" y="5" width="91" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemFillColor"/>
+                                <constraints>
+                                    <constraint firstItem="pLt-9G-RqD" firstAttribute="centerX" secondItem="Xhd-tA-w4N" secondAttribute="centerX" id="8II-bW-LSg"/>
+                                    <constraint firstItem="pLt-9G-RqD" firstAttribute="top" secondItem="Xhd-tA-w4N" secondAttribute="top" constant="5" id="QmQ-lw-9w4"/>
+                                </constraints>
+                            </view>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="o98-pX-miG">
+                                <rect key="frame" x="0.0" y="44" width="414" height="60"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="dTW-KZ-WDj"/>
+                                </constraints>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="djH-8r-XD2">
+                                <rect key="frame" x="12" y="396" width="390" height="223"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="3cA-8k-vZc">
+                                        <rect key="frame" x="0.0" y="0.0" width="390" height="127"/>
+                                        <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="4SN-fx-Cyk">
+                                                <rect key="frame" x="0.0" y="0.0" width="390" height="17"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="直推 CDN" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fdM-Zp-b1e">
+                                                        <rect key="frame" x="0.0" y="0.0" width="127.5" height="17"/>
+                                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="将音视频流直接从本地客户端直接推送到 CDN" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cVl-Gc-J4u">
+                                                        <rect key="frame" x="139.5" y="0.0" width="250.5" height="17"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                            </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="hgo-fT-7xo">
+                                                <rect key="frame" x="0.0" y="22" width="390" height="31"/>
+                                                <subviews>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="Lt3-pQ-VME">
+                                                        <rect key="frame" x="0.0" y="7" width="200.5" height="17"/>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Step1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OFQ-Hr-Hit">
+                                                                <rect key="frame" x="0.0" y="0.0" width="35.5" height="17"/>
+                                                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
+                                                                <nil key="textColor"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="EnablePublishDirectToCDN" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5su-hn-OWK">
+                                                                <rect key="frame" x="47.5" y="1.5" width="153" height="14.5"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                                <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                        </subviews>
+                                                    </stackView>
+                                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OUw-py-tGd">
+                                                        <rect key="frame" x="341" y="0.0" width="51" height="31"/>
+                                                        <connections>
+                                                            <action selector="onEnablePublishDirectToCDNChanged:" destination="Xax-1O-5jI" eventType="valueChanged" id="eBX-t3-SQB"/>
+                                                        </connections>
+                                                    </switch>
+                                                </subviews>
+                                            </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="oVV-dZ-o8L">
+                                                <rect key="frame" x="0.0" y="58" width="390" height="30"/>
+                                                <subviews>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="PYF-wy-fAW">
+                                                        <rect key="frame" x="0.0" y="6.5" width="140" height="17"/>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Step2" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o42-Jk-I1U">
+                                                                <rect key="frame" x="0.0" y="0.0" width="38" height="17"/>
+                                                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
+                                                                <nil key="textColor"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Start Publishing" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rE8-RF-gfW">
+                                                                <rect key="frame" x="50" y="1.5" width="90" height="14.5"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                                <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                        </subviews>
+                                                    </stackView>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VfG-U6-t3E">
+                                                        <rect key="frame" x="281" y="0.0" width="109" height="30"/>
+                                                        <state key="normal" title="Start Publishing"/>
+                                                        <connections>
+                                                            <action selector="onStartPublishingButtonTapped:" destination="Xax-1O-5jI" eventType="touchUpInside" id="nUT-yj-UW8"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                            </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="v6W-V2-WL8">
+                                                <rect key="frame" x="0.0" y="93" width="390" height="34"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Publish CDN URL" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0VI-5Q-fco">
+                                                        <rect key="frame" x="0.0" y="0.0" width="178" height="34"/>
+                                                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jJx-cq-8rH">
+                                                        <rect key="frame" x="190" y="0.0" width="200" height="34"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="200" id="Z1i-g4-wI0"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits"/>
+                                                    </textField>
+                                                </subviews>
+                                            </stackView>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="hDw-Sz-CNn">
+                                        <rect key="frame" x="0.0" y="142" width="390" height="81"/>
+                                        <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="2hZ-fO-Scx">
+                                                <rect key="frame" x="0.0" y="0.0" width="390" height="17"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="从 URL 拉流" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Saz-7N-piJ">
+                                                        <rect key="frame" x="0.0" y="0.0" width="390" height="17"/>
+                                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                            </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="LEK-SB-WJT">
+                                                <rect key="frame" x="0.0" y="17" width="390" height="34"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="CDN URL" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JpW-Bc-qja">
+                                                        <rect key="frame" x="0.0" y="0.0" width="178" height="34"/>
+                                                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="z2e-lx-8bV">
+                                                        <rect key="frame" x="190" y="0.0" width="200" height="34"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="200" id="q7O-Ra-rqH"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits"/>
+                                                    </textField>
+                                                </subviews>
+                                            </stackView>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KY1-lf-LBs">
+                                                <rect key="frame" x="0.0" y="51" width="390" height="30"/>
+                                                <state key="normal" title="Play Stream From URL"/>
+                                                <connections>
+                                                    <action selector="onStartPlayingButtonTappd:" destination="Xax-1O-5jI" eventType="touchUpInside" id="XxC-TO-5wp"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                            </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="RoomID: 0029 UserID: 0029 " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TJN-Sw-1Xq">
+                                <rect key="frame" x="12" y="112" width="139.5" height="12"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="12" id="l9Q-fO-j9p"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lrq-u3-H9z">
+                                <rect key="frame" x="334" y="826" width="55" height="28"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <state key="normal" title="直推CDN"/>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="将音视频流直接从本地客户端推送到 CDN" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UhQ-Fx-xQc">
+                                <rect key="frame" x="137" y="834" width="189" height="12"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="fVN-HE-Pfh"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="fVN-HE-Pfh" firstAttribute="trailing" secondItem="Xhd-tA-w4N" secondAttribute="trailing" constant="12" id="6Xe-0i-73C"/>
+                            <constraint firstItem="fVN-HE-Pfh" firstAttribute="trailing" secondItem="Lrq-u3-H9z" secondAttribute="trailing" constant="25" id="6dC-Y8-fIc"/>
+                            <constraint firstItem="Xhd-tA-w4N" firstAttribute="leading" secondItem="qUX-Oz-Wix" secondAttribute="trailing" constant="12" id="9np-lp-ZOZ"/>
+                            <constraint firstItem="SAF-F6-mbv" firstAttribute="centerX" secondItem="AyL-gz-1Et" secondAttribute="centerX" constant="-100.5" id="E0e-3w-v2m"/>
+                            <constraint firstItem="o98-pX-miG" firstAttribute="leading" secondItem="fVN-HE-Pfh" secondAttribute="leading" id="FJT-f7-Enr"/>
+                            <constraint firstItem="UhQ-Fx-xQc" firstAttribute="centerY" secondItem="Lrq-u3-H9z" secondAttribute="centerY" id="FSj-3N-BRk"/>
+                            <constraint firstItem="qUX-Oz-Wix" firstAttribute="width" secondItem="Xhd-tA-w4N" secondAttribute="width" id="MgT-rE-oTf"/>
+                            <constraint firstItem="qUX-Oz-Wix" firstAttribute="bottom" secondItem="Xhd-tA-w4N" secondAttribute="bottom" id="PmF-s4-3sb"/>
+                            <constraint firstItem="TJN-Sw-1Xq" firstAttribute="leading" secondItem="fVN-HE-Pfh" secondAttribute="leading" constant="12" id="V2z-Td-pjg"/>
+                            <constraint firstItem="fVN-HE-Pfh" firstAttribute="trailing" secondItem="o98-pX-miG" secondAttribute="trailing" id="XCk-FY-0xB"/>
+                            <constraint firstItem="fVN-HE-Pfh" firstAttribute="bottom" secondItem="Lrq-u3-H9z" secondAttribute="bottom" constant="8" id="Xsw-Bg-Uf8"/>
+                            <constraint firstItem="djH-8r-XD2" firstAttribute="top" secondItem="qUX-Oz-Wix" secondAttribute="bottom" constant="12" id="ZKG-74-NpC"/>
+                            <constraint firstItem="o98-pX-miG" firstAttribute="top" secondItem="fVN-HE-Pfh" secondAttribute="top" id="aTS-vt-Rug"/>
+                            <constraint firstItem="qUX-Oz-Wix" firstAttribute="top" secondItem="TJN-Sw-1Xq" secondAttribute="bottom" constant="8" id="hzJ-iO-61b"/>
+                            <constraint firstItem="TJN-Sw-1Xq" firstAttribute="top" secondItem="o98-pX-miG" secondAttribute="bottom" constant="8" id="iYL-bR-okW"/>
+                            <constraint firstItem="qUX-Oz-Wix" firstAttribute="leading" secondItem="fVN-HE-Pfh" secondAttribute="leading" constant="12" id="l8l-bP-QZE"/>
+                            <constraint firstItem="fVN-HE-Pfh" firstAttribute="trailing" secondItem="djH-8r-XD2" secondAttribute="trailing" constant="12" id="myc-gn-nVX"/>
+                            <constraint firstItem="Lrq-u3-H9z" firstAttribute="leading" secondItem="UhQ-Fx-xQc" secondAttribute="trailing" constant="8" id="n88-nW-X2F"/>
+                            <constraint firstItem="Xhd-tA-w4N" firstAttribute="top" secondItem="qUX-Oz-Wix" secondAttribute="top" id="nSq-dz-jWV"/>
+                            <constraint firstItem="djH-8r-XD2" firstAttribute="leading" secondItem="fVN-HE-Pfh" secondAttribute="leading" constant="12" id="qwP-Js-QS2"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="874-OF-sJ0"/>
+                    <connections>
+                        <outlet property="enableSwitch" destination="OUw-py-tGd" id="Yyc-4s-8Ip"/>
+                        <outlet property="localPreviewView" destination="qUX-Oz-Wix" id="grd-kY-mOT"/>
+                        <outlet property="logTextView" destination="o98-pX-miG" id="HH1-iK-YXX"/>
+                        <outlet property="playStreamLabel" destination="pLt-9G-RqD" id="r1n-aC-Lec"/>
+                        <outlet property="playURLTextField" destination="z2e-lx-8bV" id="KRA-De-65y"/>
+                        <outlet property="previewLabel" destination="SAF-F6-mbv" id="gnD-sI-jzS"/>
+                        <outlet property="publishCDNURLTextField" destination="jJx-cq-8rH" id="fAw-ib-XQl"/>
+                        <outlet property="remotePlayView" destination="Xhd-tA-w4N" id="SHY-Eh-hQ1"/>
+                        <outlet property="startPlayingButton" destination="KY1-lf-LBs" id="mGk-VU-8yI"/>
+                        <outlet property="startPublishingButton" destination="VfG-U6-t3E" id="wax-Bw-fxh"/>
+                        <outlet property="userIDRoomIDLabel" destination="TJN-Sw-1Xq" id="QZ4-vP-Eha"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Yma-Qf-MGB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="935" y="17"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemFillColor">
+            <color red="0.47058823529411764" green="0.47058823529411764" blue="0.50196078431372548" alpha="0.20000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

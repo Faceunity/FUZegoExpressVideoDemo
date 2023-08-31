@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="upj-5I-qYN">
+    <device id="retina6_1" orientation="portrait" appearance="dark"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Sound Level View Controller-->
+        <scene sceneID="LGK-6y-6il">
+            <objects>
+                <viewController storyboardIdentifier="ZGSoundLevelViewController" id="upj-5I-qYN" customClass="ZGSoundLevelViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Evn-P0-YBo"/>
+                        <viewControllerLayoutGuide type="bottom" id="Nfk-vP-MuE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="f7a-7T-ctV">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BlO-CS-gNI">
+                                <rect key="frame" x="0.0" y="44" width="414" height="50"/>
+                                <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="XVf-bQ-Tdi"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Twq-Nk-uAE">
+                                <rect key="frame" x="20" y="94" width="374" height="80"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="SMN-xx-evZ">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="40"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Start SoundLevel Monitor" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vyj-bP-0WT">
+                                                <rect key="frame" x="0.0" y="10" width="325" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ip6-br-mbZ">
+                                                <rect key="frame" x="325" y="4.5" width="51" height="31"/>
+                                                <connections>
+                                                    <action selector="soundLevelSwitchValueChanged:" destination="upj-5I-qYN" eventType="valueChanged" id="a2H-Fo-PHz"/>
+                                                </connections>
+                                            </switch>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="TFK-wd-8PQ"/>
+                                        </constraints>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="gq7-oZ-Fyj">
+                                        <rect key="frame" x="0.0" y="40" width="374" height="40"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Start Audio Spectrum Monitor" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AlI-zt-kVx">
+                                                <rect key="frame" x="0.0" y="10" width="325" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0Ud-uU-Duj">
+                                                <rect key="frame" x="325" y="4.5" width="51" height="31"/>
+                                                <connections>
+                                                    <action selector="audioSpectrumSwitchValueChanged:" destination="upj-5I-qYN" eventType="valueChanged" id="chC-qX-zU5"/>
+                                                </connections>
+                                            </switch>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="MP9-qJ-bVf"/>
+                                        </constraints>
+                                    </stackView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="80" id="bUn-SN-Ldo"/>
+                                </constraints>
+                            </stackView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="200" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="NPv-Vb-v90">
+                                <rect key="frame" x="0.0" y="174" width="414" height="688"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ZGSoundLevelTableViewCell" id="gV8-Hp-YbI">
+                                        <rect key="frame" x="0.0" y="24.5" width="414" height="200"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="gV8-Hp-YbI" id="9Ch-3L-7E9">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="200"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="upj-5I-qYN" id="VnJ-w1-Vur"/>
+                                    <outlet property="delegate" destination="upj-5I-qYN" id="YJ4-bV-ezY"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="BlO-CS-gNI" secondAttribute="trailing" id="5xW-ig-rSg"/>
+                            <constraint firstItem="Twq-Nk-uAE" firstAttribute="leading" secondItem="f7a-7T-ctV" secondAttribute="leadingMargin" id="6wL-NX-yFb"/>
+                            <constraint firstAttribute="trailing" secondItem="NPv-Vb-v90" secondAttribute="trailing" id="8Jj-Vu-X66"/>
+                            <constraint firstItem="Twq-Nk-uAE" firstAttribute="top" secondItem="BlO-CS-gNI" secondAttribute="bottom" id="Tbr-Co-uSG"/>
+                            <constraint firstItem="BlO-CS-gNI" firstAttribute="top" secondItem="Evn-P0-YBo" secondAttribute="bottom" id="WGw-dR-ijT"/>
+                            <constraint firstItem="BlO-CS-gNI" firstAttribute="leading" secondItem="f7a-7T-ctV" secondAttribute="leading" id="m2B-Lf-dY1"/>
+                            <constraint firstItem="NPv-Vb-v90" firstAttribute="leading" secondItem="f7a-7T-ctV" secondAttribute="leading" id="oHw-lm-0fV"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Twq-Nk-uAE" secondAttribute="trailing" id="tOH-pc-M3p"/>
+                            <constraint firstItem="NPv-Vb-v90" firstAttribute="top" secondItem="Twq-Nk-uAE" secondAttribute="bottom" id="tqq-0a-Ljh"/>
+                            <constraint firstItem="Nfk-vP-MuE" firstAttribute="top" secondItem="NPv-Vb-v90" secondAttribute="bottom" id="uoa-PH-Wfb"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="logTextView" destination="BlO-CS-gNI" id="mYs-8o-6DN"/>
+                        <outlet property="startAudioSpectrumMonitorLabel" destination="AlI-zt-kVx" id="268-CL-4M8"/>
+                        <outlet property="startSoundLevelMonitorLabel" destination="Vyj-bP-0WT" id="L7Y-m8-VNp"/>
+                        <outlet property="tableView" destination="NPv-Vb-v90" id="OGT-5l-Der"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jgR-se-AJa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="338" y="-206"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="secondarySystemBackgroundColor">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

@@ -14,28 +14,72 @@ Please ensure that the development environment meets the following technical req
 
 ## Download SDK
 
-The SDK `ZegoExpressEngine.framework` required to run the Demo project is missing from this Repository, and needs to be downloaded and placed in the `Libs` folder of the Demo project
+If the SDK `ZegoExpressEngine.xcframework` required to run the Demo project is missing from this Repository, you need to download it and place in the `Libs` folder of the Demo project
 
-> Run Demo directly, if the pre-compilation script detects that there is no SDK Framework under `Libs`, it will automatically download the SDK. You can also download it yourself and put it in the `Libs` folder.
+> You can use `Terminal` to run the `DownloadSDK.sh` script in this directory, it will automatically download the latest SDK and move it to the corresponding directory.
 
-[https://storage.zego.im/express/video/ios/zego-express-video-ios.zip](https://storage.zego.im/express/video/ios/zego-express-video-ios.zip)
+Or, manually download the SDK from the URL below, unzip it and put the `ZegoExpressEngine.xcframework` under `Libs`
 
-> Note that there are two folders in the zip file: `armv7-arm64` and `armv7-arm64-x86_64`, differences:
-
-1. The dynamic framework in `armv7-arm64` contains only the architecture of the real machine (armv7, arm64). Developers need to use `ZegoExpressEngine.framework` in this folder when distributing the app, otherwise it may be rejected by App Store.
-
-2. The dynamic framework in `armv7-arm64-x86_64` contains the real machine and simulator architecture (armv7, arm64, x86_64). If developers need to use the simulator to develop and debug, they need to use `ZegoExpressEngine.framework` in this folder. But when the app is finally distributed, you need to switch back to the Framework under the `armv7-arm64` folder. (Note: If you use CocoaPods to integrate, you do n’t need to worry about the framework architecture. CocoaPods will automatically cut the simulator architecture when Archive)
-
-> Please unzip and put the `ZegoExpressEngine.framework` under `Libs`
+[https://storage.zego.im/express/video/apple/zego-express-video-apple.zip](https://storage.zego.im/express/video/apple/zego-express-video-apple.zip)
 
 ```tree
 .
 ├── Libs
-│   └── ZegoExpressEngine.framework
+│   └── ZegoExpressEngine.xcframework
 ├── README_zh.md
 ├── README.md
-├── ZegoExpressExample-iOS-OC
-└── ZegoExpressExample-iOS-OC.xcodeproj
+├── ZegoExpressExample
+│   ├── Examples
+│		├─AdvancedAudioProcessing
+│		│  ├─AECANSAGC                              //--Audio 3A processing(AEC/ANS/AGC)
+│		│  ├─AudioEffectPlayer                      //--Audio effect player
+│		│  ├─AudioMixing                            //--Audio mixing
+│		│  ├─CustomAudioCaptureAndRendering         //--Customize audio capture and rendering
+│		│  │  └─AudioTool
+│		│  ├─EarReturnAndChannelSettings            //--Ear return and vocal tract setting
+│		│  ├─OriginalAudioDataAcquisition           //--Audio data monitor
+│		│  ├─RangeAudio                             //--Range of voice
+│		│  ├─SoundLevel                             //--Sound wave
+│		│  └─VoiceChangeReverbStereo                //--Voice
+│		├─AdvancedStreaming
+│		│  ├─AuxPublisher                           //--Dual channel publish and play stream
+│		│  ├─H265                                   //--H265 codec
+│		│  ├─PublishingMultipleStreams              //--Multichannel publish stream
+│		│  ├─StreamByCDN                            //--CDN publish stream 
+│		│  └─StreamMonitoring                       //--Publish and play stream monitoring
+│		├─AdvancedVideoProcessing
+│		│  ├─CustomVideoCapture                     //--Custom video capture
+│		│  ├─CustomVideoProcess                     //--Custom video process
+│		│  ├─CustomVideoRender                      //--Custom video rendering
+│		│  └─Encoding&Decoding                      //--Codec
+│		├─CommonFeatures
+│		│  ├─CommonVideoConfig                      //--Video Parameter Settings
+│		│  ├─RoomMessage                            //--Room messages
+│		│  └─VideoRotation                          //--Video rotation
+│		├─Debug&Config
+│		├─Others
+│		│  ├─Beautify                               //--Video watermark and Video snapshot
+│		│  ├─Camera                                 //--Camera
+│		│  ├─EffectsBeauty                          //--Effect beauty
+│		│  ├─FlowControll                           //--Stream control
+│		│  ├─MediaPlayer                            //--Media player
+│		│  ├─Mixer                                  //--Mix stream
+│		│  ├─MultipleRooms                          //--Mutiple rooms
+│		│  ├─NetworkAndPerformance                  //--NetWork monitoring
+│		│  ├─RecordCapture                          //--Recording
+│		│  ├─ScreenSharing                          //--Screen sharing
+│		│  │  └─ZegoExpressExample-Broadcast
+│		│  ├─Security                               //--Security
+│		│  └─SupplementalEnhancementInformation     //--SEI
+│		├─QuickStart
+│		│  ├─Playing                                //--Play stream
+│		│  ├─Publishing                             //--Publish stream
+│		│  ├─QuickStart                             //--Quick start
+│		│  └─VideoChat                              //--Video talk
+│		└─Scenes
+│		    └─VideoForMultipleUsers                 //--Multi-user video talk
+│		        └─PopupView
+└── ZegoExpressExample.xcodeproj
 ```
 
 ## Running the sample code
@@ -44,13 +88,13 @@ The SDK `ZegoExpressEngine.framework` required to run the Demo project is missin
 
     <img src="https://storage.zego.im/sdk-doc/Pics/iOS/ZegoExpressEngine/Common/appstore-xcode.png" width=40% height=40%>
 
-2. Open `ZegoExpressExample-iOS-OC.xcodeproj` with Xcode.
+2. Open `ZegoExpressExample.xcodeproj` with Xcode.
 
     Open Xcode, and click `File` -> `Open...` in the upper left corner.
 
     <img src="https://storage.zego.im/sdk-doc/Pics/iOS/ZegoExpressEngine/Common/xcode-open-file.png" width=70% height=70%>
 
-    Find the `ZegoExpressExample-iOS-OC.xcodeproj` in the sample code folder downloaded and unzipped in the first step, and click `Open`.
+    Find the `ZegoExpressExample.xcodeproj` in the sample code folder downloaded and unzipped in the first step, and click `Open`.
 
     <img src="https://storage.zego.im/sdk-doc/Pics/iOS/ZegoExpressEngine/Common/xcode-select-file.png" width=70% height=70%>
 
@@ -64,23 +108,34 @@ The SDK `ZegoExpressEngine.framework` required to run the Demo project is missin
 
     <img src="https://storage.zego.im/sdk-doc/Pics/iOS/ZegoExpressEngine/Common/xcode-login-apple-id.png" width=70% height=70%>
 
-4. Modify Bundle Identifier and Apple Developer Certificate.
+4. Modify Apple Developer Certificate.
 
-    Open Xcode, click the `ZegoExpressExample-iOS-OC` project in left side.
+    Open Xcode, click the `ZegoExpressExample` project in left side.
 
     <img src="https://storage.zego.im/sdk-doc/Pics/iOS/ZegoExpressEngine/Common/xcode-select-project.png" width=50% height=50%>
-
-    Change `Bundle Identifier` in the `General` tab. (Can be modified to `com.your-name.ZegoExpressExample-iOS-OC`)
-
-    <img src="https://storage.zego.im/sdk-doc/Pics/iOS/ZegoExpressEngine/Common/bundle-identifier.png" width=90% height=90%>
 
     Click on the `Signing & Capabilities` tab and select your developer certificate in `Team`.
 
     <img src="https://storage.zego.im/sdk-doc/Pics/iOS/ZegoExpressEngine/Common/team-signing.png" width=90% height=90%>
 
-5. The AppID and AppSign required for SDK initialization are missing from the downloaded Demo source. Please refer to [Instructions for getting AppID and AppSign](https://doc.zego.im/API/HideDoc/GetExpressAppIDGuide/GetAppIDGuideline.html) to get AppID and AppSign. If you don't fill in the correct AppID and AppSign, the source code will not run properly, so you need to modify `ZGKeyCenter.m` under the directory `ZegoExpressExample-iOS-OC/Helper` to fill in the correct AppID and AppSign.
+5. The appID , userID and appSign required for SDK initialization are missing from the downloaded Demo source. You should go to [ZEGO Management Site](https://console-express.zego.im/acount/register) apply for appID , userID and appSign. If you don't fill in the correct appID , userID and appSign, the source code will not run properly, so you need to modify `ZGKeyCenter.m` under the directory `ZegoExpressExample/Helper` to fill in the correct appID , userID and appSign.
 
-    <img src="https://storage.zego.im/sdk-doc/Pics/iOS/ZegoExpressEngine/Common/appid-appsign-en.png" width=80% height=80%>
+    ```oc
+    // Developers can get appID from admin console.
+    // https://console.zego.im/dashboard
+    // for example: 123456789;
+    static unsigned int _appID = <#Enter your appID#>;
+
+    // Developers should customize a user ID.
+    // for example: @"zego_benjamin";
+    static NSString *_userID = @"<#Enter your userID#>";
+
+    // Developers can get appSign from admin console.
+    // https://console.zego.im/dashboard
+    // Note: If you need to use a more secure authentication method: token authentication, please refer to [How to upgrade from AppSign authentication to Token authentication](https://doc-zh.zego.im/faq/token_upgrade?product=ExpressVideo&platform=all)
+    // for example: @"04AAAAAxxxxxxxxxxxxxx";
+    static NSString *_appSign = @"<#Enter your appSign#>";
+    ```
 
 6. Connect your iOS device to the computer, click `🔨 Generic iOS Device` in the upper left corner of Xcode to select the iOS device (or Simulator)
 
@@ -94,7 +149,7 @@ The SDK `ZegoExpressEngine.framework` required to run the Demo project is missin
 
 ## FAQ
 
-1. `The app ID "im.zego.ZegoExpressExample-iOS-OC" cannot be registered to your development team. Change your bundle identifier to a unique string to try again.`
+1. `The app ID "im.zego.ZegoExpressExample" cannot be registered to your development team. Change your bundle identifier to a unique string to try again.`
 
     Refer to **Modify Bundle Identifier and Apple Developer Certificate** above, switch to your own development certificate in `Targets` -> `Signing & Capabilities` and modify `Bundle Identifier` before running.
 

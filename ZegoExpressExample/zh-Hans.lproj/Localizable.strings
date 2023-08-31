@@ -1,0 +1,222 @@
+/* 
+  Localizable.strings
+  ZegoExpressExample-iOS-OC
+
+  Created by Patrick Fu on 2020/8/24.
+  Copyright © 2020 Zego. All rights reserved.
+*/
+
+"Me" = "我";
+"MirrorNotice" = "指用户看到的视频画面是否是镜像的";
+"ViewModeNotice" = "指用户看到的视频画面的填充模式，是否拉伸、是否充满窗口等";
+
+"EncodeResolutionNotice" = "编码分辨率，用户设置视频推送到远端的分辨率，需要设置为偶数";
+"FPSNotice" = "用于设置视频的帧率，一般可以设置为 15";
+"BitrateNotice" = "用于设置视频的码率";
+"RotateNotice" = "用户使用移动设备进行直播或视频通话时，可以有不同的旋转模式，比如固定竖屏、自动旋转等，我们这里示范了如何用代码实现各种旋转模式。";
+
+"BroadcastMessageNotice" = "向同一房间内所有用户发送文本消息，默认支持最多前 500 个加入房间的用户能收到该消息。";
+"BarrageMessageNotice" = "观众在直播过程中可以发表自己的评论，并以滑动而过的字幕显示出来，增加了观众之间的互动性。";
+"CustomCommandNotice" = "向同一房间内指定的单个或多个用户发送信令消息。";
+"RoomExtraInfoNotice" = "房间的附加消息，设置之后，房间内其他用户会收到 [onRoomExtraInfoUpdate] 回调";
+
+"EncryptPublishNotice" = "推流时给该流加密所用的秘钥，可以使用16/24/32个字符长度的字符串";
+"EncryptPlayNotice" = "拉流时用来解密的秘钥，需与推流秘钥保持一致才能解密并拉流成功";
+
+"VideoChatRoomIDNotice" = "如果要和其他用户进行通话，需要加入到同一个房间里，即保证双方的 RoomID 相同。";
+"VideoChatUserIDNotice" = "UserID 由开发者自己生成，在相同的 AppID 下必须全局唯一。";
+"VideoChatStreamIDNotice" = "StreamID 由开发者自己生成，在相同的 AppID 下必须全局唯一。";
+"VideoChatLoginTitle" = "登陆房间";
+"VideoChatTitle" = "视频通话";
+
+"home.setting.button" = "设置";
+
+"Module.Scenes"  = "最佳实践";
+
+"PreviewLabel"                = "预览";
+"PlayStreamLabel"                = "拉流";
+
+"SendSEI"                = "Send SEI";
+"ReceivedSEI"               = "Received SEI";
+"TrafficControlLabel"                = "流量控制";
+"MinVideoBitrateNoteLabel"               = "最小视频码率";
+"MinVideoBitrateModeLabel"               = "最小视频码率模式";
+"PublishStreamDecryptionKeyButton"               = "设置推流加密密钥";
+"PlayStreamDecryptionKeyButton"               = "设置拉流解密密钥";
+
+"NetworkSpeedNoteLabel"               = "网速测试";
+"DownlinkNoteLabel"               = "下行";
+"UplinkNoteLabel"               = "上行";
+"ExpectedDownlinkBitrateLabel"               = "期望下行码率";
+"ExpectedUplinkBitrateLabel"               = "期望上行码率";
+"StartNetworkSpeedTestButton"               = "开启网速测试";
+"StopNetworkSpeedTestButton"               = "停止网速测试";
+
+"PerformanceNoteLabel"               = "性能监控";
+
+//调试与配置
+"Debug & Config" = "调试与配置";
+"LogVersionDebug"               = "日志、版本号、调试信息";
+
+//快速开始
+"Topic.Module.Basic"             = "快速开始";
+"Topic.QuickStart"               = "实现流程";
+"Topic.VideoChat"                = "实现视频通话";
+"Topic.PublishStream"            = "推流";
+"Topic.PlayStream"               = "拉流";
+"Topic.VideoTalk"                = "多人视频通话";
+
+//常用功能
+"Topic.CommonVideoConfig" = "常用视频配置";
+"Topic.VideoRotation" = "视频旋转";
+
+"Topic.Module.Common"            = "常用功能";
+"Topic.Beautify&Watermark"       = "水印、截图";
+"BeautifySectionTitle"       = "美颜";
+"WatermarkTitle"       = "水印";
+
+"Topic.EffectsBeauty"       = "基础美颜";
+
+"BeautifyDocPageNote"     = "更多进阶美颜你可以结合使用ZEGO的实时音视频和AI视觉实现美颜功能，可参考 ZEGO 开发者中心的 帮助文档。";
+"BeautifyDocPageButtonTitle"     = "帮助文档";
+"Topic.Mixer"                    = "混流";
+"Topic.MediaPlayer"              = "媒体播放器";
+"Topic.AudioEffectPlayer"        = "音效播放器";
+"Topic.RecordCapture"            = "录制";
+"Topic.Camera"                   = "摄像头";
+"Topic.MultipleRooms"                     = "登录多房间";
+"Topic.FlowControll"            = "流量控制";
+"Topic.NetworkAndPerformance"            = "网络和性能";
+"Topic.Security"            = "安全加密";
+
+"Topic.ScreenCapture"            = "屏幕共享";
+"Topic.SupplementalEnhancementInformation"            = "媒体补充增强信息";
+"Topic.MultiVideoSource"          = "多源采集 ";
+"Topic.AutoStreamMixing"                = "自动混流";
+
+"Topic.RoomMessage"              = "房间实时消息";
+
+"Topic.RangeAudio"               = "范围语音";
+
+"MessageMaxBytes1024"              = "最大支持 1024 字节";
+"MessageMaxBytes128"              = "最大支持 128 字节";
+
+//推流、拉流进阶
+"Topic.Module.StreamAdvanced"    = "推流、拉流进阶功能";
+
+"Topic.Module.StreamMonitoring"    = "推流、拉流信息监测";
+"Topic.PublishingMultipleStreams"             = "同时推多路流";
+"Topic.StreamByCDN"             = "通过CDN推流、拉流";
+"Topic.Low-LatencyLive"             = "低延迟直播";
+"Topic.H265"             = "H265";
+
+
+"Topic.Module.VideoAdvanced"     = "视频进阶功能";
+"Topic.EncodingDecoding"     = "视频编解码";
+"Topic.CustomVideoRender"        = "自定义视频渲染";
+"Topic.CustomVideoCapture"       = "自定义视频采集";
+"Topic.CustomVideoProcess"       = "自定义视频前处理";
+"Topic.PictureInPicture"         = "画中画";
+
+"Topic.Module.AudioAdvanced"     = "音频进阶功能";
+"Topic.SoundLevel&AudioSpectrum" = "音频频谱与音量变化";
+"Custom Audio Capture and Rendering"            = "自定义音频采集与渲染";
+"Topic.AudioMixing"              = "混音";
+"VoiceChangeReverbStereo"          = "变声、混响、立体声";
+"Topic.SuperResolution" = "超分";
+
+//变声混响立体声
+"Voice Changer"          = "变声";
+"Preset"          = "预设";
+"Custom Param"          = "自定义参数";
+"Pitch"          = "音高";
+"Reverb"          = "混响";
+"RoomSize"          = "房间大小";
+"Reverberance"          = "余响";
+"Dampping"          = "混响阻尼";
+"WetOnly"          = "只有湿信号";
+"Wet Gain"          = "湿信号增益";
+"Dry Gain"          = "干信号增益";
+"Tone Low"          =          "低频衰减";
+"Tone Hign"          =          "高频衰减";
+"PreDelay"          =          "初始延迟时间";
+"StereoWidth"          =          "立体声宽度";
+"Reverb Echo"          =          "混响回声";
+"Virtual Stereo"          =          "虚拟立体声";
+"Angle"          =          "声源角度";
+
+//EarReturnAndChannelSettings
+"Ear Return and Channel Settings"          =          "耳返与声道设置";
+"HeadphoneMonitor"          =          "耳返";
+"HeadphoneNotice"           =              "请插入耳机后再体验耳返功能";
+"Volume"          =          "音量";
+"Stereo Channel"          =          "双声道立体声";
+"Encoder Stereo"          =          "编码双声道";
+"Capture Stereo"          =          "采集双声道";
+"Start SoundLevel Monitor"          =          "开启声浪监听";
+"Start Audio Spectrum Monitor"          =          "开启音频频谱监听";
+
+"AECNotice" = "如果您的设备自带硬件级别的回声消除功能，那么开启 SDK 的 AEC 功能时并不能明显地感觉到回声消除的效果。";
+"Headphone AEC"          =          "耳机回声消除";
+"AEC"          =          "回声消除";
+"AGC"          =          "自动增益";
+"ANS"          =          "噪声抑制";
+"Audio Mixing"          =          "混音";
+"Mute Local"          =          "本地静音";
+"AudioEffect"          =          "音效";
+"Publish Out"          =          "是否将音效推流";
+"Play Count"          =          "播放次数";
+"Controller"          =          "控制";
+"Load Resource"          =          "预先加载资源";
+"Audio Data Callback"          =          "原始音频数据回调";
+"Enable Custom Audio Capture Processing"          =          "自定义音频数据处理采集端";
+"Enable Custom Audio Remote Processing"          =          "自定义音频数据处理拉流端";
+"Audio Source"          =          "音频源";
+"Local Media"          =          "本地媒体";
+"Microphone"          =          "麦克风";
+"Custom Audio Capture And Render"          =          "自定义音频采集和渲染";
+
+"AEC,ANS,AGC" = "音频3A处理";
+
+//自定义音频采集与渲染
+"Audio Source"          =          "音频源";
+"Local Media"          =          "本地媒体";
+"Microphone"          =          "麦克风";
+
+"Original Audio Data Acquisition"          =          "原始音频数据获取";
+
+
+
+"Topic.Module.Others"     = "其他功能";
+
+
+"CustomVideoCapture.RenderPreview" = "当自定义视频采集 BufferType 为 EncodedFrame 时，引擎无法渲染预览编码后的视频帧，开发者应当自行渲染预览画面。请使用另一台设备拉此流以查看画面。";
+"start_auto_stream_mixing" = "开始自动混流";
+"stop_auto_stream_mixing" = "停止自动混流";
+"Topic.VideoObjectSegmentation" = "视频主体分割";
+"MultiVideoSource.LocalPreview" = "本地预览";
+"MultiVideoSource.MainChannel" = "主路-Channel1";
+"MultiVideoSource.AuxChannel" = "辅路-Channel2";
+"MultiVideoSource.VideoSourceType" = "视频采集源";
+"MultiVideoSource.AudioSourceType" = "音频采集源";
+"MultiVideoSource.Cancel" = "取消";
+"MultiVideoSource.None" = "无";
+"MultiVideoSource.Camera" = "摄像头";
+"MultiVideoSource.Microphone" = "麦克风";
+"MultiVideoSource.Default" = "内部采集";
+"MultiVideoSource.ExternalCapture" = "自定义采集";
+"MultiVideoSource.MediaPlayer" = "媒体播放器（示例.mp4）";
+"MultiVideoSource.ScreenSharing" = "屏幕共享";
+"MultiVideoSource.MainPublishChannel" = "复制主路数据";
+"MultiVideoSource.SourceRestriction" = "音视频仅能被其中一路通道占用";
+"MultiVideoSource.StreamID" = "流 ID";
+"MultiVideoSource.PlayStream" = "拉流画面";
+"MultiVideoSource.StartPublish" = "开始推流";
+"MultiVideoSource.StopPublish" = "停止推流";
+"MultiVideoSource.StartPlay" = "开始拉流";
+"MultiVideoSource.StopPlay" = "停止拉流";
+"MultiVideoSource.EngineState" = "引擎状态:";
+"MultiVideoSource.CreateEngine" = "创建引擎";
+"MultiVideoSource.DestroyEngine" = "销毁引擎";
+"MultiVideoSource.LoginRoom" = "登录房间";
+"MultiVideoSource.LogoutRoom" = "退出房间";

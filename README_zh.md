@@ -2,126 +2,157 @@
 
 [English](README.md) | [中文](README_zh.md)
 
-本文是 Zego Express Video iOS (Objective-C) 示例专题 Demo 与 FaceUnity 快速对接的文档 关于 `FaceUnity SDK` 的详细说明，请参看 [FULiveDemo](https://github.com/Faceunity/FULiveDemo/tree/dev)
+Zego Express Video iOS (Objective-C) 示例专题 Demo
 
-示例程序中接入的美颜效果,都是参考自定义采集项
+## 准备环境
 
-## 快速集成方法
+请确保开发环境满足以下技术要求：
 
-### 一、导入 SDK
+* Xcode 6.0 或以上版本
+* iOS 8.0 或以上版本且支持音视频的 iOS 设备或模拟器（推荐使用真机）
+* iOS 设备已经连接到 Internet
 
-将  FaceUnity  文件夹全部拖入工程中，并且添加依赖库 `OpenGLES.framework`、`Accelerate.framework`、`CoreMedia.framework`、`AVFoundation.framework`、`libc++.tbd`、`CoreML.framework`
+## 下载 SDK
 
-### FaceUnity 模块简介
-```C
--FUManager              //nama 业务类
-+Lib                    //nama SDK  
-    -authpack.h             //权限文件
-    -FURenderKit.framework      
-    +Resources
-        +model              //AI模型
-            -ai_face_processor.bundle      // 人脸识别AI能力模型，需要默认加载
-            -ai_face_processor_lite.bundle // 人脸识别AI能力模型，轻量版
-            -ai_gesture.bundle             // 手势识别AI能力模型
-            -ai_human_processor.bundle     // 人体点位AI能力模型
-        +graphics        //随库发版的重要模块资源
-            -body_slim.bundle              // 美体道具
-            -controller.bundle             // Avatar 道具
-            -face_beautification.bundle    // 美颜道具
-            -face_makeup.bundle            // 美妆道具
-            -fuzzytoonfilter.bundle        // 动漫滤镜道具
-            -fxaa.bundle                   // 3D 绘制抗锯齿
-            -tongue.bundle                 // 舌头跟踪数据包
+如果仓库中缺少运行 Demo 工程所需的 SDK `ZegoExpressEngine.xcframework`，需要下载并放入 Demo 工程的 `Libs` 文件夹中
 
-+FUAPIDemoBar     //美颜工具条,可自定义
-+items       //贴纸和美妆资源 xx.bundel文件
-      
+> 使用终端 (`Terminal`) 运行此目录下的 `DownloadSDK.sh` 脚本，脚本会自动下载最新版本的 SDK 并放入相应的目录下。
+
+或者也可以手动通过下面的 URL 下载 SDK，解压后将 `ZegoExpressEngine.xcframework` 放在 `Libs` 目录下。
+
+[https://storage.zego.im/express/video/apple/zego-express-video-apple.zip](https://storage.zego.im/express/video/apple/zego-express-video-apple.zip)
+
+```tree
+.
+├── Libs
+│   └── ZegoExpressEngine.xcframework
+├── README_zh.md
+├── README.md
+├── ZegoExpressExample
+│   ├── Examples
+│		├─AdvancedAudioProcessing
+│		│  ├─AECANSAGC                              //--音频3A处理(AEC/ANS/AGC)
+│		│  ├─AudioEffectPlayer                      //--音效播放器
+│		│  ├─AudioMixing                            //--混音
+│		│  ├─CustomAudioCaptureAndRendering         //--自定义音频采集和渲染
+│		│  │  └─AudioTool
+│		│  ├─EarReturnAndChannelSettings            //--耳返及声道设置
+│		│  ├─OriginalAudioDataAcquisition           //--音频数据监测器
+│		│  ├─RangeAudio                             //--范围语音
+│		│  ├─SoundLevel                             //--音浪
+│		│  └─VoiceChangeReverbStereo                //--变声
+│		├─AdvancedStreaming
+│		│  ├─AuxPublisher                           //--双通道推流器
+│		│  ├─H265                                   //--h265编解码
+│		│  ├─PublishingMultipleStreams              //--多通道推流
+│		│  ├─StreamByCDN                            //--CDN推拉流
+│		│  └─StreamMonitoring                       //--推拉流监测
+│		├─AdvancedVideoProcessing
+│		│  ├─CustomVideoCapture                     //--自定义视频采集
+│		│  ├─CustomVideoProcess                     //--自定义视频前处理
+│		│  ├─CustomVideoRender                      //--自定义视频渲染
+│		│  └─Encoding&Decoding                      //--编解码
+│		├─CommonFeatures
+│		│  ├─CommonVideoConfig                      //--视频参数设置
+│		│  ├─RoomMessage                            //--房间消息
+│		│  └─VideoRotation                          //--视频旋转
+│		├─Debug&Config
+│		├─Others
+│		│  ├─Beautify                               //--视频水印+视频快照
+│		│  ├─Camera                                 //--相机
+│		│  ├─EffectsBeauty                          //--美颜
+│		│  ├─FlowControll                           //--流控
+│		│  ├─MediaPlayer                            //--媒体播放器
+│		│  ├─Mixer                                  //--混流
+│		│  ├─MultipleRooms                          //--多房间
+│		│  ├─NetworkAndPerformance                  //--网络监测
+│		│  ├─RecordCapture                          //--录制
+│		│  ├─ScreenSharing                          //--屏幕分享
+│		│  │  └─ZegoExpressExample-Broadcast
+│		│  ├─Security                               //--安全
+│		│  └─SupplementalEnhancementInformation     //--SEI
+│		├─QuickStart
+│		│  ├─Playing                                //--拉流
+│		│  ├─Publishing                             //--推流
+│		│  ├─QuickStart                             //--快速开始
+│		│  └─VideoChat                              //--视频通话
+│		└─Scenes
+│		   └─VideoForMultipleUsers                  //--用户视频通话
+│		       └─PopupView
+└── ZegoExpressExample.xcodeproj
 ```
 
-### 二、加入展示 FaceUnity SDK 美颜贴纸效果的UI
+## 运行示例代码
 
-1、在相关类比如： `ZGCustomVideoCapturePublishStreamViewController.m` 中添加头文件，并创建页面属性
+1. 安装 Xcode: 打开 `AppStore` 搜索 `Xcode` 并下载安装。
 
-```C
-/**fuceU */
-#import "UIViewController+FaceUnityUIExtension.h"
+    <img src="https://storage.zego.im/sdk-doc/Pics/iOS/ZegoExpressEngine/Common/appstore-xcode.png" width=40% height=40%>
 
-```
+2. 使用 Xcode 打开 `ZegoExpressExample.xcodeproj`。
 
-2、在 `viewDidLoad` 中初始化 FaceUnity的界面和 SDK，FaceUnity界面工具和SDK都放在UIViewController+FaceUnityUIExtension中初始化了，也可以自行调用FUAPIDemoBar和FUManager初始化
+    打开 Xcode，点击左上角 `File` -> `Open...`
 
-```objc
-[self setupFaceUnity];
-```
+    <img src="https://storage.zego.im/sdk-doc/Pics/iOS/ZegoExpressEngine/Common/xcode-open-file.png" width=70% height=70%>
 
-#### 底部栏切换功能：使用不同的ViewModel控制
+    找到第一步下载解压得到的示例代码文件夹中的 `ZegoExpressExample.xcodeproj`，并点击 `Open`。
 
-```C
--(void)bottomDidChangeViewModel:(FUBaseViewModel *)viewModel {
-    if (viewModel.type == FUDataTypeBeauty || viewModel.type == FUDataTypebody) {
-        self.renderSwitch.hidden = NO;
-    } else {
-        self.renderSwitch.hidden = YES;
-    }
+    <img src="https://storage.zego.im/sdk-doc/Pics/iOS/ZegoExpressEngine/Common/xcode-select-file.png" width=70% height=70%>
 
-    [[FUManager shareManager].viewModelManager addToRenderLoop:viewModel];
-    
-    // 设置人脸数
-    [[FUManager shareManager].viewModelManager resetMaxFacesNumber:viewModel.type];
-}
+3. 登录 Apple ID 账号。
 
-```
+    打开 Xcode, 点击左上角 `Xcode` -> `Preference`，选择 `Account` 选项卡，点击左下角的 `+` 号，选择添加 Apple ID。
 
-#### 更新美颜参数
+    <img src="https://storage.zego.im/sdk-doc/Pics/iOS/ZegoExpressEngine/Common/xcode-account.png" width=90% height=90%>
 
-```C
-- (IBAction)filterSliderValueChange:(FUSlider *)sender {
-    _seletedParam.mValue = @(sender.value * _seletedParam.ratio);
-    /**
-     * 这里使用抽象接口，有具体子类决定去哪个业务员模块处理数据
-     */
-    [self.selectedView.viewModel consumerWithData:_seletedParam viewModelBlock:nil];
-}
-```
+    输入 Apple ID 和密码以登录。
 
-### 三、图像处理
+    <img src="https://storage.zego.im/sdk-doc/Pics/iOS/ZegoExpressEngine/Common/xcode-login-apple-id.png" width=70% height=70%>
 
-在 `ZGCustomVideoCapturePixelBufferDelegate` 代理方法中, 实现 `- (void)captureDevice:(id<ZGCaptureDevice>)device didCapturedData:(CMSampleBufferRef)data` 代理方法（FURenderInput输入和FURenderOutput输出）
+4. 修改开发者证书。
 
-```C
-- (void)captureDevice:(id<ZGCaptureDevice>)device didCapturedData:(CMSampleBufferRef)data {
-    
-    // BufferType: CVPixelBuffer
-    CVPixelBufferRef buffer = CMSampleBufferGetImageBuffer(data);
-    CMTime timeStamp = CMSampleBufferGetPresentationTimeStamp(data);
-    if ([FUManager shareManager].isRender) {
-        FURenderInput *input = [[FURenderInput alloc] init];
-        input.renderConfig.imageOrientation = FUImageOrientationUP;
-        input.pixelBuffer = buffer;
-        //开启重力感应，内部会自动计算正确方向，设置fuSetDefaultRotationMode，无须外面设置
-        input.renderConfig.gravityEnable = YES;
-        FURenderOutput *output = [[FURenderKit shareRenderKit] renderWithInput:input];
-        if (output) {
-            [[ZegoExpressEngine sharedEngine] sendCustomVideoCapturePixelBuffer:output.pixelBuffer timestamp:timeStamp];
-        }
-    }
-}
+    打开 Xcode，点击左侧的项目 `ZegoExpressExample`
 
-```
+    <img src="https://storage.zego.im/sdk-doc/Pics/iOS/ZegoExpressEngine/Common/xcode-select-project.png" width=50% height=50%>
 
-备注: 实现Faceu美颜效果,目前在视频通话,推流中也有实现,都是参考自定义采集
+    点击 `Signing & Capabilities` 选项卡，在 `Team` 中选择自己的开发者证书
 
-### 五、道具销毁
+    <img src="https://storage.zego.im/sdk-doc/Pics/iOS/ZegoExpressEngine/Common/team-signing.png" width=90% height=90%>
 
-结束时需要销毁道具
+5. 下载的示例代码中缺少 SDK 初始化必须的 AppID、UserID 和 AppSign，到 [ZEGO 管理控制台](https://console-express.zego.im/acount/register) 申请 AppID、UserID 与 AppSign。如果没有填写正确的 AppID、UserID 和 AppSign，源码无法正常跑起来，所以需要修改 `ZegoExpressExample/` 目录下的 `KeyCenter.m`，填写正确的 AppID、UserID 和 AppSign。
 
-```c
-[[FUManager shareManager] destoryItems]
-```
+    ```oc
+    // Developers can get appID from admin console.
+    // https://console.zego.im/dashboard
+    // for example: 123456789;
+    static unsigned int _appID = <#Enter your appID#>;
 
-2 切换摄像头需要调用 
-```C
-[[FUManager shareManager] onCameraChange];
-```
-        
-**快速集成完毕，关于 FaceUnity SDK 的更多详细说明，请参看 [FULiveDemo](https://github.com/Faceunity/FULiveDemo/tree/dev)**
+    // Developers should customize a user ID.
+    // for example: @"zego_benjamin";
+    static NSString *_userID = @"<#Enter your userID#>";
+
+    // Developers can get appSign from admin console.
+    // https://console.zego.im/dashboard
+    // Note: If you need to use a more secure authentication method: token authentication, please refer to [How to upgrade from AppSign authentication to Token authentication](https://doc-zh.zego.im/faq/token_upgrade?product=ExpressVideo&platform=all)
+    // for example: @"04AAAAAxxxxxxxxxxxxxx";
+    static NSString *_appSign = @"<#Enter your appSign#>";
+    ```
+
+6. 将 iOS 设备连接到电脑，点击 Xcode 左上角的 `🔨 Generic iOS Device` 选择该 iOS 设备（或者模拟器）
+
+    <img src="https://storage.zego.im/sdk-doc/Pics/iOS/ZegoExpressEngine/Common/xcode-select-device.png" width=80% height=80%>
+
+    <img src="https://storage.zego.im/sdk-doc/Pics/iOS/ZegoExpressEngine/Common/xcode-select-real-device.png" width=80% height=80%>
+
+7. 点击 Xcode 左上角的 Build 按钮进行编译和运行。
+
+    <img src="https://storage.zego.im/sdk-doc/Pics/iOS/ZegoExpressEngine/Common/build-and-run.png" width=50% height=50%>
+
+## 常见问题
+
+1. `The app ID "im.zego.ZegoExpressExample" cannot be registered to your development team. Change your bundle identifier to a unique string to try again.`
+
+    参考上面的 **修改开发者证书和 Bundle Identifier**，在 `Targets` -> `Signing & Capabilities` 中切换为自己的开发证书并修改 `Bundle Identifier` 后再运行。
+
+2. `dyld: Library not loaded`
+
+    此为 iOS 13.3.1 的 [bug](https://forums.developer.apple.com/thread/128435)，请升级至 iOS 13.4 或以上版本即可解决。
