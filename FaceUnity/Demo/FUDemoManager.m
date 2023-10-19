@@ -46,7 +46,7 @@
 @property (nonatomic, weak) UIView *targetView;
 @property (nonatomic, assign) CGFloat demoOriginY;
 
-//@property (nonatomic, assign) BOOL shouldRender;
+@property (nonatomic, assign) BOOL shouldRender;
 
 @end
 
@@ -65,7 +65,7 @@ static dispatch_once_t onceToken;
 - (instancetype)init {
     self = [super init];
     if (self) {
-        _shouldRender = YES;
+        self.shouldRender = YES;
     }
     return self;
 }
@@ -169,7 +169,7 @@ static dispatch_once_t onceToken;
 
 #pragma mark - Event response
 - (void)renderSwitchAction:(UISwitch *)sender {
-    _shouldRender = sender.isOn;
+    self.shouldRender = sender.isOn;
 }
 
 #pragma mark - FUSegmentBarDelegate
@@ -315,18 +315,6 @@ static dispatch_once_t onceToken;
     }
     return _trackTipLabel;
 }
-
-//- (BOOL)shouldRender {
-//    return YES;
-////    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
-////    __block BOOL should = YES;
-////    dispatch_async(dispatch_get_main_queue(), ^{
-////        should = self.renderSwitch.isOn;
-////        dispatch_semaphore_signal(semaphore);
-////    });
-////    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
-////    return should;
-//}
 
 #pragma mark - Class methods
 

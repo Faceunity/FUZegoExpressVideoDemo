@@ -227,8 +227,8 @@
     
     [[FUDemoManager shared] checkAITrackedResult];
     
+    [[FUTestRecorder shareRecorder] processFrameWithLog];
     if ([FUDemoManager shared].shouldRender) {
-        [[FUTestRecorder shareRecorder] processFrameWithLog];
         [FUDemoManager updateBeautyBlurEffect];
         FURenderInput *input = [[FURenderInput alloc] init];
         //默认图片内部的人脸始终是朝上，旋转屏幕也无需修改该属性。
