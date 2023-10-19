@@ -206,6 +206,8 @@
 		890251AE299495B7004798E1 /* ZegoPiPViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 890251AC299495B7004798E1 /* ZegoPiPViewController.m */; };
 		890251B12994F7F2004798E1 /* PictureInPicture.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 890251B02994F7F2004798E1 /* PictureInPicture.storyboard */; };
 		E31F75572A6645B500C93F12 /* ZGCustomVideoProcessPublishStreamViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E31F75562A6645B500C93F12 /* ZGCustomVideoProcessPublishStreamViewController.m */; };
+		E34024402AB94FB600F0A794 /* FUSegmentBar.m in Sources */ = {isa = PBXBuildFile; fileRef = E340243E2AB94FB600F0A794 /* FUSegmentBar.m */; };
+		E34024412AB94FB600F0A794 /* FUSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = E340243F2AB94FB600F0A794 /* FUSegmentedControl.m */; };
 		E342A9C62A5E5AE4007004DD /* FUBeautyFilterViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E342A9522A5E5AE2007004DD /* FUBeautyFilterViewModel.m */; };
 		E342A9C72A5E5AE4007004DD /* FUBeautySkinViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E342A9532A5E5AE2007004DD /* FUBeautySkinViewModel.m */; };
 		E342A9C82A5E5AE4007004DD /* FUBeautyShapeViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E342A9552A5E5AE2007004DD /* FUBeautyShapeViewModel.m */; };
@@ -231,7 +233,6 @@
 		E342A9DC2A5E5AE4007004DD /* FUBeautyShapeView.m in Sources */ = {isa = PBXBuildFile; fileRef = E342A9842A5E5AE3007004DD /* FUBeautyShapeView.m */; };
 		E342A9DD2A5E5AE4007004DD /* FUTipHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = E342A9872A5E5AE3007004DD /* FUTipHUD.m */; };
 		E342A9DE2A5E5AE4007004DD /* FUBodyView.m in Sources */ = {isa = PBXBuildFile; fileRef = E342A9882A5E5AE3007004DD /* FUBodyView.m */; };
-		E342A9DF2A5E5AE4007004DD /* FUSegmentBar.m in Sources */ = {isa = PBXBuildFile; fileRef = E342A98B2A5E5AE3007004DD /* FUSegmentBar.m */; };
 		E342A9E02A5E5AE4007004DD /* FUSquareButton.m in Sources */ = {isa = PBXBuildFile; fileRef = E342A98E2A5E5AE3007004DD /* FUSquareButton.m */; };
 		E342A9E12A5E5AE4007004DD /* beauty_filter.json in Resources */ = {isa = PBXBuildFile; fileRef = E342A9932A5E5AE3007004DD /* beauty_filter.json */; };
 		E342A9E22A5E5AE4007004DD /* beauty_shape.json in Resources */ = {isa = PBXBuildFile; fileRef = E342A9942A5E5AE3007004DD /* beauty_shape.json */; };
@@ -599,7 +600,6 @@
 		86CAEDB124A1E32C00EF53D2 /* big_endian.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = big_endian.h; sourceTree = "<group>"; };
 		86CAEDB224A1E34100EF53D2 /* ZGVideoFrameEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGVideoFrameEncoder.h; sourceTree = "<group>"; };
 		86CAEDB324A1E34100EF53D2 /* ZGVideoFrameEncoder.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ZGVideoFrameEncoder.mm; sourceTree = "<group>"; };
-		86CE0F3625121BF60039462F /* ZegoExpressExample.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ZegoExpressExample.entitlements; sourceTree = "<group>"; };
 		86CE0F53251221DB0039462F /* ZegoExpressExample-Broadcast.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "ZegoExpressExample-Broadcast.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		86CE0F57251221DB0039462F /* SampleHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SampleHandler.h; sourceTree = "<group>"; };
 		86CE0F58251221DB0039462F /* SampleHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SampleHandler.m; sourceTree = "<group>"; };
@@ -661,6 +661,10 @@
 		890251B02994F7F2004798E1 /* PictureInPicture.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PictureInPicture.storyboard; sourceTree = "<group>"; };
 		E31F75552A6645B400C93F12 /* ZGCustomVideoProcessPublishStreamViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGCustomVideoProcessPublishStreamViewController.h; sourceTree = "<group>"; };
 		E31F75562A6645B500C93F12 /* ZGCustomVideoProcessPublishStreamViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGCustomVideoProcessPublishStreamViewController.m; sourceTree = "<group>"; };
+		E340243C2AB94FB600F0A794 /* FUSegmentBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FUSegmentBar.h; sourceTree = "<group>"; };
+		E340243D2AB94FB600F0A794 /* FUSegmentedControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FUSegmentedControl.h; sourceTree = "<group>"; };
+		E340243E2AB94FB600F0A794 /* FUSegmentBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FUSegmentBar.m; sourceTree = "<group>"; };
+		E340243F2AB94FB600F0A794 /* FUSegmentedControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FUSegmentedControl.m; sourceTree = "<group>"; };
 		E342A9522A5E5AE2007004DD /* FUBeautyFilterViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FUBeautyFilterViewModel.m; sourceTree = "<group>"; };
 		E342A9532A5E5AE2007004DD /* FUBeautySkinViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FUBeautySkinViewModel.m; sourceTree = "<group>"; };
 		E342A9542A5E5AE2007004DD /* FUBodyViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FUBodyViewModel.h; sourceTree = "<group>"; };
@@ -710,8 +714,6 @@
 		E342A9862A5E5AE3007004DD /* FUTipHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FUTipHUD.h; sourceTree = "<group>"; };
 		E342A9872A5E5AE3007004DD /* FUTipHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FUTipHUD.m; sourceTree = "<group>"; };
 		E342A9882A5E5AE3007004DD /* FUBodyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FUBodyView.m; sourceTree = "<group>"; };
-		E342A98A2A5E5AE3007004DD /* FUSegmentBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FUSegmentBar.h; sourceTree = "<group>"; };
-		E342A98B2A5E5AE3007004DD /* FUSegmentBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FUSegmentBar.m; sourceTree = "<group>"; };
 		E342A98C2A5E5AE3007004DD /* FUBeautySkinView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FUBeautySkinView.h; sourceTree = "<group>"; };
 		E342A98E2A5E5AE3007004DD /* FUSquareButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FUSquareButton.m; sourceTree = "<group>"; };
 		E342A98F2A5E5AE3007004DD /* FUSquareButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FUSquareButton.h; sourceTree = "<group>"; };
@@ -875,7 +877,6 @@
 				8608C45D2363253300CE367B /* ModuleCompileDefine.h */,
 				8608C45C2363253300CE367B /* PrefixHeader.pch */,
 				8608C3BE23631EDC00CE367B /* main.m */,
-				86CE0F3625121BF60039462F /* ZegoExpressExample.entitlements */,
 				8608E520251DC609001E6AE6 /* SampleCode.xcconfig */,
 			);
 			path = ZegoExpressExample;
@@ -1742,6 +1743,17 @@
 			path = PictureInPicture;
 			sourceTree = "<group>";
 		};
+		E340243B2AB94FB600F0A794 /* FUSegment */ = {
+			isa = PBXGroup;
+			children = (
+				E340243C2AB94FB600F0A794 /* FUSegmentBar.h */,
+				E340243D2AB94FB600F0A794 /* FUSegmentedControl.h */,
+				E340243E2AB94FB600F0A794 /* FUSegmentBar.m */,
+				E340243F2AB94FB600F0A794 /* FUSegmentedControl.m */,
+			);
+			path = FUSegment;
+			sourceTree = "<group>";
+		};
 		E342A94F2A5E5AE2007004DD /* FaceUnity */ = {
 			isa = PBXGroup;
 			children = (
@@ -1808,6 +1820,7 @@
 		E342A96F2A5E5AE3007004DD /* View */ = {
 			isa = PBXGroup;
 			children = (
+				E340243B2AB94FB600F0A794 /* FUSegment */,
 				E342A9732A5E5AE3007004DD /* FUAlert */,
 				E342A9702A5E5AE3007004DD /* FUBeautyFilterView.h */,
 				E342A9812A5E5AE3007004DD /* FUBeautyFilterView.m */,
@@ -1820,7 +1833,6 @@
 				E342A97E2A5E5AE3007004DD /* FUInsetsLabel */,
 				E342A9712A5E5AE3007004DD /* FUMakeupView.h */,
 				E342A9832A5E5AE3007004DD /* FUMakeupView.m */,
-				E342A9892A5E5AE3007004DD /* FUSegmentBar */,
 				E342A97B2A5E5AE3007004DD /* FUSlider */,
 				E342A98D2A5E5AE3007004DD /* FUSquareButton */,
 				E342A9822A5E5AE3007004DD /* FUStickerView.h */,
@@ -1866,15 +1878,6 @@
 				E342A9872A5E5AE3007004DD /* FUTipHUD.m */,
 			);
 			path = FUTipHUD;
-			sourceTree = "<group>";
-		};
-		E342A9892A5E5AE3007004DD /* FUSegmentBar */ = {
-			isa = PBXGroup;
-			children = (
-				E342A98A2A5E5AE3007004DD /* FUSegmentBar.h */,
-				E342A98B2A5E5AE3007004DD /* FUSegmentBar.m */,
-			);
-			path = FUSegmentBar;
 			sourceTree = "<group>";
 		};
 		E342A98D2A5E5AE3007004DD /* FUSquareButton */ = {
@@ -2264,7 +2267,6 @@
 				8608C4512363246600CE367B /* ZegoDiskLogFormatter.m in Sources */,
 				E342A9DC2A5E5AE4007004DD /* FUBeautyShapeView.m in Sources */,
 				8608C4562363246600CE367B /* ZegoDiskLogger.m in Sources */,
-				E342A9DF2A5E5AE4007004DD /* FUSegmentBar.m in Sources */,
 				E342A9D52A5E5AE4007004DD /* FUAlertManager.m in Sources */,
 				8613D6F228F5677000ADA381 /* ZGSuperResolutionViewController.m in Sources */,
 				862AF143280571AD00D6A7F9 /* IQNSArray+Sort.m in Sources */,
@@ -2311,6 +2313,7 @@
 				861376362387E11900C30486 /* ZGRoomMessageSelectUsersTableViewController.m in Sources */,
 				86AD330B249787E8004A0D1F /* ZGAudioMixingViewController.m in Sources */,
 				8608C3FB2363245100CE367B /* ZGTestTopicManager.m in Sources */,
+				E34024402AB94FB600F0A794 /* FUSegmentBar.m in Sources */,
 				8683C6032645647A003FEBCC /* ZGVideoRotationPlayStreamViewController.m in Sources */,
 				8608C46923632F3100CE367B /* ZGURLDefine.m in Sources */,
 				F1AFAA262A0B8BF000BF2F57 /* ZGAudioQueuePlayer.m in Sources */,
@@ -2361,6 +2364,7 @@
 				8647862F262E727100238B23 /* ZGOriginalAudioDataAcquisitionViewController.m in Sources */,
 				86E90C9D24AB293F00507352 /* ZGCustomAudioCaptureAndRenderingViewController.m in Sources */,
 				034161D82754C52A006F14D3 /* ZGVideoChatLoginViewController.m in Sources */,
+				E34024412AB94FB600F0A794 /* FUSegmentedControl.m in Sources */,
 				8608C3E52363244A00CE367B /* ZegoLogView.m in Sources */,
 				86B6E55A2395223600078757 /* ZGSoundLevelTableViewCell.m in Sources */,
 				E342A9E02A5E5AE4007004DD /* FUSquareButton.m in Sources */,
@@ -2573,11 +2577,13 @@
 			baseConfigurationReference = 8608E520251DC609001E6AE6 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = "$(PROJECT_DIR)/ZegoExpressExample/ZegoExpressExample.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 35A6KD62ZJ;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 35A6KD62ZJ;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2598,6 +2604,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "im.zego.ZegoExpressExampleLegacy.$(SAMPLE_CODE_DISAMBIGUATOR)";
 				PRODUCT_NAME = ZegoExpressExample;
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = FULiveDemo_dev;
 				SUPPORTS_MACCATALYST = YES;
 				SYMROOT = DerivedData/Build/Products;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2609,11 +2616,13 @@
 			baseConfigurationReference = 8608E520251DC609001E6AE6 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = "$(PROJECT_DIR)/ZegoExpressExample/ZegoExpressExample.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 35A6KD62ZJ;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 35A6KD62ZJ;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2634,6 +2643,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "im.zego.ZegoExpressExampleLegacy.$(SAMPLE_CODE_DISAMBIGUATOR)";
 				PRODUCT_NAME = ZegoExpressExample;
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = FULiveDemo_dev;
 				SUPPORTS_MACCATALYST = YES;
 				SYMROOT = DerivedData/Build/Products;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2644,11 +2654,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8608E520251DC609001E6AE6 /* SampleCode.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = "$(PROJECT_DIR)/ZegoExpressExample/Examples/Others/ScreenSharing/ZegoExpressExample-Broadcast/ZegoExpressExample-Broadcast.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 35A6KD62ZJ;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 35A6KD62ZJ;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Libs",
@@ -2664,6 +2676,8 @@
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "im.zego.ZegoExpressExampleLegacy.$(SAMPLE_CODE_DISAMBIGUATOR).Broadcast";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = FULiveDemo_dev;
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2674,11 +2688,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8608E520251DC609001E6AE6 /* SampleCode.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = "$(PROJECT_DIR)/ZegoExpressExample/Examples/Others/ScreenSharing/ZegoExpressExample-Broadcast/ZegoExpressExample-Broadcast.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 35A6KD62ZJ;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 35A6KD62ZJ;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Libs",
@@ -2694,6 +2710,8 @@
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "im.zego.ZegoExpressExampleLegacy.$(SAMPLE_CODE_DISAMBIGUATOR).Broadcast";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = FULiveDemo_dev;
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
