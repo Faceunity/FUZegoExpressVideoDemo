@@ -1,0 +1,4 @@
+Target dependency graph (2 targets)
+Target 'ZegoExpressExample' in project 'ZegoExpressExample'
+➜ Explicit dependency on target 'ZegoExpressExample-Broadcast' in project 'ZegoExpressExample'
+Target 'ZegoExpressExample-Broadcast' in project 'ZegoExpressExample' (no dependencies)
