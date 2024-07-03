@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -276,6 +276,8 @@
 		E342AA092A5E5AE4007004DD /* face_beautification.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E342A9C52A5E5AE4007004DD /* face_beautification.bundle */; };
 		E342AA0A2A5E5C36007004DD /* FURenderKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E342A9B72A5E5AE3007004DD /* FURenderKit.framework */; platformFilter = ios; };
 		E342AA0B2A5E5C36007004DD /* FURenderKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E342A9B72A5E5AE3007004DD /* FURenderKit.framework */; platformFilter = ios; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E3AAD86A2C2BC116002B56D2 /* beauty_skin_low.json in Resources */ = {isa = PBXBuildFile; fileRef = E3AAD8682C2BC116002B56D2 /* beauty_skin_low.json */; };
+		E3AAD86B2C2BC116002B56D2 /* beauty_shape_low.json in Resources */ = {isa = PBXBuildFile; fileRef = E3AAD8692C2BC116002B56D2 /* beauty_shape_low.json */; };
 		F10F9DB8272ABDA9009A4343 /* ZipArchive.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = F10F9DB4272ABD58009A4343 /* ZipArchive.xcframework */; };
 		F10F9DB9272ABDA9009A4343 /* ZipArchive.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F10F9DB4272ABD58009A4343 /* ZipArchive.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F154C7FB273BB421001B98AA /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F154C7FA273BB421001B98AA /* VideoToolbox.framework */; };
@@ -761,6 +763,8 @@
 		E342A9C32A5E5AE4007004DD /* body_slim.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = body_slim.bundle; sourceTree = "<group>"; };
 		E342A9C42A5E5AE4007004DD /* fuzzytoonfilter.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = fuzzytoonfilter.bundle; sourceTree = "<group>"; };
 		E342A9C52A5E5AE4007004DD /* face_beautification.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = face_beautification.bundle; sourceTree = "<group>"; };
+		E3AAD8682C2BC116002B56D2 /* beauty_skin_low.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = beauty_skin_low.json; sourceTree = "<group>"; };
+		E3AAD8692C2BC116002B56D2 /* beauty_shape_low.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = beauty_shape_low.json; sourceTree = "<group>"; };
 		F10F9DB4272ABD58009A4343 /* ZipArchive.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = ZipArchive.xcframework; sourceTree = "<group>"; };
 		F154C7FA273BB421001B98AA /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.0.sdk/System/Library/Frameworks/VideoToolbox.framework; sourceTree = DEVELOPER_DIR; };
 		F170646B2742366000936B58 /* CustomVideoProcess.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CustomVideoProcess.storyboard; sourceTree = "<group>"; };
@@ -1905,6 +1909,8 @@
 		E342A9922A5E5AE3007004DD /* 美颜 */ = {
 			isa = PBXGroup;
 			children = (
+				E3AAD8692C2BC116002B56D2 /* beauty_shape_low.json */,
+				E3AAD8682C2BC116002B56D2 /* beauty_skin_low.json */,
 				E342A9932A5E5AE3007004DD /* beauty_filter.json */,
 				E342A9942A5E5AE3007004DD /* beauty_shape.json */,
 				E342A9952A5E5AE3007004DD /* beauty_skin.json */,
@@ -2180,6 +2186,7 @@
 				8620423126C69865000C83A6 /* ZGRangeAudioUserPositionCell.xib in Resources */,
 				865A5F3423B30626001BB0F4 /* MediaPlayer.storyboard in Resources */,
 				86EA2B2529B06BAD00054051 /* source2_complex_rl.mp4 in Resources */,
+				E3AAD86B2C2BC116002B56D2 /* beauty_shape_low.json in Resources */,
 				8683C60C26492CEA003FEBCC /* EncodingDecoding.storyboard in Resources */,
 				E342A9FA2A5E5AE4007004DD /* fashi.bundle in Resources */,
 				E342AA052A5E5AE4007004DD /* face_makeup.bundle in Resources */,
@@ -2214,6 +2221,7 @@
 				8640AB8E2766F3BC00274CCB /* EffectsBeauty.storyboard in Resources */,
 				86478622262D279400238B23 /* EarReturnAndChannelSettings.storyboard in Resources */,
 				E342A9E82A5E5AE4007004DD /* yanshimao.bundle in Resources */,
+				E3AAD86A2C2BC116002B56D2 /* beauty_skin_low.json in Resources */,
 				E342A9E72A5E5AE4007004DD /* linjia.bundle in Resources */,
 				E342AA062A5E5AE4007004DD /* controller_cpp.bundle in Resources */,
 				863A60AC251AED0C00BF736C /* effect_2_right.wav in Resources */,
