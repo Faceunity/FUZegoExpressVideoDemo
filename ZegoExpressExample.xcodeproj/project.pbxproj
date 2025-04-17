@@ -17,7 +17,7 @@
 		03C2B53127842CCF00A09CA5 /* ZegoExpressEngine.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 03C2B52E27842CAC00A09CA5 /* ZegoExpressEngine.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		08DC577628AF71C8002910AD /* MultiVideoSource.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08DC577428AF71C8002910AD /* MultiVideoSource.storyboard */; };
 		08DC577728AF71C8002910AD /* ZGMultiVideoSourceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08DC577528AF71C8002910AD /* ZGMultiVideoSourceViewController.m */; };
-		0AD6EC832D3F3A6A00635931 /* beauty_skin_lessThan2.json in Resources */ = {isa = PBXBuildFile; fileRef = 0AD6EC822D3F3A6A00635931 /* beauty_skin_lessThan2.json */; };
+		0A04FA172D0BD80B008AAC61 /* beauty_skin_lessThan2.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A04FA162D0BD80B008AAC61 /* beauty_skin_lessThan2.json */; };
 		86070D2425271892007C70AE /* ZGVoiceChangeReverbStereoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86070D2325271892007C70AE /* ZGVoiceChangeReverbStereoViewController.m */; };
 		86070D28252718BB007C70AE /* ZGAudioPreprocessConfigTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86070D27252718BB007C70AE /* ZGAudioPreprocessConfigTableViewController.m */; };
 		8608C3AE23631EDB00CE367B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8608C3AD23631EDB00CE367B /* AppDelegate.m */; };
@@ -343,7 +343,7 @@
 		08DC577328AF71C8002910AD /* ZGMultiVideoSourceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGMultiVideoSourceViewController.h; sourceTree = "<group>"; };
 		08DC577428AF71C8002910AD /* MultiVideoSource.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MultiVideoSource.storyboard; sourceTree = "<group>"; };
 		08DC577528AF71C8002910AD /* ZGMultiVideoSourceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGMultiVideoSourceViewController.m; sourceTree = "<group>"; };
-		0AD6EC822D3F3A6A00635931 /* beauty_skin_lessThan2.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = beauty_skin_lessThan2.json; sourceTree = "<group>"; };
+		0A04FA162D0BD80B008AAC61 /* beauty_skin_lessThan2.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = beauty_skin_lessThan2.json; sourceTree = "<group>"; };
 		86070D2225271892007C70AE /* ZGVoiceChangeReverbStereoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZGVoiceChangeReverbStereoViewController.h; sourceTree = "<group>"; };
 		86070D2325271892007C70AE /* ZGVoiceChangeReverbStereoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZGVoiceChangeReverbStereoViewController.m; sourceTree = "<group>"; };
 		86070D26252718BB007C70AE /* ZGAudioPreprocessConfigTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZGAudioPreprocessConfigTableViewController.h; sourceTree = "<group>"; };
@@ -1911,12 +1911,12 @@
 		E342A9922A5E5AE3007004DD /* 美颜 */ = {
 			isa = PBXGroup;
 			children = (
+				0A04FA162D0BD80B008AAC61 /* beauty_skin_lessThan2.json */,
 				E3AAD8692C2BC116002B56D2 /* beauty_shape_low.json */,
 				E3AAD8682C2BC116002B56D2 /* beauty_skin_low.json */,
 				E342A9932A5E5AE3007004DD /* beauty_filter.json */,
 				E342A9942A5E5AE3007004DD /* beauty_shape.json */,
 				E342A9952A5E5AE3007004DD /* beauty_skin.json */,
-				0AD6EC822D3F3A6A00635931 /* beauty_skin_lessThan2.json */,
 			);
 			path = "美颜";
 			sourceTree = "<group>";
@@ -2123,7 +2123,7 @@
 				E342A9EB2A5E5AE4007004DD /* chaomo.bundle in Resources */,
 				E342A9EE2A5E5AE4007004DD /* gangfeng.bundle in Resources */,
 				86EA2B2729B06BAD00054051 /* source1_complex_lr.mp4 in Resources */,
-				0AD6EC832D3F3A6A00635931 /* beauty_skin_lessThan2.json in Resources */,
+				0A04FA172D0BD80B008AAC61 /* beauty_skin_lessThan2.json in Resources */,
 				86EA2B2429B06BAD00054051 /* source4_complex_bt.mp4 in Resources */,
 				86624D8A26303692000572BA /* ZGVideoForMultipleUsersPopupView.xib in Resources */,
 				E342A9E32A5E5AE4007004DD /* beauty_skin.json in Resources */,
@@ -2591,11 +2591,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 35A6KD62ZJ;
+				DEVELOPMENT_TEAM = 35A6KD62ZJ;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2616,7 +2614,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "im.zego.ZegoExpressExampleLegacy.$(SAMPLE_CODE_DISAMBIGUATOR)";
 				PRODUCT_NAME = ZegoExpressExample;
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = FULiveDemo_dev;
 				SUPPORTS_MACCATALYST = YES;
 				SYMROOT = DerivedData/Build/Products;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2630,11 +2627,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 35A6KD62ZJ;
+				DEVELOPMENT_TEAM = 35A6KD62ZJ;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2655,7 +2650,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "im.zego.ZegoExpressExampleLegacy.$(SAMPLE_CODE_DISAMBIGUATOR)";
 				PRODUCT_NAME = ZegoExpressExample;
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = FULiveDemo_dev;
 				SUPPORTS_MACCATALYST = YES;
 				SYMROOT = DerivedData/Build/Products;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2668,11 +2662,9 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 35A6KD62ZJ;
+				DEVELOPMENT_TEAM = 35A6KD62ZJ;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Libs",
@@ -2689,7 +2681,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "im.zego.ZegoExpressExampleLegacy.$(SAMPLE_CODE_DISAMBIGUATOR).Broadcast";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = FULiveDemo_dev;
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2702,11 +2693,9 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 35A6KD62ZJ;
+				DEVELOPMENT_TEAM = 35A6KD62ZJ;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Libs",
@@ -2723,7 +2712,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "im.zego.ZegoExpressExampleLegacy.$(SAMPLE_CODE_DISAMBIGUATOR).Broadcast";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = FULiveDemo_dev;
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
